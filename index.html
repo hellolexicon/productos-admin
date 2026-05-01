@@ -3,43 +3,53 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ProductOS</title>
+  <title>ProductOS — Revolutionising product management</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%235e5ce6'/><stop offset='100%25' stop-color='%230a84ff'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><circle cx='18' cy='22' r='2.5' fill='white'/><rect x='25' y='20' width='22' height='4' rx='2' fill='white'/><circle cx='18' cy='32' r='2.5' fill='white' opacity='.7'/><rect x='25' y='30' width='18' height='4' rx='2' fill='white' opacity='.7'/><circle cx='18' cy='42' r='2.5' fill='white' opacity='.5'/><rect x='25' y='40' width='14' height='4' rx='2' fill='white' opacity='.5'/></svg>">
   <style>
     :root {
       --bg: #f5f5f7;
       --surface: #ffffff;
       --surface-2: #fbfbfd;
+      --surface-hover: #f0f0f3;
       --text: #1d1d1f;
       --text-secondary: #6e6e73;
       --text-tertiary: #86868b;
-      --border: rgba(0, 0, 0, 0.08);
+      --border: rgba(0, 0, 0, 0.07);
       --border-strong: rgba(0, 0, 0, 0.16);
       --accent: #0071e3;
       --accent-hover: #0077ed;
+      --indigo: #5e5ce6;
       --success: #34c759;
       --danger: #ff3b30;
       --warning: #ff9500;
-      --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
-      --radius: 12px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.04), 0 16px 48px rgba(0, 0, 0, 0.08);
+      --radius: 14px;
       --radius-sm: 8px;
       --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --gradient-mark: linear-gradient(135deg, #5e5ce6 0%, #0a84ff 100%);
     }
     @media (prefers-color-scheme: dark) {
       :root {
         --bg: #000000;
         --surface: #1c1c1e;
         --surface-2: #2c2c2e;
+        --surface-hover: #232325;
         --text: #f5f5f7;
         --text-secondary: #aeaeb2;
         --text-tertiary: #8e8e93;
-        --border: rgba(255, 255, 255, 0.1);
+        --border: rgba(255, 255, 255, 0.08);
         --border-strong: rgba(255, 255, 255, 0.2);
         --accent: #0a84ff;
         --accent-hover: #1a8fff;
+        --indigo: #5e5ce6;
         --success: #30d158;
         --danger: #ff453a;
         --warning: #ff9f0a;
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
         --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.3);
+        --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.4), 0 16px 48px rgba(0, 0, 0, 0.4);
       }
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -54,87 +64,107 @@
     .layout {
       max-width: 980px;
       margin: 0 auto;
-      padding: 48px 32px 96px;
+      padding: 56px 32px 96px;
     }
-    header {
+
+    /* ---------- Hero header ---------- */
+    .hero {
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 48px;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 56px;
     }
-    h1 {
-      font-size: 32px;
-      font-weight: 600;
-      letter-spacing: -0.022em;
-      line-height: 1.125;
+    .logo {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      filter: drop-shadow(0 6px 14px rgba(94, 92, 230, 0.3));
     }
-    .subtitle {
+    .hero-text { flex: 1; min-width: 0; }
+    .hero h1 {
+      font: 600 32px/1.1 -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      letter-spacing: -0.024em;
+      background: var(--gradient-mark);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    .tagline {
       color: var(--text-secondary);
-      font-size: 15px;
-      margin-top: 4px;
+      font-size: 17px;
+      letter-spacing: -0.01em;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+    .hero-aux {
+      flex-shrink: 0;
+      text-align: right;
     }
     .repo-link {
-      color: var(--accent);
+      color: var(--text-tertiary);
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12px;
+      transition: color var(--transition);
     }
-    .repo-link:hover { text-decoration: underline; }
+    .repo-link:hover { color: var(--accent); }
 
+    /* ---------- Auth card ---------- */
     .auth {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 24px;
+      padding: 28px;
       margin-bottom: 32px;
       box-shadow: var(--shadow);
     }
     .auth.hidden { display: none; }
     .auth h2 {
-      font-size: 17px;
-      font-weight: 600;
+      font: 600 19px/1.3 -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
       margin-bottom: 8px;
-      letter-spacing: -0.014em;
+      letter-spacing: -0.018em;
     }
     .auth p {
       color: var(--text-secondary);
       font-size: 13px;
-      margin-bottom: 16px;
-      line-height: 1.5;
+      margin-bottom: 18px;
+      line-height: 1.55;
     }
     .auth p code {
       background: var(--surface-2);
       padding: 1px 6px;
       border-radius: 4px;
       font: 12px ui-monospace, "SF Mono", Menlo, monospace;
+      border: 1px solid var(--border);
     }
-    .auth-row {
-      display: flex;
-      gap: 8px;
-    }
+    .auth-row { display: flex; gap: 8px; }
     input[type="password"], input[type="text"] {
       flex: 1;
       font: 15px -apple-system, BlinkMacSystemFont, sans-serif;
-      padding: 10px 14px;
+      padding: 11px 14px;
       border: 1px solid var(--border-strong);
       border-radius: var(--radius-sm);
       background: var(--surface);
       color: var(--text);
       outline: none;
-      transition: border-color var(--transition);
+      transition: border-color var(--transition), box-shadow var(--transition);
     }
     input[type="password"]:focus, input[type="text"]:focus {
       border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
     }
 
+    /* ---------- Tabs ---------- */
     nav.tabs {
       display: flex;
-      gap: 4px;
+      gap: 2px;
       margin-bottom: 24px;
-      padding: 4px;
+      padding: 3px;
       background: var(--surface);
-      border-radius: 10px;
+      border-radius: 11px;
       border: 1px solid var(--border);
       width: fit-content;
+      box-shadow: var(--shadow-sm);
     }
     .tab {
       padding: 8px 18px;
@@ -143,95 +173,112 @@
       font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
       font-weight: 500;
       color: var(--text-secondary);
-      border-radius: 7px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background var(--transition), color var(--transition);
+      transition: all var(--transition);
     }
     .tab:hover { color: var(--text); }
     .tab.active {
       background: var(--bg);
       color: var(--text);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
     }
     @media (prefers-color-scheme: dark) {
       .tab.active { background: var(--surface-2); box-shadow: none; }
     }
-
-    .panel { display: none; }
+    .panel { display: none; animation: fade 240ms ease-out; }
     .panel.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 
-    .card {
+    /* ---------- Grouped flag list ---------- */
+    .group {
+      margin-bottom: 28px;
+    }
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 4px 10px;
+      font: 11px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .group-header .glyph {
+      width: 14px; height: 14px;
+      flex-shrink: 0;
+      opacity: 0.8;
+    }
+    .group-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
-    .card + .card { margin-top: 16px; }
-    .card-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .card-header h3 {
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: -0.008em;
-      color: var(--text-secondary);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .card-header .header-aux {
-      font-size: 12px;
-      color: var(--text-tertiary);
-    }
-
     .flag-row {
       display: flex;
       align-items: center;
-      padding: 14px 20px;
-      border-top: 1px solid var(--border);
+      padding: 16px 20px;
       gap: 16px;
+      transition: background var(--transition);
+      position: relative;
     }
-    .flag-row:first-child { border-top: none; }
-    .flag-row .flag-meta { flex: 1; min-width: 0; }
-    .flag-row .flag-name {
+    .flag-row + .flag-row::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 20px; right: 20px;
+      height: 1px;
+      background: var(--border);
+    }
+    .flag-row:hover { background: var(--surface-hover); }
+    .flag-meta { flex: 1; min-width: 0; }
+    .flag-head {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .flag-name {
       font-weight: 500;
       font-size: 15px;
       letter-spacing: -0.005em;
     }
-    .flag-row .flag-detail {
-      font-size: 12px;
+    .flag-key {
+      font: 11px ui-monospace, "SF Mono", Menlo, monospace;
       color: var(--text-tertiary);
-      margin-top: 2px;
     }
-    .flag-row .flag-tags {
-      display: flex;
-      gap: 4px;
+    .flag-detail {
+      font-size: 13px;
+      color: var(--text-secondary);
       margin-top: 4px;
+      line-height: 1.45;
+    }
+    .flag-tags {
+      display: flex;
+      gap: 5px;
+      margin-top: 6px;
       flex-wrap: wrap;
     }
     .tag {
-      font: 11px ui-monospace, "SF Mono", Menlo, monospace;
-      padding: 2px 6px;
+      font: 11px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      padding: 2px 8px;
       border-radius: 4px;
       background: var(--surface-2);
       color: var(--text-secondary);
       border: 1px solid var(--border);
     }
-    .tag.bidi { color: var(--accent); border-color: rgba(0, 113, 227, 0.2); background: rgba(0, 113, 227, 0.06); }
-    .tag.l-to-n { color: var(--text-tertiary); }
-    .tag.warn { color: var(--warning); border-color: rgba(255, 149, 0, 0.2); background: rgba(255, 149, 0, 0.06); }
-    .tag.unsupported { color: var(--danger); border-color: rgba(255, 59, 48, 0.2); background: rgba(255, 59, 48, 0.06); }
+    .tag.warn { color: var(--warning); border-color: rgba(255, 149, 0, 0.25); background: rgba(255, 149, 0, 0.06); }
+    .tag.danger { color: var(--danger); border-color: rgba(255, 59, 48, 0.25); background: rgba(255, 59, 48, 0.06); }
+    .tag.llm { color: var(--indigo); border-color: rgba(94, 92, 230, 0.25); background: rgba(94, 92, 230, 0.06); }
 
-    /* iOS-style switch */
+    /* ---------- iOS switch ---------- */
     .switch {
       position: relative;
       display: inline-block;
-      width: 51px;
-      height: 31px;
+      width: 51px; height: 31px;
       flex-shrink: 0;
     }
     .switch input { opacity: 0; width: 0; height: 0; }
@@ -250,41 +297,47 @@
       left: 2px; bottom: 2px;
       background: #ffffff;
       border-radius: 50%;
-      transition: transform var(--transition);
+      transition: transform var(--transition), box-shadow var(--transition);
       box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.06);
     }
     .switch input:checked + .slider { background: var(--success); }
     .switch input:checked + .slider::before { transform: translateX(20px); }
     .switch input:disabled + .slider { opacity: 0.4; cursor: not-allowed; }
 
+    /* ---------- Buttons ---------- */
     .btn {
       font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
       font-weight: 500;
-      padding: 8px 16px;
+      padding: 9px 18px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       background: var(--accent);
       color: #ffffff;
-      transition: background var(--transition), transform 100ms;
+      transition: all var(--transition);
+      letter-spacing: -0.005em;
     }
-    .btn:hover { background: var(--accent-hover); }
-    .btn:active { transform: scale(0.97); }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn.secondary {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn.secondary:hover { background: var(--bg); }
+    .btn:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25); }
+    .btn:active { transform: translateY(0); box-shadow: none; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
     .btn.ghost {
       background: transparent;
       color: var(--accent);
-      padding: 8px 0;
+      padding: 6px 0;
+      font-size: 13px;
     }
+    .btn.ghost:hover { background: transparent; transform: none; box-shadow: none; text-decoration: underline; }
 
+    /* ---------- Trigger panel ---------- */
+    .trigger-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
     .trigger-row {
-      padding: 16px 20px;
+      padding: 18px 20px;
       display: flex;
       align-items: center;
       gap: 16px;
@@ -295,12 +348,38 @@
       flex: 1;
       font-size: 14px;
       color: var(--text-secondary);
+      display: flex;
+      align-items: center;
     }
     .trigger-row input[type="text"] {
-      max-width: 320px;
+      max-width: 360px;
     }
-    .trigger-row input[type="checkbox"] { margin-right: 8px; }
+    .trigger-row input[type="checkbox"] {
+      margin-right: 10px;
+      width: 18px; height: 18px;
+      accent-color: var(--accent);
+    }
 
+    /* ---------- Runs table ---------- */
+    .runs-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .runs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .runs-header h3 {
+      font: 600 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      letter-spacing: -0.005em;
+      color: var(--text);
+    }
     .runs-table {
       width: 100%;
       border-collapse: collapse;
@@ -308,43 +387,52 @@
     }
     .runs-table thead th {
       text-align: left;
-      padding: 12px 20px;
-      font-weight: 500;
+      padding: 10px 20px;
+      font: 600 10.5px -apple-system, BlinkMacSystemFont, sans-serif;
       color: var(--text-tertiary);
-      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
+      background: var(--surface-2);
       border-bottom: 1px solid var(--border);
     }
     .runs-table tbody td {
       padding: 14px 20px;
       border-top: 1px solid var(--border);
-    }
-    .runs-table tbody tr:first-child td { border-top: none; }
-    .runs-table tbody tr:hover { background: var(--surface-2); }
-    .status-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 8px;
       vertical-align: middle;
     }
-    .status-dot.success { background: var(--success); }
-    .status-dot.failure { background: var(--danger); }
-    .status-dot.in_progress { background: var(--warning); animation: pulse 1.4s ease-in-out infinite; }
+    .runs-table tbody tr:first-child td { border-top: none; }
+    .runs-table tbody tr { transition: background var(--transition); }
+    .runs-table tbody tr:hover { background: var(--surface-hover); }
+    .status-cell {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--surface);
+    }
+    .status-dot.success { background: var(--success); box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.15); }
+    .status-dot.failure { background: var(--danger); box-shadow: 0 0 0 3px rgba(255, 59, 48, 0.15); }
+    .status-dot.in_progress { background: var(--warning); animation: pulse 1.4s ease-in-out infinite; box-shadow: 0 0 0 3px rgba(255, 149, 0, 0.2); }
     .status-dot.queued, .status-dot.unknown { background: var(--text-tertiary); }
     @keyframes pulse { 50% { opacity: 0.4; } }
 
     .pill {
       display: inline-block;
-      font: 11px ui-monospace, "SF Mono", Menlo, monospace;
+      font: 11px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
       padding: 2px 8px;
       border-radius: 4px;
       background: var(--surface-2);
       color: var(--text-secondary);
+      border: 1px solid var(--border);
     }
 
+    /* ---------- Toast ---------- */
     .toast {
       position: fixed;
       bottom: 24px;
@@ -356,7 +444,7 @@
       border-radius: 12px;
       font-size: 14px;
       font-weight: 500;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--shadow-lg);
       transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none;
       max-width: 480px;
@@ -370,7 +458,7 @@
       color: var(--text-tertiary);
       font-size: 14px;
     }
-    .skeleton-row { padding: 14px 20px; border-top: 1px solid var(--border); }
+    .skeleton-row { padding: 16px 20px; border-top: 1px solid var(--border); }
     .skeleton-row:first-child { border-top: none; }
     .skeleton {
       display: inline-block;
@@ -387,16 +475,40 @@
 
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .layout { padding: 32px 20px 64px; }
+      .hero { flex-wrap: wrap; }
+      .hero-aux { width: 100%; text-align: left; margin-top: 8px; }
+      .runs-table thead { display: none; }
+      .runs-table tbody td { display: block; padding: 6px 16px; border: none; }
+      .runs-table tbody tr { padding: 10px 0; border-bottom: 1px solid var(--border); display: block; }
+    }
   </style>
 </head>
 <body>
 <div class="layout">
-  <header>
-    <div>
+  <header class="hero">
+    <svg class="logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="ProductOS logo">
+      <defs>
+        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#5e5ce6"/>
+          <stop offset="100%" stop-color="#0a84ff"/>
+        </linearGradient>
+      </defs>
+      <rect width="64" height="64" rx="14" fill="url(#logoGradient)"/>
+      <circle cx="18" cy="22" r="2.5" fill="white"/>
+      <rect x="25" y="20" width="22" height="4" rx="2" fill="white"/>
+      <circle cx="18" cy="32" r="2.5" fill="white" opacity="0.7"/>
+      <rect x="25" y="30" width="18" height="4" rx="2" fill="white" opacity="0.7"/>
+      <circle cx="18" cy="42" r="2.5" fill="white" opacity="0.5"/>
+      <rect x="25" y="40" width="14" height="4" rx="2" fill="white" opacity="0.5"/>
+    </svg>
+    <div class="hero-text">
       <h1>ProductOS</h1>
-      <div class="subtitle">Linear ↔ Notion sync — admin</div>
+      <div class="tagline">Revolutionising product management.</div>
     </div>
-    <div>
+    <div class="hero-aux">
       <a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">hellolexicon/ProductOS ↗</a>
     </div>
   </header>
@@ -425,12 +537,8 @@
     </nav>
 
     <section class="panel active" id="panel-flags">
-      <div class="card">
-        <div class="card-header">
-          <h3>Per-field write flags</h3>
-          <span class="header-aux">Toggle off ⟶ engine logs <code>flag-off</code> and skips. Toggle on ⟶ live mutation.</span>
-        </div>
-        <div id="flags-list">
+      <div id="flags-list">
+        <div class="group-card">
           <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
           <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
           <div class="skeleton-row"><span class="skeleton" style="width: 220px"></span></div>
@@ -439,25 +547,21 @@
     </section>
 
     <section class="panel" id="panel-trigger">
-      <div class="card">
-        <div class="card-header">
-          <h3>Trigger sync now</h3>
-          <span class="header-aux">Runs the same workflow as the hourly cron.</span>
-        </div>
+      <div class="trigger-card">
         <div class="trigger-row">
-          <label for="trigger-project">Linear project ID (optional)</label>
-          <input id="trigger-project" type="text" placeholder="e.g. 036b8ac9-ec29-442c-…">
+          <label for="trigger-project">Linear project ID (optional — sync just one)</label>
+          <input id="trigger-project" type="text" placeholder="036b8ac9-ec29-442c-a0fc-…">
         </div>
         <div class="trigger-row">
           <label><input id="trigger-dry" type="checkbox"> Dry run (skip all writes)</label>
-          <button class="btn" id="trigger-btn" onclick="triggerSync()">Trigger</button>
+          <button class="btn" id="trigger-btn" onclick="triggerSync()">Trigger sync</button>
         </div>
       </div>
     </section>
 
     <section class="panel" id="panel-runs">
-      <div class="card">
-        <div class="card-header">
+      <div class="runs-card">
+        <div class="runs-header">
           <h3>Recent runs</h3>
           <button class="btn ghost" onclick="loadRuns()">Refresh</button>
         </div>
@@ -476,25 +580,62 @@
 <script>
   const REPO = 'hellolexicon/ProductOS';
   const WORKFLOW_FILE = 'sync.yml';
-  const FLAG_DEFS = [
-    // name, label, hint, tags
-    ['WRITE_TITLE', 'Title', 'Linear project name → Notion title.', ['L→N']],
-    ['WRITE_STATUS', 'Status', 'project.status.name. BIDI — Notion edits push back.', ['BIDI']],
-    ['WRITE_DATES', 'Start / Target dates', 'Both date columns. BIDI but null N→L is blocked.', ['BIDI']],
-    ['WRITE_LEAD', 'Lead', 'project.lead.name → Notion Lead rich_text.', ['BIDI', 'unsupported N→L']],
-    ['WRITE_TEAM', 'Team', 'Linear teams → Notion Team multi_select.', ['L→N']],
-    ['WRITE_INITIATIVE', 'Initiatives', 'Notion Initiative multi_select. BIDI; N→L uses initiativeToProjectCreate/Delete.', ['BIDI']],
-    ['WRITE_LABELS', 'Labels', 'Project labels. BIDI; N→L bulk-replaces via projectUpdate.labelIds.', ['BIDI']],
-    ['WRITE_EFFORT', 'Effort', 'Derived from Linear labels containing "effort".', ['L→N', 'never-overwrite-manual']],
-    ['WRITE_PRIORITY', 'Priority / Impact', 'Number↔label mapping. BIDI both directions supported.', ['BIDI']],
-    ['WRITE_HEALTH', 'Health', 'BIDI; N→L push not in this SDK (logs unsupported).', ['BIDI', 'unsupported N→L']],
-    ['WRITE_LINEAR_URL', 'Linear URL', 'Direct URL pass-through.', ['L→N']],
-    ['WRITE_SUMMARY', 'Summary', 'project.description → Notion Summary. Blocked when Notion non-empty.', ['L→N', 'never-overwrite-manual']],
-    ['WRITE_CUSTOMERS', 'Customers', 'Derived from project.customerNeeds.', ['L→N', 'never-overwrite-manual']],
-    ['WRITE_LAST_SYNCED', 'Last Synced', 'System timestamp set after any other Notion write succeeds.', ['system']],
-    ['WRITE_CUSTOMER_REQUESTS', 'Customer Requests', 'LLM renderer (Sonnet). Replaces a heading_3-anchored block tree.', ['L→N', 'LLM']],
-    ['WRITE_ICON_COVER', 'Icon / Cover', 'LLM renderer (Haiku). Set on CREATE only.', ['L→N', 'LLM', 'CREATE-only']],
+
+  // Grouped flag definitions. Each: [name, label, hint, tags].
+  // Group glyphs are rendered inline as SVG below in renderFlags().
+  const FLAG_GROUPS = [
+    {
+      title: 'Bidirectional',
+      glyph: 'arrows',
+      desc: 'Notion edits push back to Linear (Phase 2 wins on diff).',
+      flags: [
+        ['WRITE_STATUS', 'Status', 'project.status.name. Notion edits push to Linear.', []],
+        ['WRITE_DATES', 'Start / Target dates', 'Both date columns. Null pushed N→L is blocked (Linear wins on null).', []],
+        ['WRITE_LEAD', 'Lead', 'project.lead.name. N→L lookup not wired in this SDK.', ['unsupported N→L']],
+        ['WRITE_PRIORITY', 'Priority / Impact', 'Number↔label mapping. Both directions supported.', []],
+        ['WRITE_HEALTH', 'Health', 'OnTrack / AtRisk / OffTrack. ProjectUpdateInput in SDK 28 has no health field.', ['unsupported N→L', 'never-overwrite-manual']],
+        ['WRITE_INITIATIVE', 'Initiatives', 'Multi-select. N→L uses initiativeToProjectCreate / Delete.', ['never-overwrite-manual']],
+        ['WRITE_LABELS', 'Labels', 'Bulk replace via projectUpdate.labelIds.', ['never-overwrite-manual']],
+      ],
+    },
+    {
+      title: 'Linear → Notion',
+      glyph: 'arrow-right',
+      desc: 'One-way pass-through.',
+      flags: [
+        ['WRITE_TITLE', 'Title', 'Project name → Notion title.', []],
+        ['WRITE_TEAM', 'Team', 'Linear teams → Notion Team multi_select.', []],
+        ['WRITE_EFFORT', 'Effort', 'Derived from Linear labels containing "effort".', ['never-overwrite-manual']],
+        ['WRITE_LINEAR_URL', 'Linear URL', 'project.url → Linear URL column.', []],
+        ['WRITE_SUMMARY', 'Summary', 'project.description → Notion Summary.', ['never-overwrite-manual', 'never-truncated']],
+        ['WRITE_CUSTOMERS', 'Customers', 'Derived from project.customerNeeds.', ['never-overwrite-manual']],
+      ],
+    },
+    {
+      title: 'LLM-rendered',
+      glyph: 'sparkles',
+      desc: 'Generated by Claude. Bounded outputs validated against zod schemas.',
+      flags: [
+        ['WRITE_CUSTOMER_REQUESTS', 'Customer Requests', 'Sonnet renders a heading_3-anchored block tree per spec.', ['LLM']],
+        ['WRITE_ICON_COVER', 'Icon / Cover', 'Haiku picks emoji + theme. CREATE-only per skill.', ['LLM', 'CREATE-only']],
+      ],
+    },
+    {
+      title: 'System',
+      glyph: 'clock',
+      desc: 'Set automatically after any successful Notion write in the same run.',
+      flags: [
+        ['WRITE_LAST_SYNCED', 'Last Synced', 'ISO timestamp written to the rich_text "Last Synced" column.', []],
+      ],
+    },
   ];
+
+  const GLYPHS = {
+    arrows: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 5.5h7.586L9.293 3.707a1 1 0 0 1 1.414-1.414l3.5 3.5a1 1 0 0 1 0 1.414l-3.5 3.5a1 1 0 0 1-1.414-1.414L11.086 7.5H3.5a1 1 0 0 1 0-2zm9 5h-7.586l1.793-1.793a1 1 0 1 0-1.414-1.414l-3.5 3.5a1 1 0 0 0 0 1.414l3.5 3.5a1 1 0 0 0 1.414-1.414L4.914 12.5H12.5a1 1 0 0 0 0-2z"/></svg>',
+    'arrow-right': '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 8a1 1 0 0 1 1-1h8.586L9.293 4.707a1 1 0 0 1 1.414-1.414l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L11.586 9H3a1 1 0 0 1-1-1z"/></svg>',
+    sparkles: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0l1.5 4.5L14 6l-4.5 1.5L8 12 6.5 7.5 2 6l4.5-1.5L8 0zm5 9l.75 2.25L16 12l-2.25.75L13 15l-.75-2.25L10 12l2.25-.75L13 9zM3 11l.5 1.5L5 13l-1.5.5L3 15l-.5-1.5L1 13l1.5-.5L3 11z"/></svg>',
+    clock: '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14A6 6 0 1 1 8 2a6 6 0 0 1 0 12zm.5-9.5a.5.5 0 0 0-1 0v4a.5.5 0 0 0 .15.35l2.5 2.5a.5.5 0 0 0 .7-.7L8.5 8.29V4.5z"/></svg>',
+  };
 
   const TOKEN_KEY = 'productos_gh_token';
 
@@ -536,7 +677,7 @@
   }
 
   // ---------- Flags ----------
-  let flagState = {};   // name -> 'true'|'false'
+  let flagState = {};
   async function loadFlags() {
     try {
       const data = await gh(`/repos/${REPO}/actions/variables?per_page=100`);
@@ -548,29 +689,43 @@
   function renderFlags() {
     const root = document.getElementById('flags-list');
     root.innerHTML = '';
-    for (const [name, label, hint, tags] of FLAG_DEFS) {
-      const enabled = (flagState[name] ?? 'false') === 'true';
-      const row = document.createElement('div');
-      row.className = 'flag-row';
-      const tagHTML = tags.map(t => {
-        const cls = t === 'BIDI' ? 'bidi'
-          : t.startsWith('unsupported') ? 'unsupported'
-          : (t === 'never-overwrite-manual' || t === 'never-truncated' || t === 'CREATE-only') ? 'warn'
-          : 'l-to-n';
-        return `<span class="tag ${cls}">${t}</span>`;
+    for (const group of FLAG_GROUPS) {
+      const g = document.createElement('div');
+      g.className = 'group';
+      const tagHTMLs = group.flags.map(([name, label, hint, tags]) => {
+        const enabled = (flagState[name] ?? 'false') === 'true';
+        const tagHTML = tags.map(t => {
+          const cls = t === 'LLM' ? 'llm'
+            : t.startsWith('unsupported') ? 'danger'
+            : 'warn';
+          return `<span class="tag ${cls}">${t}</span>`;
+        }).join('');
+        return `
+          <div class="flag-row">
+            <div class="flag-meta">
+              <div class="flag-head">
+                <span class="flag-name">${label}</span>
+                <span class="flag-key">${name}</span>
+              </div>
+              <div class="flag-detail">${hint}</div>
+              ${tags.length ? `<div class="flag-tags">${tagHTML}</div>` : ''}
+            </div>
+            <label class="switch">
+              <input type="checkbox" ${enabled ? 'checked' : ''} data-flag="${name}">
+              <span class="slider"></span>
+            </label>
+          </div>
+        `;
       }).join('');
-      row.innerHTML = `
-        <div class="flag-meta">
-          <div class="flag-name">${label} <span style="color: var(--text-tertiary); font-weight: 400; font-size: 13px;">— <code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px;">${name}</code></span></div>
-          <div class="flag-detail">${hint}</div>
-          <div class="flag-tags">${tagHTML}</div>
+      g.innerHTML = `
+        <div class="group-header">
+          <span class="glyph">${GLYPHS[group.glyph] ?? ''}</span>
+          ${group.title}
+          <span style="font-weight: 400; text-transform: none; letter-spacing: normal; color: var(--text-tertiary); margin-left: auto;">${group.desc}</span>
         </div>
-        <label class="switch">
-          <input type="checkbox" ${enabled ? 'checked' : ''} data-flag="${name}">
-          <span class="slider"></span>
-        </label>
+        <div class="group-card">${tagHTMLs}</div>
       `;
-      root.appendChild(row);
+      root.appendChild(g);
     }
     root.querySelectorAll('input[type="checkbox"]').forEach(cb => {
       cb.addEventListener('change', () => toggleFlag(cb.dataset.flag, cb.checked, cb));
@@ -622,7 +777,7 @@
       toast(`Failed: ${e.message}`, true);
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Trigger';
+      btn.textContent = 'Trigger sync';
     }
   }
 
@@ -642,7 +797,7 @@
         const trigger = r.event === 'schedule' ? 'cron' : r.event === 'workflow_dispatch' ? 'manual' : r.event;
         return `
           <tr>
-            <td><span class="status-dot ${dot}"></span><strong>${escapeHtml(concl)}</strong></td>
+            <td><span class="status-cell"><span class="status-dot ${dot}"></span>${escapeHtml(concl)}</span></td>
             <td><a href="${r.html_url}" target="_blank">#${r.run_number}</a></td>
             <td><span class="pill">${escapeHtml(trigger)}</span></td>
             <td style="color: var(--text-secondary);">${when}</td>
@@ -698,7 +853,6 @@
       return;
     }
     try {
-      // Probe a cheap endpoint to validate the token
       await gh(`/repos/${REPO}`);
     } catch (e) {
       clearToken();
