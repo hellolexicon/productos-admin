@@ -404,9 +404,12 @@
   <section id="auth" class="auth">
     <h2>Sign in with a GitHub token</h2>
     <p>
-      Needs <code>repo</code> scope (read repo + read/write Actions variables + dispatch workflows).
-      Stored only in your browser's localStorage. Generate one at
-      <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a>.
+      Generate a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">fine-grained PAT</a>
+      scoped to <code>hellolexicon/ProductOS</code> only, with these
+      <strong>repository permissions</strong>:
+      <code>Metadata: Read</code>, <code>Actions: Read &amp; write</code>,
+      <code>Variables: Read &amp; write</code>. Nothing else.
+      Stored only in your browser's localStorage; sent only to api.github.com.
     </p>
     <div class="auth-row">
       <input id="token" type="password" placeholder="ghp_… or github_pat_…" autocomplete="off">
