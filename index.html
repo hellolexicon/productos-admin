@@ -189,33 +189,27 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      padding: 6px;
-      border-radius: 6px;
+      padding: 8px;
+      margin: -8px;            /* keep visual size while expanding tap target to 44px */
+      border-radius: 8px;
       color: var(--text);
-      transition: background var(--transition);
+      -webkit-tap-highlight-color: transparent;
     }
-    .menu-btn:hover { background: rgba(0, 0, 0, 0.05); }
-    :root.theme-dark .menu-btn:hover,
-    :root:not(.theme-light) .menu-btn:hover {}
-    @media (prefers-color-scheme: dark) {
-      :root:not(.theme-light) .menu-btn:hover { background: rgba(255, 255, 255, 0.08); }
-    }
-    :root.theme-dark .menu-btn:hover { background: rgba(255, 255, 255, 0.08); }
     .menu-btn svg {
       display: block;
-      width: 20px; height: 20px;
+      width: 22px; height: 22px;
       stroke: currentColor;
-      stroke-width: 1.6;
+      stroke-width: 1.5;
       fill: none;
+      overflow: visible;
     }
     .menu-btn .top-line, .menu-btn .bot-line {
-      transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms;
-      transform-origin: center;
+      transition: transform 320ms cubic-bezier(0.65, 0, 0.35, 1);
+      transform-origin: 12px 12px;   /* rotate around icon center */
     }
-    .menu-btn .mid-line { transition: opacity 150ms; }
-    .menu-btn.open .top-line { transform: translateY(5px) rotate(45deg); }
-    .menu-btn.open .mid-line { opacity: 0; }
-    .menu-btn.open .bot-line { transform: translateY(-5px) rotate(-45deg); }
+    /* Two-line Apple-style hamburger: lines collapse into a centered X. */
+    .menu-btn.open .top-line { transform: translateY(3px) rotate(45deg); }
+    .menu-btn.open .bot-line { transform: translateY(-3px) rotate(-45deg); }
 
     .menu-sheet {
       position: fixed;
@@ -946,9 +940,8 @@
     </div>
     <button class="menu-btn" id="menu-btn" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
       <svg viewBox="0 0 24 24" stroke-linecap="round">
-        <line class="top-line" x1="4" y1="7"  x2="20" y2="7"/>
-        <line class="mid-line" x1="4" y1="12" x2="20" y2="12"/>
-        <line class="bot-line" x1="4" y1="17" x2="20" y2="17"/>
+        <line class="top-line" x1="5" y1="9"  x2="19" y2="9"/>
+        <line class="bot-line" x1="5" y1="15" x2="19" y2="15"/>
       </svg>
     </button>
   </div>
