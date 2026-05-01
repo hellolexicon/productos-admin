@@ -1,0 +1,299 @@
+{
+  "generatedAt": "2026-05-01T12:44:38.145Z",
+  "windowDays": 92,
+  "totalCount": 13,
+  "projects": [
+    {
+      "pageId": "350685fb-1e17-81ca-91b7-dab808e827e5",
+      "linearId": "f3303fb9-4133-4053-ae55-10357abc9f62",
+      "title": "ISO Compliant Backups",
+      "status": "Solution Discovery",
+      "startDate": "2026-04-01",
+      "targetDate": "2026-05-31",
+      "leadName": "Ryan How",
+      "teams": [
+        "Zipline"
+      ],
+      "initiatives": [
+        "Core Platform",
+        "Worker Compliance"
+      ],
+      "labels": [
+        "Bet"
+      ],
+      "priority": "High",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/iso-compliant-backups-f1a88dc02d8f",
+      "notionUrl": "https://www.notion.so/350685fb1e1781ca91b7dab808e827e5"
+    },
+    {
+      "pageId": "349685fb-1e17-8140-976e-cbd2fec58e4f",
+      "linearId": "b359cce6-4505-41da-857d-7dc1ca0d498b",
+      "title": "AI Instant Reject v1",
+      "status": "Solution Delivery",
+      "startDate": "2026-04-01",
+      "targetDate": "2026-05-31",
+      "leadName": "Lex Ituarte",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "1 Week Effort",
+        "Bet"
+      ],
+      "priority": "Medium",
+      "health": null,
+      "effort": "1 Week",
+      "linearUrl": "https://linear.app/zipline/project/ai-instant-reject-v1-b1ab85ed22ec",
+      "notionUrl": "https://www.notion.so/349685fb1e178140976ecbd2fec58e4f"
+    },
+    {
+      "pageId": "348685fb-1e17-810c-b824-d6a75dc6684a",
+      "linearId": "540235eb-bb08-4afe-878f-489e927ec721",
+      "title": "Ref Checks v4",
+      "status": "Solution Delivery",
+      "startDate": "2026-04-01",
+      "targetDate": "2026-05-31",
+      "leadName": "Lex Ituarte",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "Bet"
+      ],
+      "priority": "Medium",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/ref-checks-v4-baebccab4389",
+      "notionUrl": "https://www.notion.so/348685fb1e17810cb824d6a75dc6684a"
+    },
+    {
+      "pageId": "348685fb-1e17-81d7-a7b7-cbacc5e4e77d",
+      "linearId": "fac92532-f107-4a72-8198-04d8a2dba709",
+      "title": "Launch: St Vincents Contractor Compliance",
+      "status": "Pending",
+      "startDate": "2026-04-01",
+      "targetDate": "2026-05-30",
+      "leadName": "Marlon Tran",
+      "teams": [
+        "BlackOps",
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "labels": [
+        "Launch"
+      ],
+      "priority": "None",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/launch-st-vincents-contractor-compliance-f0acbfa5b4bf",
+      "notionUrl": "https://www.notion.so/348685fb1e1781d7a7b7cbacc5e4e77d"
+    },
+    {
+      "pageId": "340685fb-1e17-8137-930b-f18f3c54a395",
+      "linearId": "229fdb00-9eff-48c0-abcc-16917ae1b78c",
+      "title": "People Merge/Split v1",
+      "status": "Solution Delivery",
+      "startDate": "2026-04-01",
+      "targetDate": "2026-04-30",
+      "leadName": "Ryan How",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "labels": [],
+      "priority": "Medium",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/people-mergesplit-v1-f00f2bbbc6b6",
+      "notionUrl": "https://www.notion.so/340685fb1e178137930bf18f3c54a395"
+    },
+    {
+      "pageId": "346685fb-1e17-8187-9594-d38fdc55a0b8",
+      "linearId": "d22ecef6-8e16-449f-b4fe-b38376288d38",
+      "title": "Usage Billing Reporting v2 (Bundle/Custom)",
+      "status": "Solution Delivery",
+      "startDate": "2026-04-13",
+      "targetDate": "2026-05-31",
+      "leadName": "Moh Othman",
+      "teams": [
+        "Data"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "Bet",
+        "Betting Q2 2026 – Will Do"
+      ],
+      "priority": "Medium",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/usage-billing-reporting-v2-bundlecustom-b360415ef1fe",
+      "notionUrl": "https://www.notion.so/346685fb1e1781879594d38fdc55a0b8"
+    },
+    {
+      "pageId": "346685fb-1e17-8102-ac06-e8a2704a5a38",
+      "linearId": "ff6abd81-d9f6-462d-9839-70facac89550",
+      "title": "Self-service People Importer",
+      "status": "Solution Delivery",
+      "startDate": "2026-04-30",
+      "targetDate": null,
+      "leadName": "Timothy Mukaibo",
+      "teams": [
+        "BlackOps"
+      ],
+      "initiatives": [],
+      "labels": [
+        "Launch"
+      ],
+      "priority": "None",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/self-service-people-importer-d40d931ad33f",
+      "notionUrl": "https://www.notion.so/346685fb1e178102ac06e8a2704a5a38"
+    },
+    {
+      "pageId": "348685fb-1e17-8168-a3cb-c4b785eee7ff",
+      "linearId": "036b8ac9-ec29-442c-a0fc-6007e796ac3e",
+      "title": "Visa Checks v3: VEVO B2B API",
+      "status": "Solution Discovery",
+      "startDate": "2026-05-01",
+      "targetDate": "2026-05-31",
+      "leadName": "Marlon Tran",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [],
+      "priority": "High",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/visa-checks-v3-vevo-b2b-api-c35419b7a5c5",
+      "notionUrl": "https://www.notion.so/348685fb1e178168a3cbc4b785eee7ff"
+    },
+    {
+      "pageId": "346685fb-1e17-8162-bf0f-c2ad4c9e9750",
+      "linearId": "5259be70-9a56-4394-a81c-d37aa051d2b2",
+      "title": "Usage Billing Reporting v3 (SKUs - All Customers, More Scaleable)",
+      "status": "Opportunity Discovery",
+      "startDate": "2026-05-01",
+      "targetDate": "2026-06-30",
+      "leadName": "Moh Othman",
+      "teams": [
+        "Data"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "Bet",
+        "Betting Q2 2026 – Will Do"
+      ],
+      "priority": "High",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/usage-billing-reporting-v3-skus-all-customers-more-scaleable-9401429a341a",
+      "notionUrl": "https://www.notion.so/346685fb1e178162bf0fc2ad4c9e9750"
+    },
+    {
+      "pageId": "340685fb-1e17-8100-9424-f98383096ea4",
+      "linearId": "ff3f317f-e76e-46c6-8c17-5d228ba01825",
+      "title": "Platform SKUs & Usage v1",
+      "status": "Solution Discovery",
+      "startDate": "2026-05-01",
+      "targetDate": "2026-05-31",
+      "leadName": "Lex Ituarte",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "labels": [
+        "Betting Q2 2026 – Will Do"
+      ],
+      "priority": "Medium",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/platform-skus-and-usage-v1-d2ef72bd4313",
+      "notionUrl": "https://www.notion.so/340685fb1e1781009424f98383096ea4"
+    },
+    {
+      "pageId": "348685fb-1e17-8102-98bf-def044834e32",
+      "linearId": "565a3d70-1a05-4fdd-9284-3dd38f37a02a",
+      "title": "Consent Module (For Checks)",
+      "status": "Ready for Solution Disco",
+      "startDate": null,
+      "targetDate": "2026-06-30",
+      "leadName": "Lex Ituarte",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "1 Week Effort",
+        "Hard Commit"
+      ],
+      "priority": "Medium",
+      "health": null,
+      "effort": "1 Week",
+      "linearUrl": "https://linear.app/zipline/project/consent-module-for-checks-574560d55fc4",
+      "notionUrl": "https://www.notion.so/348685fb1e17810298bfdef044834e32"
+    },
+    {
+      "pageId": "348685fb-1e17-8177-868e-cbf08e73ccb7",
+      "linearId": "3df1bd85-39b5-4d4f-b84b-d70e151e23f3",
+      "title": "Ongoing Visa Checks v4: Memory",
+      "status": "Opportunity Discovery",
+      "startDate": "2026-07-01",
+      "targetDate": "2026-09-30",
+      "leadName": "Lex Ituarte",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "Bet",
+        "Hard Commit"
+      ],
+      "priority": "High",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/ongoing-visa-checks-v4-memory-d8bed6c58683",
+      "notionUrl": "https://www.notion.so/348685fb1e178177868ecbf08e73ccb7"
+    },
+    {
+      "pageId": "340685fb-1e17-816a-ba69-dd5cdab8bb94",
+      "linearId": "807796ff-ca2c-4299-8b7c-9dcb5a6649af",
+      "title": "QS & Core: Permissions v4 (Check-Level)",
+      "status": "Opportunity Discovery",
+      "startDate": "2026-07-01",
+      "targetDate": "2026-09-30",
+      "leadName": "Lex Ituarte",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [],
+      "priority": "Medium",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/qs-and-core-permissions-v4-check-level-4ab2b55309cb",
+      "notionUrl": "https://www.notion.so/340685fb1e17816aba69dd5cdab8bb94"
+    }
+  ]
+}
