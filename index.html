@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ProductOS</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-2: #fbfbfd;
+      --text: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-tertiary: #86868b;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-strong: rgba(0, 0, 0, 0.16);
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --success: #34c759;
+      --danger: #ff3b30;
+      --warning: #ff9500;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #1c1c1e;
+        --surface-2: #2c2c2e;
+        --text: #f5f5f7;
+        --text-secondary: #aeaeb2;
+        --text-tertiary: #8e8e93;
+        --border: rgba(255, 255, 255, 0.1);
+        --border-strong: rgba(255, 255, 255, 0.2);
+        --accent: #0a84ff;
+        --accent-hover: #1a8fff;
+        --success: #30d158;
+        --danger: #ff453a;
+        --warning: #ff9f0a;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.3);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font: 15px/1.47 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .layout {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 48px 32px 96px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 48px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.022em;
+      line-height: 1.125;
+    }
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin-top: 4px;
+    }
+    .repo-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+    }
+    .repo-link:hover { text-decoration: underline; }
+
+    .auth {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+    }
+    .auth.hidden { display: none; }
+    .auth h2 {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -0.014em;
+    }
+    .auth p {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .auth p code {
+      background: var(--surface-2);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font: 12px ui-monospace, "SF Mono", Menlo, monospace;
+    }
+    .auth-row {
+      display: flex;
+      gap: 8px;
+    }
+    input[type="password"], input[type="text"] {
+      flex: 1;
+      font: 15px -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 10px 14px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    input[type="password"]:focus, input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+
+    nav.tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      padding: 4px;
+      background: var(--surface);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+    .tab {
+      padding: 8px 18px;
+      background: transparent;
+      border: none;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      color: var(--text-secondary);
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active {
+      background: var(--bg);
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    @media (prefers-color-scheme: dark) {
+      .tab.active { background: var(--surface-2); box-shadow: none; }
+    }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card + .card { margin-top: 16px; }
+    .card-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-header h3 {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.008em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .card-header .header-aux {
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+
+    .flag-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      gap: 16px;
+    }
+    .flag-row:first-child { border-top: none; }
+    .flag-row .flag-meta { flex: 1; min-width: 0; }
+    .flag-row .flag-name {
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.005em;
+    }
+    .flag-row .flag-detail {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+    .flag-row .flag-tags {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font: 11px ui-monospace, "SF Mono", Menlo, monospace;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+    .tag.bidi { color: var(--accent); border-color: rgba(0, 113, 227, 0.2); background: rgba(0, 113, 227, 0.06); }
+    .tag.l-to-n { color: var(--text-tertiary); }
+    .tag.warn { color: var(--warning); border-color: rgba(255, 149, 0, 0.2); background: rgba(255, 149, 0, 0.06); }
+    .tag.unsupported { color: var(--danger); border-color: rgba(255, 59, 48, 0.2); background: rgba(255, 59, 48, 0.06); }
+
+    /* iOS-style switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 51px;
+      height: 31px;
+      flex-shrink: 0;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: rgba(120, 120, 128, 0.32);
+      border-radius: 31px;
+      transition: background var(--transition);
+    }
+    .slider::before {
+      position: absolute;
+      content: "";
+      height: 27px; width: 27px;
+      left: 2px; bottom: 2px;
+      background: #ffffff;
+      border-radius: 50%;
+      transition: transform var(--transition);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.06);
+    }
+    .switch input:checked + .slider { background: var(--success); }
+    .switch input:checked + .slider::before { transform: translateX(20px); }
+    .switch input:disabled + .slider { opacity: 0.4; cursor: not-allowed; }
+
+    .btn {
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: var(--accent);
+      color: #ffffff;
+      transition: background var(--transition), transform 100ms;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn.secondary {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn.secondary:hover { background: var(--bg); }
+    .btn.ghost {
+      background: transparent;
+      color: var(--accent);
+      padding: 8px 0;
+    }
+
+    .trigger-row {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .trigger-row:first-child { border-top: none; }
+    .trigger-row label {
+      flex: 1;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .trigger-row input[type="text"] {
+      max-width: 320px;
+    }
+    .trigger-row input[type="checkbox"] { margin-right: 8px; }
+
+    .runs-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .runs-table thead th {
+      text-align: left;
+      padding: 12px 20px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+    .runs-table tbody td {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+    }
+    .runs-table tbody tr:first-child td { border-top: none; }
+    .runs-table tbody tr:hover { background: var(--surface-2); }
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .status-dot.success { background: var(--success); }
+    .status-dot.failure { background: var(--danger); }
+    .status-dot.in_progress { background: var(--warning); animation: pulse 1.4s ease-in-out infinite; }
+    .status-dot.queued, .status-dot.unknown { background: var(--text-tertiary); }
+    @keyframes pulse { 50% { opacity: 0.4; } }
+
+    .pill {
+      display: inline-block;
+      font: 11px ui-monospace, "SF Mono", Menlo, monospace;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      color: var(--text-secondary);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: var(--bg);
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+      transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      max-width: 480px;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.error { background: var(--danger); color: #ffffff; }
+
+    .empty {
+      padding: 48px 20px;
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 14px;
+    }
+    .skeleton-row { padding: 14px 20px; border-top: 1px solid var(--border); }
+    .skeleton-row:first-child { border-top: none; }
+    .skeleton {
+      display: inline-block;
+      height: 14px;
+      background: linear-gradient(90deg, var(--surface-2), var(--bg), var(--surface-2));
+      background-size: 200% 100%;
+      border-radius: 4px;
+      animation: skeleton 1.4s ease-in-out infinite;
+    }
+    @keyframes skeleton {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <header>
+    <div>
+      <h1>ProductOS</h1>
+      <div class="subtitle">Linear ↔ Notion sync — admin</div>
+    </div>
+    <div>
+      <a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">hellolexicon/ProductOS ↗</a>
+    </div>
+  </header>
+
+  <section id="auth" class="auth">
+    <h2>Sign in with a GitHub token</h2>
+    <p>
+      Needs <code>repo</code> scope (read repo + read/write Actions variables + dispatch workflows).
+      Stored only in your browser's localStorage. Generate one at
+      <a href="https://github.com/settings/tokens?type=beta" target="_blank">github.com/settings/tokens</a>.
+    </p>
+    <div class="auth-row">
+      <input id="token" type="password" placeholder="ghp_… or github_pat_…" autocomplete="off">
+      <button class="btn" onclick="saveToken()">Connect</button>
+    </div>
+  </section>
+
+  <main id="app" style="display:none">
+    <nav class="tabs">
+      <button class="tab active" data-tab="flags" onclick="switchTab('flags')">Write flags</button>
+      <button class="tab" data-tab="trigger" onclick="switchTab('trigger')">Trigger sync</button>
+      <button class="tab" data-tab="runs" onclick="switchTab('runs')">Recent runs</button>
+    </nav>
+
+    <section class="panel active" id="panel-flags">
+      <div class="card">
+        <div class="card-header">
+          <h3>Per-field write flags</h3>
+          <span class="header-aux">Toggle off ⟶ engine logs <code>flag-off</code> and skips. Toggle on ⟶ live mutation.</span>
+        </div>
+        <div id="flags-list">
+          <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 220px"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-trigger">
+      <div class="card">
+        <div class="card-header">
+          <h3>Trigger sync now</h3>
+          <span class="header-aux">Runs the same workflow as the hourly cron.</span>
+        </div>
+        <div class="trigger-row">
+          <label for="trigger-project">Linear project ID (optional)</label>
+          <input id="trigger-project" type="text" placeholder="e.g. 036b8ac9-ec29-442c-…">
+        </div>
+        <div class="trigger-row">
+          <label><input id="trigger-dry" type="checkbox"> Dry run (skip all writes)</label>
+          <button class="btn" id="trigger-btn" onclick="triggerSync()">Trigger</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-runs">
+      <div class="card">
+        <div class="card-header">
+          <h3>Recent runs</h3>
+          <button class="btn ghost" onclick="loadRuns()">Refresh</button>
+        </div>
+        <div id="runs-list">
+          <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+  const REPO = 'hellolexicon/ProductOS';
+  const WORKFLOW_FILE = 'sync.yml';
+  const FLAG_DEFS = [
+    // name, label, hint, tags
+    ['WRITE_TITLE', 'Title', 'Linear project name → Notion title.', ['L→N']],
+    ['WRITE_STATUS', 'Status', 'project.status.name. BIDI — Notion edits push back.', ['BIDI']],
+    ['WRITE_DATES', 'Start / Target dates', 'Both date columns. BIDI but null N→L is blocked.', ['BIDI']],
+    ['WRITE_LEAD', 'Lead', 'project.lead.name → Notion Lead rich_text.', ['BIDI', 'unsupported N→L']],
+    ['WRITE_TEAM', 'Team', 'Linear teams → Notion Team multi_select.', ['L→N']],
+    ['WRITE_INITIATIVE', 'Initiatives', 'Notion Initiative multi_select. BIDI; N→L uses initiativeToProjectCreate/Delete.', ['BIDI']],
+    ['WRITE_LABELS', 'Labels', 'Project labels. BIDI; N→L bulk-replaces via projectUpdate.labelIds.', ['BIDI']],
+    ['WRITE_EFFORT', 'Effort', 'Derived from Linear labels containing "effort".', ['L→N', 'never-overwrite-manual']],
+    ['WRITE_PRIORITY', 'Priority / Impact', 'Number↔label mapping. BIDI both directions supported.', ['BIDI']],
+    ['WRITE_HEALTH', 'Health', 'BIDI; N→L push not in this SDK (logs unsupported).', ['BIDI', 'unsupported N→L']],
+    ['WRITE_LINEAR_URL', 'Linear URL', 'Direct URL pass-through.', ['L→N']],
+    ['WRITE_SUMMARY', 'Summary', 'project.description → Notion Summary. Blocked when Notion non-empty.', ['L→N', 'never-overwrite-manual']],
+    ['WRITE_CUSTOMERS', 'Customers', 'Derived from project.customerNeeds.', ['L→N', 'never-overwrite-manual']],
+    ['WRITE_LAST_SYNCED', 'Last Synced', 'System timestamp set after any other Notion write succeeds.', ['system']],
+    ['WRITE_CUSTOMER_REQUESTS', 'Customer Requests', 'LLM renderer (Sonnet). Replaces a heading_3-anchored block tree.', ['L→N', 'LLM']],
+    ['WRITE_ICON_COVER', 'Icon / Cover', 'LLM renderer (Haiku). Set on CREATE only.', ['L→N', 'LLM', 'CREATE-only']],
+  ];
+
+  const TOKEN_KEY = 'productos_gh_token';
+
+  // ---------- Auth ----------
+  function saveToken() {
+    const t = document.getElementById('token').value.trim();
+    if (!t) return toast('Token required', true);
+    localStorage.setItem(TOKEN_KEY, t);
+    init();
+  }
+  function getToken() { return localStorage.getItem(TOKEN_KEY); }
+  function clearToken() { localStorage.removeItem(TOKEN_KEY); location.reload(); }
+
+  // ---------- GitHub API ----------
+  async function gh(path, opts = {}) {
+    const r = await fetch(`https://api.github.com${path}`, {
+      ...opts,
+      headers: {
+        'Authorization': `Bearer ${getToken()}`,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
+        ...opts.headers,
+      },
+    });
+    if (!r.ok) {
+      const text = await r.text();
+      throw new Error(`${r.status}: ${text.slice(0, 200)}`);
+    }
+    if (r.status === 204) return null;
+    return r.json();
+  }
+
+  // ---------- Tabs ----------
+  function switchTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${id}`));
+    if (id === 'runs') loadRuns();
+  }
+
+  // ---------- Flags ----------
+  let flagState = {};   // name -> 'true'|'false'
+  async function loadFlags() {
+    try {
+      const data = await gh(`/repos/${REPO}/actions/variables?per_page=100`);
+      flagState = {};
+      for (const v of data.variables) flagState[v.name] = v.value;
+      renderFlags();
+    } catch (e) { toast(e.message, true); }
+  }
+  function renderFlags() {
+    const root = document.getElementById('flags-list');
+    root.innerHTML = '';
+    for (const [name, label, hint, tags] of FLAG_DEFS) {
+      const enabled = (flagState[name] ?? 'false') === 'true';
+      const row = document.createElement('div');
+      row.className = 'flag-row';
+      const tagHTML = tags.map(t => {
+        const cls = t === 'BIDI' ? 'bidi'
+          : t.startsWith('unsupported') ? 'unsupported'
+          : (t === 'never-overwrite-manual' || t === 'never-truncated' || t === 'CREATE-only') ? 'warn'
+          : 'l-to-n';
+        return `<span class="tag ${cls}">${t}</span>`;
+      }).join('');
+      row.innerHTML = `
+        <div class="flag-meta">
+          <div class="flag-name">${label} <span style="color: var(--text-tertiary); font-weight: 400; font-size: 13px;">— <code style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 12px;">${name}</code></span></div>
+          <div class="flag-detail">${hint}</div>
+          <div class="flag-tags">${tagHTML}</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" ${enabled ? 'checked' : ''} data-flag="${name}">
+          <span class="slider"></span>
+        </label>
+      `;
+      root.appendChild(row);
+    }
+    root.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => toggleFlag(cb.dataset.flag, cb.checked, cb));
+    });
+  }
+  async function toggleFlag(name, on, cb) {
+    cb.disabled = true;
+    const value = on ? 'true' : 'false';
+    try {
+      const exists = name in flagState;
+      if (exists) {
+        await gh(`/repos/${REPO}/actions/variables/${name}`, {
+          method: 'PATCH',
+          body: JSON.stringify({ name, value }),
+        });
+      } else {
+        await gh(`/repos/${REPO}/actions/variables`, {
+          method: 'POST',
+          body: JSON.stringify({ name, value }),
+        });
+      }
+      flagState[name] = value;
+      toast(`${name} → ${value}`);
+    } catch (e) {
+      toast(`Failed: ${e.message}`, true);
+      cb.checked = !on;
+    } finally {
+      cb.disabled = false;
+    }
+  }
+
+  // ---------- Trigger ----------
+  async function triggerSync() {
+    const btn = document.getElementById('trigger-btn');
+    const project = document.getElementById('trigger-project').value.trim();
+    const dry = document.getElementById('trigger-dry').checked;
+    btn.disabled = true;
+    btn.textContent = 'Triggering…';
+    try {
+      const inputs = { dry_run: dry ? 'true' : 'false' };
+      if (project) inputs.project = project;
+      await gh(`/repos/${REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`, {
+        method: 'POST',
+        body: JSON.stringify({ ref: 'main', inputs }),
+      });
+      toast(dry ? 'Dry run triggered' : 'Live sync triggered');
+      setTimeout(() => loadRuns(), 1500);
+    } catch (e) {
+      toast(`Failed: ${e.message}`, true);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Trigger';
+    }
+  }
+
+  // ---------- Runs ----------
+  async function loadRuns() {
+    const root = document.getElementById('runs-list');
+    try {
+      const data = await gh(`/repos/${REPO}/actions/workflows/${WORKFLOW_FILE}/runs?per_page=15`);
+      if (!data.workflow_runs || data.workflow_runs.length === 0) {
+        root.innerHTML = '<div class="empty">No runs yet.</div>';
+        return;
+      }
+      const rows = data.workflow_runs.map(r => {
+        const concl = r.conclusion ?? r.status ?? 'unknown';
+        const dot = ['success', 'failure', 'in_progress', 'queued'].includes(concl) ? concl : 'unknown';
+        const when = relativeTime(new Date(r.created_at));
+        const trigger = r.event === 'schedule' ? 'cron' : r.event === 'workflow_dispatch' ? 'manual' : r.event;
+        return `
+          <tr>
+            <td><span class="status-dot ${dot}"></span><strong>${escapeHtml(concl)}</strong></td>
+            <td><a href="${r.html_url}" target="_blank">#${r.run_number}</a></td>
+            <td><span class="pill">${escapeHtml(trigger)}</span></td>
+            <td style="color: var(--text-secondary);">${when}</td>
+            <td style="color: var(--text-tertiary); font-size: 12px;">${r.run_started_at ? formatDuration(new Date(r.updated_at) - new Date(r.run_started_at)) : '—'}</td>
+          </tr>
+        `;
+      }).join('');
+      root.innerHTML = `
+        <table class="runs-table">
+          <thead><tr><th>Status</th><th>Run</th><th>Trigger</th><th>When</th><th>Took</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      `;
+    } catch (e) {
+      root.innerHTML = `<div class="empty" style="color: var(--danger);">${escapeHtml(e.message)}</div>`;
+    }
+  }
+  function relativeTime(d) {
+    const s = Math.floor((Date.now() - d) / 1000);
+    if (s < 60) return `${s}s ago`;
+    if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+    if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+    return `${Math.floor(s / 86400)}d ago`;
+  }
+  function formatDuration(ms) {
+    if (!Number.isFinite(ms) || ms < 0) return '—';
+    const s = Math.floor(ms / 1000);
+    if (s < 60) return `${s}s`;
+    return `${Math.floor(s / 60)}m ${s % 60}s`;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    })[c]);
+  }
+
+  // ---------- Toast ----------
+  let toastTimer;
+  function toast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.toggle('error', isError);
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ---------- Boot ----------
+  async function init() {
+    if (!getToken()) {
+      document.getElementById('auth').classList.remove('hidden');
+      document.getElementById('app').style.display = 'none';
+      return;
+    }
+    try {
+      // Probe a cheap endpoint to validate the token
+      await gh(`/repos/${REPO}`);
+    } catch (e) {
+      clearToken();
+      toast(`Auth failed: ${e.message}`, true);
+      return;
+    }
+    document.getElementById('auth').classList.add('hidden');
+    document.getElementById('app').style.display = 'block';
+    loadFlags();
+    loadRuns();
+  }
+  init();
+</script>
+</body>
+</html>
