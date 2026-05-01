@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ProductOS — Revolutionising product management</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%235e5ce6'/><stop offset='100%25' stop-color='%230a84ff'/></linearGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><circle cx='18' cy='22' r='2.5' fill='white'/><rect x='25' y='20' width='22' height='4' rx='2' fill='white'/><circle cx='18' cy='32' r='2.5' fill='white' opacity='.7'/><rect x='25' y='30' width='18' height='4' rx='2' fill='white' opacity='.7'/><circle cx='18' cy='42' r='2.5' fill='white' opacity='.5'/><rect x='25' y='40' width='14' height='4' rx='2' fill='white' opacity='.5'/></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%23FF6B9D'/><stop offset='50%25' stop-color='%237C5CFF'/><stop offset='100%25' stop-color='%230A84FF'/></linearGradient><radialGradient id='h' cx='30%25' cy='20%25' r='80%25'><stop offset='0%25' stop-color='white' stop-opacity='.35'/><stop offset='50%25' stop-color='white' stop-opacity='0'/></radialGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><rect width='64' height='64' rx='14' fill='url(%23h)'/><rect x='16' y='17' width='32' height='8' rx='2.5' fill='white' opacity='.45'/><rect x='14' y='28' width='36' height='8' rx='2.5' fill='white' opacity='.7'/><rect x='12' y='39' width='40' height='10' rx='2.5' fill='white'/><path d='M 38 41.5 L 43 44.5 L 38 47.5' stroke='%237C5CFF' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
   <script>
     // Inline theme application to avoid flash-of-wrong-theme on load.
     (() => {
@@ -94,8 +94,94 @@
     .layout {
       max-width: 980px;
       margin: 0 auto;
-      padding: 56px 32px 96px;
+      padding: 32px 32px 96px;
     }
+
+    /* ---------- Apple-style sticky topbar ---------- */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 245, 247, 0.72);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: background var(--transition);
+    }
+    :root.theme-dark .topbar {
+      background: rgba(0, 0, 0, 0.72);
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not(.theme-light) .topbar {
+        background: rgba(0, 0, 0, 0.72);
+        border-bottom-color: rgba(255, 255, 255, 0.08);
+      }
+    }
+    .topbar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 22px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    .topbar-brand .logo-mini {
+      width: 22px; height: 22px;
+      filter: drop-shadow(0 2px 4px rgba(124, 92, 255, 0.3));
+    }
+    .topbar-brand .name {
+      font: 600 14px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      letter-spacing: -0.01em;
+    }
+    .topbar-nav {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex: 1;
+      justify-content: center;
+    }
+    .topbar-nav button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font: 12px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 400;
+      color: var(--text);
+      opacity: 0.85;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: opacity var(--transition), background var(--transition);
+      letter-spacing: -0.005em;
+    }
+    .topbar-nav button:hover { opacity: 1; }
+    .topbar-nav button.active {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.05);
+    }
+    :root.theme-dark .topbar-nav button.active,
+    :root:not(.theme-light) .topbar-nav button.active {}
+    @media (prefers-color-scheme: dark) {
+      :root:not(.theme-light) .topbar-nav button.active { background: rgba(255, 255, 255, 0.08); }
+    }
+    :root.theme-dark .topbar-nav button.active { background: rgba(255, 255, 255, 0.08); }
+    .topbar-aux {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .topbar-aux .repo-link { font-size: 11px; color: var(--text-tertiary); }
+    .topbar-aux .repo-link:hover { color: var(--accent); }
 
     /* ---------- Hero header ---------- */
     .hero {
@@ -223,38 +309,6 @@
       box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
     }
 
-    /* ---------- Tabs ---------- */
-    nav.tabs {
-      display: flex;
-      gap: 2px;
-      margin-bottom: 24px;
-      padding: 3px;
-      background: var(--surface);
-      border-radius: 11px;
-      border: 1px solid var(--border);
-      width: fit-content;
-      box-shadow: var(--shadow-sm);
-    }
-    .tab {
-      padding: 8px 18px;
-      background: transparent;
-      border: none;
-      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
-      font-weight: 500;
-      color: var(--text-secondary);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-    .tab:hover { color: var(--text); }
-    .tab.active {
-      background: var(--bg);
-      color: var(--text);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    }
-    @media (prefers-color-scheme: dark) {
-      .tab.active { background: var(--surface-2); box-shadow: none; }
-    }
     .panel { display: none; animation: fade 240ms ease-out; }
     .panel.active { display: block; }
     @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
@@ -556,28 +610,30 @@
   </style>
 </head>
 <body>
-<div class="layout">
-  <header class="hero">
-    <svg class="logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="ProductOS logo">
-      <defs>
-        <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#5e5ce6"/>
-          <stop offset="100%" stop-color="#0a84ff"/>
-        </linearGradient>
-      </defs>
-      <rect width="64" height="64" rx="14" fill="url(#logoGradient)"/>
-      <circle cx="18" cy="22" r="2.5" fill="white"/>
-      <rect x="25" y="20" width="22" height="4" rx="2" fill="white"/>
-      <circle cx="18" cy="32" r="2.5" fill="white" opacity="0.7"/>
-      <rect x="25" y="30" width="18" height="4" rx="2" fill="white" opacity="0.7"/>
-      <circle cx="18" cy="42" r="2.5" fill="white" opacity="0.5"/>
-      <rect x="25" y="40" width="14" height="4" rx="2" fill="white" opacity="0.5"/>
-    </svg>
-    <div class="hero-text">
-      <h1>ProductOS</h1>
-      <div class="tagline">Revolutionising product management.</div>
+<nav class="topbar" aria-label="Primary">
+  <div class="topbar-inner">
+    <a class="topbar-brand" href="#">
+      <svg class="logo-mini" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="miniG" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FF6B9D"/>
+            <stop offset="50%" stop-color="#7C5CFF"/>
+            <stop offset="100%" stop-color="#0A84FF"/>
+          </linearGradient>
+        </defs>
+        <rect width="64" height="64" rx="14" fill="url(#miniG)"/>
+        <rect x="16" y="17" width="32" height="8" rx="2.5" fill="white" opacity="0.45"/>
+        <rect x="14" y="28" width="36" height="8" rx="2.5" fill="white" opacity="0.7"/>
+        <rect x="12" y="39" width="40" height="10" rx="2.5" fill="white"/>
+      </svg>
+      <span class="name">ProductOS</span>
+    </a>
+    <div class="topbar-nav" id="topbar-nav">
+      <button data-tab="flags" class="active" onclick="switchTab('flags')">Write flags</button>
+      <button data-tab="trigger" onclick="switchTab('trigger')">Trigger</button>
+      <button data-tab="runs" onclick="switchTab('runs')">Runs</button>
     </div>
-    <div class="hero-aux">
+    <div class="topbar-aux">
       <div class="theme-switch" role="group" aria-label="Theme">
         <button data-theme="light" title="Light" aria-label="Light theme">
           <svg viewBox="0 0 16 16"><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM8 1a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 1zm0 11.25a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 12.25zM2.22 2.22a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 0 1-1.06 1.06L2.22 3.28a.75.75 0 0 1 0-1.06zm9.44 9.44a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 0-1.06zM1 8a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5A.75.75 0 0 1 1 8zm11.25 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75zM3.28 11.66a.75.75 0 0 1 1.06 1.06L3.28 13.78a.75.75 0 0 1-1.06-1.06l1.06-1.06zm9.44-9.44a.75.75 0 0 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06z"/></svg>
@@ -589,7 +645,45 @@
           <svg viewBox="0 0 16 16"><path d="M6 1a7 7 0 1 0 9 9 6 6 0 0 1-9-9z"/></svg>
         </button>
       </div>
-      <div><a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">hellolexicon/ProductOS ↗</a></div>
+      <a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+  <header class="hero">
+    <svg class="logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-label="ProductOS logo">
+      <defs>
+        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FF6B9D"/>
+          <stop offset="50%" stop-color="#7C5CFF"/>
+          <stop offset="100%" stop-color="#0A84FF"/>
+        </linearGradient>
+        <radialGradient id="logoHl" cx="30%" cy="20%" r="80%">
+          <stop offset="0%" stop-color="white" stop-opacity="0.35"/>
+          <stop offset="50%" stop-color="white" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="logoSh" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="60%" stop-color="black" stop-opacity="0"/>
+          <stop offset="100%" stop-color="black" stop-opacity="0.18"/>
+        </linearGradient>
+      </defs>
+      <!-- Squircle base + multi-stop iridescent gradient -->
+      <rect width="64" height="64" rx="14" fill="url(#logoGradient)"/>
+      <!-- Top-left light source for glassy depth -->
+      <rect width="64" height="64" rx="14" fill="url(#logoHl)"/>
+      <!-- Bottom shadow for material depth -->
+      <rect width="64" height="64" rx="14" fill="url(#logoSh)"/>
+      <!-- Stack of 3 cascading cards with the front widest (depth pulling forward) -->
+      <rect x="16" y="17" width="32" height="8" rx="2.5" fill="white" opacity="0.45"/>
+      <rect x="14" y="28" width="36" height="8" rx="2.5" fill="white" opacity="0.7"/>
+      <rect x="12" y="39" width="40" height="10" rx="2.5" fill="white"/>
+      <!-- Chevron on the front card — "in motion / shipping" -->
+      <path d="M 38 41.5 L 43 44.5 L 38 47.5" stroke="#7C5CFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="hero-text">
+      <h1>ProductOS</h1>
+      <div class="tagline">Revolutionising product management.</div>
     </div>
   </header>
 
@@ -610,12 +704,6 @@
   </section>
 
   <main id="app" style="display:none">
-    <nav class="tabs">
-      <button class="tab active" data-tab="flags" onclick="switchTab('flags')">Write flags</button>
-      <button class="tab" data-tab="trigger" onclick="switchTab('trigger')">Trigger sync</button>
-      <button class="tab" data-tab="runs" onclick="switchTab('runs')">Recent runs</button>
-    </nav>
-
     <section class="panel active" id="panel-flags">
       <div id="flags-list">
         <div class="group-card">
@@ -775,7 +863,7 @@
 
   // ---------- Tabs ----------
   function switchTab(id) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+    document.querySelectorAll('.topbar-nav button').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
     document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${id}`));
     if (id === 'runs') loadRuns();
   }
