@@ -183,6 +183,117 @@
     .topbar-aux .repo-link { font-size: 11px; color: var(--text-tertiary); }
     .topbar-aux .repo-link:hover { color: var(--accent); }
 
+    /* ---------- Mobile menu (hamburger + sheet) ---------- */
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      color: var(--text);
+      transition: background var(--transition);
+    }
+    .menu-btn:hover { background: rgba(0, 0, 0, 0.05); }
+    :root.theme-dark .menu-btn:hover,
+    :root:not(.theme-light) .menu-btn:hover {}
+    @media (prefers-color-scheme: dark) {
+      :root:not(.theme-light) .menu-btn:hover { background: rgba(255, 255, 255, 0.08); }
+    }
+    :root.theme-dark .menu-btn:hover { background: rgba(255, 255, 255, 0.08); }
+    .menu-btn svg {
+      display: block;
+      width: 20px; height: 20px;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      fill: none;
+    }
+    .menu-btn .top-line, .menu-btn .bot-line {
+      transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms;
+      transform-origin: center;
+    }
+    .menu-btn .mid-line { transition: opacity 150ms; }
+    .menu-btn.open .top-line { transform: translateY(5px) rotate(45deg); }
+    .menu-btn.open .mid-line { opacity: 0; }
+    .menu-btn.open .bot-line { transform: translateY(-5px) rotate(-45deg); }
+
+    .menu-sheet {
+      position: fixed;
+      top: 44px;
+      left: 0; right: 0;
+      background: rgba(245, 245, 247, 0.95);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      z-index: 99;
+      transform: translateY(-12px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 220ms;
+      max-height: calc(100vh - 44px);
+      overflow-y: auto;
+    }
+    :root.theme-dark .menu-sheet { background: rgba(0, 0, 0, 0.95); border-bottom-color: rgba(255, 255, 255, 0.08); }
+    @media (prefers-color-scheme: dark) {
+      :root:not(.theme-light) .menu-sheet { background: rgba(0, 0, 0, 0.95); border-bottom-color: rgba(255, 255, 255, 0.08); }
+    }
+    .menu-sheet.open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .menu-sheet-inner {
+      padding: 20px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .menu-sheet button.menu-link {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      padding: 14px 4px;
+      font: 17px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      letter-spacing: -0.01em;
+      border-radius: 6px;
+      transition: background var(--transition), color var(--transition);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .menu-sheet button.menu-link:last-of-type { border-bottom: none; }
+    .menu-sheet button.menu-link:hover { color: var(--accent); }
+    .menu-sheet button.menu-link.active { color: var(--accent); }
+    .menu-sheet button.menu-link::after {
+      content: "›";
+      font-size: 22px;
+      color: var(--text-tertiary);
+      font-weight: 300;
+      line-height: 1;
+    }
+    .menu-sheet-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 4px 0;
+      margin-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .menu-sheet-footer .theme-switch { margin-bottom: 0; }
+    .menu-backdrop {
+      position: fixed;
+      inset: 44px 0 0 0;
+      background: transparent;
+      z-index: 98;
+      display: none;
+    }
+    .menu-backdrop.open { display: block; }
+
     /* ---------- Hero header ---------- */
     .hero {
       display: flex;
@@ -714,13 +825,83 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    @media (max-width: 640px) {
-      .layout { padding: 32px 20px 64px; }
-      .hero { flex-wrap: wrap; }
-      .hero-aux { width: 100%; text-align: left; margin-top: 8px; }
+    @media (max-width: 720px) {
+      /* Layout */
+      .layout { padding: 24px 18px 64px; }
+
+      /* Hero shrinks */
+      .hero { gap: 14px; margin-bottom: 36px; }
+      .logo { width: 48px; height: 48px; }
+      .hero h1 { font-size: 26px; }
+      .tagline { font-size: 15px; }
+
+      /* Topbar: hide inline nav + aux, show hamburger */
+      .topbar-inner { padding: 0 16px; }
+      .topbar-nav { display: none; }
+      .topbar-aux { display: none; }
+      .menu-btn { display: inline-flex; margin-left: auto; }
+
+      /* Auth card tighter */
+      .auth { padding: 22px 20px; }
+
+      /* Group headers wrap cleanly */
+      .group-header { flex-wrap: wrap; gap: 6px 10px; padding-bottom: 8px; }
+      .group-header > span:last-child { width: 100%; margin-left: 0 !important; }
+
+      /* Flag rows: switch stays right; tags wrap */
+      .flag-row { padding: 14px 16px; gap: 12px; }
+      .flag-row + .flag-row::before { left: 16px; right: 16px; }
+
+      /* Trigger card: stack the dry-run row */
+      .trigger-row { padding: 14px 16px; flex-wrap: wrap; gap: 12px; }
+      .trigger-row label { min-width: 0; }
+      .trigger-row input[type="text"] { width: 100%; max-width: none; }
+      #trigger-btn { width: 100%; }
+
+      /* Runs: card layout instead of table on small screens */
       .runs-table thead { display: none; }
-      .runs-table tbody td { display: block; padding: 6px 16px; border: none; }
-      .runs-table tbody tr { padding: 10px 0; border-bottom: 1px solid var(--border); display: block; }
+      .runs-table tbody tr {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4px 12px;
+        padding: 14px 16px;
+        border-top: 1px solid var(--border);
+      }
+      .runs-table tbody tr:first-child { border-top: none; }
+      .runs-table tbody td {
+        padding: 0;
+        border: none;
+        font-size: 13px;
+      }
+      .runs-table tbody td:nth-child(1) { grid-column: 1; }
+      .runs-table tbody td:nth-child(2) { grid-column: 2; text-align: right; }
+      .runs-table tbody td:nth-child(3) { grid-column: 1; }
+      .runs-table tbody td:nth-child(4) { grid-column: 2; text-align: right; }
+      .runs-table tbody td:nth-child(5) { grid-column: 1 / -1; color: var(--text-tertiary) !important; font-size: 11px !important; }
+      .runs-header { padding: 14px 16px; }
+
+      /* Roadmap: stack each project row */
+      .roadmap-meta { padding: 0 4px 14px; flex-wrap: wrap; gap: 8px; }
+      .project-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 16px 16px;
+      }
+      .project-row + .project-row::before { left: 16px; right: 16px; }
+      .project-side {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        align-self: stretch;
+      }
+      .meta-chip { max-width: none; }
+    }
+
+    /* Touch tweak: bigger tap targets on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+      .switch { width: 56px; height: 32px; }
+      .slider::before { width: 28px; height: 28px; }
+      .switch input:checked + .slider::before { transform: translateX(24px); }
     }
   </style>
 </head>
@@ -763,7 +944,37 @@
       </div>
       <a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">GitHub ↗</a>
     </div>
+    <button class="menu-btn" id="menu-btn" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" stroke-linecap="round">
+        <line class="top-line" x1="4" y1="7"  x2="20" y2="7"/>
+        <line class="mid-line" x1="4" y1="12" x2="20" y2="12"/>
+        <line class="bot-line" x1="4" y1="17" x2="20" y2="17"/>
+      </svg>
+    </button>
   </div>
+  <div class="menu-sheet" id="menu-sheet" role="menu">
+    <div class="menu-sheet-inner">
+      <button class="menu-link active" data-tab="roadmap" onclick="switchTab('roadmap'); closeMenu();">Roadmap</button>
+      <button class="menu-link" data-tab="flags" onclick="switchTab('flags'); closeMenu();">Write flags</button>
+      <button class="menu-link" data-tab="trigger" onclick="switchTab('trigger'); closeMenu();">Trigger</button>
+      <button class="menu-link" data-tab="runs" onclick="switchTab('runs'); closeMenu();">Runs</button>
+      <div class="menu-sheet-footer">
+        <div class="theme-switch" role="group" aria-label="Theme">
+          <button data-theme="light" title="Light" aria-label="Light theme">
+            <svg viewBox="0 0 16 16"><path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM8 1a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 1zm0 11.25a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 12.25zM2.22 2.22a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 0 1-1.06 1.06L2.22 3.28a.75.75 0 0 1 0-1.06zm9.44 9.44a.75.75 0 0 1 1.06 0l1.06 1.06a.75.75 0 0 1-1.06 1.06l-1.06-1.06a.75.75 0 0 1 0-1.06zM1 8a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5A.75.75 0 0 1 1 8zm11.25 0a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75zM3.28 11.66a.75.75 0 0 1 1.06 1.06L3.28 13.78a.75.75 0 0 1-1.06-1.06l1.06-1.06zm9.44-9.44a.75.75 0 0 1 1.06 1.06l-1.06 1.06a.75.75 0 0 1-1.06-1.06l1.06-1.06z"/></svg>
+          </button>
+          <button data-theme="auto" title="Auto" aria-label="Auto theme">
+            <svg viewBox="0 0 16 16"><path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm0 14V2a6 6 0 0 1 0 12z"/></svg>
+          </button>
+          <button data-theme="dark" title="Dark" aria-label="Dark theme">
+            <svg viewBox="0 0 16 16"><path d="M6 1a7 7 0 1 0 9 9 6 6 0 0 1-9-9z"/></svg>
+          </button>
+        </div>
+        <a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank" style="font-size: 13px;">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="menu-backdrop" id="menu-backdrop" onclick="closeMenu()"></div>
 </nav>
 
 <div class="layout">
@@ -944,14 +1155,15 @@
     root.classList.remove('theme-light', 'theme-dark');
     if (choice === 'light') root.classList.add('theme-light');
     else if (choice === 'dark') root.classList.add('theme-dark');
-    document.querySelectorAll('.theme-switch button').forEach(b => {
+    // Sync active state on every theme-switch instance (desktop + mobile sheet).
+    document.querySelectorAll('.theme-switch button[data-theme]').forEach(b => {
       b.classList.toggle('active', b.dataset.theme === choice);
     });
   }
   function setupTheme() {
     const saved = localStorage.getItem(THEME_KEY) || 'auto';
     applyTheme(saved);
-    document.querySelectorAll('.theme-switch button').forEach(b => {
+    document.querySelectorAll('.theme-switch button[data-theme]').forEach(b => {
       b.addEventListener('click', () => {
         const choice = b.dataset.theme;
         localStorage.setItem(THEME_KEY, choice);
@@ -993,11 +1205,41 @@
 
   // ---------- Tabs ----------
   function switchTab(id) {
-    document.querySelectorAll('.topbar-nav button').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+    document.querySelectorAll('[data-tab]').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
     document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${id}`));
     if (id === 'runs') loadRuns();
     if (id === 'roadmap') loadRoadmap();
   }
+
+  // ---------- Mobile menu ----------
+  function toggleMenu() {
+    const open = document.getElementById('menu-sheet').classList.contains('open');
+    if (open) closeMenu(); else openMenu();
+  }
+  function openMenu() {
+    document.getElementById('menu-sheet').classList.add('open');
+    document.getElementById('menu-backdrop').classList.add('open');
+    const btn = document.getElementById('menu-btn');
+    btn.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close menu');
+  }
+  function closeMenu() {
+    document.getElementById('menu-sheet').classList.remove('open');
+    document.getElementById('menu-backdrop').classList.remove('open');
+    const btn = document.getElementById('menu-btn');
+    btn.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+  }
+  // ESC closes the menu
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+  // Close menu if viewport widens past mobile breakpoint
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 720) closeMenu();
+  });
 
   // ---------- Roadmap ----------
   // roadmap.json is published to the same Pages origin by the roadmap.yml
