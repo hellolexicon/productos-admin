@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-02T04:43:34.391Z",
+  "generatedAt": "2026-05-02T04:43:53.253Z",
   "entries": [
     {
       "id": "2026-05-02-public-changelog",
@@ -9,7 +9,7 @@
         "New"
       ],
       "status": "published",
-      "body": "Settings now lives behind its own tab. The top nav is **Changelog · Roadmap · Settings**. The changelog you're reading is published from `admin/changelog.json` in the private repo and mirrored to Pages on every push.\n\nEntries can be tagged `New`, `Improved`, or `Fixed` — same vocabulary as [Linear's changelog](https://linear.app/changelog).",
+      "body": "Settings now lives behind its own tab. The top nav is **Changelog · Roadmap · Settings**. The changelog you're reading is published from `admin/changelog.json` in the private repo and mirrored to Pages on every push.\n\nEntries can be tagged `New`, `Improved`, or `Fixed` — same vocabulary as [Linear's changelog](https://linear.app/changelog).\n\n## Fixes\n* Fixes an issue with images\n* Fixes some styling.",
       "coverImage": "changelog-images/1777695984591-eniko-kis-kslptsyaqiq-unsplash.jpg"
     },
     {
