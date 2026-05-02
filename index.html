@@ -2125,6 +2125,19 @@
       if (/^404/.test(e.message)) {
         _changelogState.entries = [];
         _changelogState.sha = null;
+      } else if (/\b403\b/.test(e.message)) {
+        // Existing PATs minted before this feature shipped lack Contents.
+        // Direct the user to the exact fix instead of the raw JSON dump.
+        root.innerHTML = `
+          <div class="editor-empty">
+            <p style="color: var(--danger); margin-bottom: 12px;">Your PAT can't read <code>admin/changelog.json</code>.</p>
+            <p>Add <strong>Contents: Read &amp; write</strong> to your fine-grained PAT for
+            <code>hellolexicon/ProductOS</code> at
+            <a href="https://github.com/settings/personal-access-tokens" target="_blank">
+            github.com/settings/personal-access-tokens</a>, then reload.</p>
+          </div>`;
+        _changelogState.loading = false;
+        return;
       } else {
         root.innerHTML = `<div class="editor-empty" style="color: var(--danger);">${escapeHtml(e.message)}</div>`;
         _changelogState.loading = false;
