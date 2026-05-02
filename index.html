@@ -823,6 +823,256 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
+    /* ---------- Changelog (public reader) ---------- */
+    .changelog-meta { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 16px; }
+    .changelog-meta-text { font-size: 13px; color: var(--text-tertiary); }
+    .changelog-month-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .changelog-entry {
+      padding: 24px 24px 28px;
+      position: relative;
+      transition: background var(--transition);
+    }
+    .changelog-entry + .changelog-entry::before {
+      content: ""; position: absolute; top: 0; left: 24px; right: 24px;
+      height: 1px; background: var(--border);
+    }
+    .changelog-entry-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .changelog-entry-title {
+      font: 600 19px/1.3 -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      letter-spacing: -0.018em;
+      color: var(--text);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    .changelog-entry-title:hover { color: var(--accent); text-decoration: none; }
+    .changelog-entry-date {
+      font: 12px ui-monospace, "SF Mono", Menlo, monospace;
+      color: var(--text-tertiary);
+      font-feature-settings: "tnum";
+      margin-bottom: 12px;
+    }
+    .changelog-entry-body {
+      font-size: 14.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .changelog-entry-body p { margin-bottom: 10px; }
+    .changelog-entry-body p:last-child { margin-bottom: 0; }
+    .changelog-entry-body code {
+      background: var(--surface-2);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font: 12.5px ui-monospace, "SF Mono", Menlo, monospace;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .changelog-entry-body strong { color: var(--text); font-weight: 600; }
+    .changelog-entry-body em { font-style: italic; }
+    .changelog-entry-body ul, .changelog-entry-body ol { padding-left: 22px; margin: 8px 0; }
+    .changelog-entry-body li { margin-bottom: 4px; }
+    .changelog-entry-body h2, .changelog-entry-body h3 {
+      font: 600 15px/1.3 -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 14px 0 6px;
+      color: var(--text);
+      letter-spacing: -0.005em;
+    }
+    .changelog-entry-body a { color: var(--accent); }
+
+    /* Tag pills (changelog change types). Reuse the .tag base; add type variants. */
+    .tag.new      { color: var(--success); border-color: rgba(52, 199, 89, 0.25);  background: rgba(52, 199, 89, 0.08); }
+    .tag.improved { color: var(--accent);  border-color: rgba(0, 113, 227, 0.25); background: rgba(0, 113, 227, 0.08); }
+    .tag.fixed    { color: var(--warning); border-color: rgba(255, 149, 0, 0.25); background: rgba(255, 149, 0, 0.08); }
+    :root.theme-dark .tag.new      { border-color: rgba(48, 209, 88, 0.3);  background: rgba(48, 209, 88, 0.14); }
+    :root.theme-dark .tag.improved { border-color: rgba(10, 132, 255, 0.3); background: rgba(10, 132, 255, 0.14); }
+    :root.theme-dark .tag.fixed    { border-color: rgba(255, 159, 10, 0.3); background: rgba(255, 159, 10, 0.14); }
+    @media (prefers-color-scheme: dark) {
+      :root:not(.theme-light) .tag.new      { border-color: rgba(48, 209, 88, 0.3);  background: rgba(48, 209, 88, 0.14); }
+      :root:not(.theme-light) .tag.improved { border-color: rgba(10, 132, 255, 0.3); background: rgba(10, 132, 255, 0.14); }
+      :root:not(.theme-light) .tag.fixed    { border-color: rgba(255, 159, 10, 0.3); background: rgba(255, 159, 10, 0.14); }
+    }
+
+    /* ---------- Settings sub-nav ---------- */
+    .subnav {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+    .subnav button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font: 13px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 7px 14px;
+      border-radius: 7px;
+      transition: all var(--transition);
+      white-space: nowrap;
+      letter-spacing: -0.005em;
+    }
+    .subnav button:hover { color: var(--text); }
+    .subnav button.active { background: var(--bg); color: var(--text); box-shadow: var(--shadow-sm); }
+    :root.theme-dark .subnav button.active { background: var(--surface-2); box-shadow: none; }
+    @media (prefers-color-scheme: dark) {
+      :root:not(.theme-light) .subnav button.active { background: var(--surface-2); box-shadow: none; }
+    }
+    .subpanel { display: none; animation: fade 240ms ease-out; }
+    .subpanel.active { display: block; }
+
+    /* ---------- Changelog editor (Settings → Changelog) ---------- */
+    .editor-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .entry-list {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: sticky;
+      top: 60px;
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+    .entry-list-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+      position: sticky; top: 0; z-index: 1;
+    }
+    .entry-list-header h3 { font: 600 12px -apple-system, BlinkMacSystemFont, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-tertiary); }
+    .entry-row {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+      transition: background var(--transition);
+      display: block;
+      text-align: left;
+      background: transparent;
+      width: 100%;
+      border-left: 3px solid transparent;
+    }
+    .entry-row:first-of-type { border-top: none; }
+    .entry-row:hover { background: var(--surface-hover); }
+    .entry-row.active { background: var(--surface-hover); border-left-color: var(--accent); }
+    .entry-row .entry-row-title { font-size: 13.5px; font-weight: 500; color: var(--text); margin-bottom: 4px; letter-spacing: -0.005em; line-height: 1.3; }
+    .entry-row .entry-row-date { font: 11px ui-monospace, "SF Mono", Menlo, monospace; color: var(--text-tertiary); }
+    .entry-row .entry-row-tags { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+
+    .editor-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .editor-form .field { margin-bottom: 18px; }
+    .editor-form .field label.field-label {
+      display: block;
+      font: 600 11px -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .editor-form .field input[type="text"],
+    .editor-form .field input[type="date"],
+    .editor-form .field textarea {
+      width: 100%;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 10px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .editor-form .field textarea {
+      font: 13px ui-monospace, "SF Mono", Menlo, monospace;
+      line-height: 1.55;
+      resize: vertical;
+      min-height: 220px;
+    }
+    .editor-form .field input:focus, .editor-form .field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+    }
+    .tag-checks { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag-checks label.tag-check {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all var(--transition);
+      text-transform: none;
+      letter-spacing: normal;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+    .tag-checks label.tag-check:hover { border-color: var(--accent); }
+    .tag-checks input[type="checkbox"] { margin: 0; accent-color: var(--accent); }
+    .editor-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .editor-actions .spacer { flex: 1; }
+    .btn.danger-ghost { background: transparent; color: var(--danger); padding: 9px 14px; border: 1px solid transparent; }
+    .btn.danger-ghost:hover { background: rgba(255, 59, 48, 0.08); transform: none; box-shadow: none; }
+    .btn.secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border-strong); }
+    .btn.secondary:hover { background: var(--surface-hover); transform: none; box-shadow: none; }
+    .editor-preview {
+      background: var(--surface-2);
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+    .editor-preview-label {
+      font: 600 10.5px -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .editor-empty {
+      padding: 64px 24px;
+      text-align: center;
+      color: var(--text-tertiary);
+      font-size: 14px;
+    }
+    .save-hint {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
     @media (max-width: 720px) {
       /* Layout */
       .layout { padding: 24px 18px 64px; }
@@ -893,6 +1143,20 @@
         align-self: stretch;
       }
       .meta-chip { max-width: none; }
+
+      /* Changelog: tighter padding on mobile */
+      .changelog-entry { padding: 18px 18px 22px; }
+      .changelog-entry + .changelog-entry::before { left: 18px; right: 18px; }
+      .changelog-entry-title { font-size: 17px; }
+
+      /* Settings sub-nav: scrollable horizontal strip */
+      .subnav { padding: 3px; gap: 2px; }
+      .subnav button { padding: 6px 12px; font-size: 12.5px; }
+
+      /* Editor: stack list above form on mobile */
+      .editor-grid { grid-template-columns: 1fr; gap: 16px; }
+      .entry-list { position: static; max-height: 320px; }
+      .editor-form { padding: 18px; }
     }
 
     /* Touch tweak: bigger tap targets on touch devices */
@@ -923,10 +1187,9 @@
       <span class="name">ProductOS</span>
     </a>
     <div class="topbar-nav" id="topbar-nav">
-      <button data-tab="roadmap" class="active" onclick="switchTab('roadmap')">Roadmap</button>
-      <button data-tab="flags" onclick="switchTab('flags')">Write flags</button>
-      <button data-tab="trigger" onclick="switchTab('trigger')">Trigger</button>
-      <button data-tab="runs" onclick="switchTab('runs')">Runs</button>
+      <button data-tab="changelog" class="active" onclick="switchTab('changelog')">Changelog</button>
+      <button data-tab="roadmap" onclick="switchTab('roadmap')">Roadmap</button>
+      <button data-tab="settings" onclick="switchTab('settings')">Settings</button>
     </div>
     <div class="topbar-aux">
       <div class="theme-switch" role="group" aria-label="Theme">
@@ -951,10 +1214,9 @@
   </div>
   <div class="menu-sheet" id="menu-sheet" role="menu">
     <div class="menu-sheet-inner">
-      <button class="menu-link active" data-tab="roadmap" onclick="switchTab('roadmap'); closeMenu();">Roadmap</button>
-      <button class="menu-link" data-tab="flags" onclick="switchTab('flags'); closeMenu();">Write flags</button>
-      <button class="menu-link" data-tab="trigger" onclick="switchTab('trigger'); closeMenu();">Trigger</button>
-      <button class="menu-link" data-tab="runs" onclick="switchTab('runs'); closeMenu();">Runs</button>
+      <button class="menu-link active" data-tab="changelog" onclick="switchTab('changelog'); closeMenu();">Changelog</button>
+      <button class="menu-link" data-tab="roadmap" onclick="switchTab('roadmap'); closeMenu();">Roadmap</button>
+      <button class="menu-link" data-tab="settings" onclick="switchTab('settings'); closeMenu();">Settings</button>
       <div class="menu-sheet-footer">
         <div class="theme-switch" role="group" aria-label="Theme">
           <button data-theme="light" title="Light" aria-label="Light theme">
@@ -1011,24 +1273,21 @@
     </div>
   </header>
 
-  <section id="auth" class="auth">
-    <h2>Sign in with a GitHub token</h2>
-    <p>
-      Generate a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">fine-grained PAT</a>
-      scoped to <code>hellolexicon/ProductOS</code> only, with these
-      <strong>repository permissions</strong>:
-      <code>Metadata: Read</code>, <code>Actions: Read &amp; write</code>,
-      <code>Variables: Read &amp; write</code>. Nothing else.
-      Stored only in your browser's localStorage; sent only to api.github.com.
-    </p>
-    <div class="auth-row">
-      <input id="token" type="password" placeholder="ghp_… or github_pat_…" autocomplete="off">
-      <button class="btn" onclick="saveToken()">Connect</button>
-    </div>
-  </section>
+  <main id="app">
+    <section class="panel active" id="panel-changelog">
+      <div class="changelog-meta" id="changelog-meta">
+        <div class="changelog-meta-text">What's shipped</div>
+      </div>
+      <div id="changelog-list">
+        <div class="group-card">
+          <div class="skeleton-row"><span class="skeleton" style="width: 220px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 280px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
+        </div>
+      </div>
+    </section>
 
-  <main id="app" style="display:none">
-    <section class="panel active" id="panel-roadmap">
+    <section class="panel" id="panel-roadmap">
       <div class="roadmap-meta" id="roadmap-meta">
         <div class="roadmap-meta-text">Coming next 3 months — mirrored from Notion</div>
         <button class="btn ghost" onclick="loadRoadmap()">Refresh</button>
@@ -1042,39 +1301,73 @@
       </div>
     </section>
 
-    <section class="panel" id="panel-flags">
-      <div id="flags-list">
-        <div class="group-card">
-          <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
-          <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
-          <div class="skeleton-row"><span class="skeleton" style="width: 220px"></span></div>
+    <section class="panel" id="panel-settings">
+      <section id="auth" class="auth hidden">
+        <h2>Sign in with a GitHub token</h2>
+        <p>
+          Generate a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">fine-grained PAT</a>
+          scoped to <code>hellolexicon/ProductOS</code> only, with these
+          <strong>repository permissions</strong>:
+          <code>Metadata: Read</code>, <code>Actions: Read &amp; write</code>,
+          <code>Variables: Read &amp; write</code>, <code>Contents: Read &amp; write</code>
+          (the last is needed to author changelog entries). Nothing else.
+          Stored only in your browser's localStorage; sent only to api.github.com.
+        </p>
+        <div class="auth-row">
+          <input id="token" type="password" placeholder="ghp_… or github_pat_…" autocomplete="off">
+          <button class="btn" onclick="saveToken()">Connect</button>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="panel" id="panel-trigger">
-      <div class="trigger-card">
-        <div class="trigger-row">
-          <label for="trigger-project">Linear project ID (optional — sync just one)</label>
-          <input id="trigger-project" type="text" placeholder="036b8ac9-ec29-442c-a0fc-…">
+      <div id="settings-content" hidden>
+        <div class="subnav" id="settings-subnav" role="tablist">
+          <button data-subtab="flags" class="active" onclick="switchSubTab('flags')">Flags</button>
+          <button data-subtab="changelog-edit" onclick="switchSubTab('changelog-edit')">Changelog</button>
+          <button data-subtab="runs" onclick="switchSubTab('runs')">Runs</button>
+          <button data-subtab="trigger" onclick="switchSubTab('trigger')">Trigger</button>
         </div>
-        <div class="trigger-row">
-          <label><input id="trigger-dry" type="checkbox"> Dry run (skip all writes)</label>
-          <button class="btn" id="trigger-btn" onclick="triggerSync()">Trigger sync</button>
-        </div>
-      </div>
-    </section>
 
-    <section class="panel" id="panel-runs">
-      <div class="runs-card">
-        <div class="runs-header">
-          <h3>Recent runs</h3>
-          <button class="btn ghost" onclick="loadRuns()">Refresh</button>
+        <div class="subpanel active" id="subpanel-flags">
+          <div id="flags-list">
+            <div class="group-card">
+              <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
+              <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
+              <div class="skeleton-row"><span class="skeleton" style="width: 220px"></span></div>
+            </div>
+          </div>
         </div>
-        <div id="runs-list">
-          <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
-          <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
-          <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
+
+        <div class="subpanel" id="subpanel-changelog-edit">
+          <div id="changelog-editor">
+            <div class="editor-empty">Loading entries…</div>
+          </div>
+        </div>
+
+        <div class="subpanel" id="subpanel-runs">
+          <div class="runs-card">
+            <div class="runs-header">
+              <h3>Recent runs</h3>
+              <button class="btn ghost" onclick="loadRuns()">Refresh</button>
+            </div>
+            <div id="runs-list">
+              <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
+              <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
+              <div class="skeleton-row"><span class="skeleton" style="width: 100%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subpanel" id="subpanel-trigger">
+          <div class="trigger-card">
+            <div class="trigger-row">
+              <label for="trigger-project">Linear project ID (optional — sync just one)</label>
+              <input id="trigger-project" type="text" placeholder="036b8ac9-ec29-442c-a0fc-…">
+            </div>
+            <div class="trigger-row">
+              <label><input id="trigger-dry" type="checkbox"> Dry run (skip all writes)</label>
+              <button class="btn" id="trigger-btn" onclick="triggerSync()">Trigger sync</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -1171,14 +1464,28 @@
   setupTheme();
 
   // ---------- Auth ----------
-  function saveToken() {
+  async function saveToken() {
     const t = document.getElementById('token').value.trim();
     if (!t) return toast('Token required', true);
     localStorage.setItem(TOKEN_KEY, t);
-    init();
+    try {
+      await gh(`/repos/${REPO}`);
+    } catch (e) {
+      clearToken({ reload: false });
+      updateAuthVisibility();
+      toast(`Auth failed: ${e.message}`, true);
+      return;
+    }
+    updateAuthVisibility();
+    const sub = localStorage.getItem(SUBTAB_KEY) || 'flags';
+    switchSubTab(sub);
+    toast('Signed in');
   }
   function getToken() { return localStorage.getItem(TOKEN_KEY); }
-  function clearToken() { localStorage.removeItem(TOKEN_KEY); location.reload(); }
+  function clearToken(opts = { reload: true }) {
+    localStorage.removeItem(TOKEN_KEY);
+    if (opts && opts.reload) location.reload();
+  }
 
   // ---------- GitHub API ----------
   async function gh(path, opts = {}) {
@@ -1201,11 +1508,41 @@
   }
 
   // ---------- Tabs ----------
+  const TAB_KEY = 'productos_tab';
+  const SUBTAB_KEY = 'productos_subtab';
+
   function switchTab(id) {
     document.querySelectorAll('[data-tab]').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
     document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${id}`));
-    if (id === 'runs') loadRuns();
+    localStorage.setItem(TAB_KEY, id);
+    if (id === 'changelog') loadChangelog();
     if (id === 'roadmap') loadRoadmap();
+    if (id === 'settings') {
+      updateAuthVisibility();
+      if (getToken()) {
+        const sub = localStorage.getItem(SUBTAB_KEY) || 'flags';
+        switchSubTab(sub);
+      }
+    }
+  }
+
+  function switchSubTab(id) {
+    document.querySelectorAll('[data-subtab]').forEach(t => t.classList.toggle('active', t.dataset.subtab === id));
+    document.querySelectorAll('.subpanel').forEach(p => p.classList.toggle('active', p.id === `subpanel-${id}`));
+    localStorage.setItem(SUBTAB_KEY, id);
+    if (!getToken()) return;
+    if (id === 'flags') loadFlags();
+    if (id === 'changelog-edit') loadChangelogAdmin();
+    if (id === 'runs') loadRuns();
+    // 'trigger' has no async load; the form is static
+  }
+
+  function updateAuthVisibility() {
+    const signedIn = !!getToken();
+    const auth = document.getElementById('auth');
+    const content = document.getElementById('settings-content');
+    if (auth) auth.classList.toggle('hidden', signedIn);
+    if (content) content.hidden = !signedIn;
   }
 
   // ---------- Mobile menu ----------
@@ -1340,6 +1677,436 @@
     if (mins < 60) return `· ${mins}m ago`;
     if (mins < 1440) return `· ${Math.floor(mins / 60)}h ago`;
     return `· ${Math.floor(mins / 1440)}d ago`;
+  }
+
+  // ---------- Changelog (public reader) ----------
+  // Source of truth: admin/changelog.json in the private ProductOS repo.
+  // mirror-admin.yml syncs it to the same Pages origin as roadmap.json, so
+  // the reader is unauthenticated and works for any visitor.
+  const CHANGELOG_PATH = 'admin/changelog.json';
+  const CHANGELOG_URL = `${location.pathname.replace(/index\.html?$/, '')}changelog.json`;
+  const CHANGELOG_TAGS = ['New', 'Improved', 'Fixed'];
+  let _changelogLoading = false;
+
+  async function loadChangelog() {
+    if (_changelogLoading) return;
+    _changelogLoading = true;
+    const list = document.getElementById('changelog-list');
+    const meta = document.getElementById('changelog-meta').querySelector('.changelog-meta-text');
+    try {
+      const r = await fetch(`${CHANGELOG_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(`${r.status} loading changelog.json`);
+      const data = await r.json();
+      const count = (data.entries || []).length;
+      meta.innerHTML = `<strong>What's shipped</strong> — ${count} ${count === 1 ? 'entry' : 'entries'}${data.generatedAt ? ` <span class="gen">${formatGenerated(data.generatedAt)}</span>` : ''}`;
+      renderChangelog(data.entries || []);
+      // If a #entry-<id> hash is present, scroll the matching entry into view.
+      if (location.hash.startsWith('#entry-')) {
+        const el = document.getElementById(location.hash.slice(1));
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (e) {
+      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No changelog yet. Sign in via <a href="#" onclick="switchTab('settings'); return false;">Settings → Changelog</a> to author the first entry. (${escapeHtml(e.message)})</div>`;
+    } finally {
+      _changelogLoading = false;
+    }
+  }
+
+  function renderChangelog(entries) {
+    const list = document.getElementById('changelog-list');
+    if (!entries.length) {
+      list.innerHTML = '<div class="group-card"><div class="empty">No entries yet. Author the first one in Settings → Changelog.</div></div>';
+      return;
+    }
+    // Group by month-of-date, newest month first (entries already sorted desc by date).
+    const groups = new Map();
+    for (const e of entries) {
+      const key = e.date ? monthKey(e.date) : 'No date';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(e);
+    }
+    const order = [...groups.keys()].sort((a, b) => {
+      if (a === 'No date') return 1;
+      if (b === 'No date') return -1;
+      return a < b ? 1 : -1;   // newest month first
+    });
+    list.innerHTML = order.map(key => {
+      const items = groups.get(key);
+      const label = key === 'No date' ? 'No date' : monthLabel(key);
+      const rows = items.map(changelogEntryHTML).join('');
+      return `
+        <div class="group">
+          <div class="group-header">
+            <span class="glyph">${GLYPHS.clock ?? ''}</span>
+            ${escapeHtml(label)}
+            <span style="font-weight: 400; text-transform: none; letter-spacing: normal; color: var(--text-tertiary); margin-left: auto;">${items.length} ${items.length === 1 ? 'entry' : 'entries'}</span>
+          </div>
+          <div class="changelog-month-card">${rows}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function changelogEntryHTML(e) {
+    const id = e.id || '';
+    const tags = (e.tags || []).filter(t => CHANGELOG_TAGS.includes(t));
+    const tagHTML = tags.map(t => `<span class="tag ${t.toLowerCase()}">${escapeHtml(t)}</span>`).join('');
+    const dateTxt = e.date ? formatLongDate(e.date) : '';
+    return `
+      <article class="changelog-entry" id="entry-${escapeHtml(id)}">
+        ${tagHTML ? `<div class="changelog-entry-tags">${tagHTML}</div>` : ''}
+        <a class="changelog-entry-title" href="#entry-${escapeHtml(id)}">${escapeHtml(e.title || '(untitled)')}</a>
+        ${dateTxt ? `<div class="changelog-entry-date">${escapeHtml(dateTxt)}</div>` : ''}
+        <div class="changelog-entry-body">${renderMarkdown(e.body || '')}</div>
+      </article>
+    `;
+  }
+
+  function formatLongDate(iso) {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  // ---------- Tiny markdown renderer ----------
+  // Supports: paragraphs (blank-line separated), # / ## / ### headings,
+  // - / * bullet lists, 1. ordered lists, **bold**, *italic*, `code`,
+  // and [text](https://url) links. Nothing else — keeps the surface small
+  // and the output easy to reason about for XSS safety.
+  function renderMarkdown(src) {
+    const text = String(src || '').replace(/\r\n/g, '\n');
+    const blocks = text.split(/\n\s*\n/);
+    return blocks.map(block => {
+      const trimmed = block.trim();
+      if (!trimmed) return '';
+      if (/^### /.test(trimmed)) return `<h3>${mdInline(trimmed.replace(/^### /, ''))}</h3>`;
+      if (/^## /.test(trimmed))  return `<h2>${mdInline(trimmed.replace(/^## /, ''))}</h2>`;
+      if (/^# /.test(trimmed))   return `<h2>${mdInline(trimmed.replace(/^# /, ''))}</h2>`;
+      const lines = trimmed.split('\n');
+      if (lines.every(l => /^[-*] /.test(l))) {
+        return '<ul>' + lines.map(l => `<li>${mdInline(l.replace(/^[-*] /, ''))}</li>`).join('') + '</ul>';
+      }
+      if (lines.every(l => /^\d+\. /.test(l))) {
+        return '<ol>' + lines.map(l => `<li>${mdInline(l.replace(/^\d+\. /, ''))}</li>`).join('') + '</ol>';
+      }
+      return `<p>${lines.map(mdInline).join('<br>')}</p>`;
+    }).join('');
+  }
+  function mdInline(s) {
+    let out = escapeHtml(s);
+    // Code spans first so their contents aren't further processed.
+    out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // Links — only http(s) URLs; matched against escaped text, so & has
+    // become &amp; which is still valid in href.
+    out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    out = out.replace(/(^|[^*])\*([^*\s][^*]*)\*(?!\*)/g, '$1<em>$2</em>');
+    return out;
+  }
+
+  // ---------- Changelog (admin editor) ----------
+  let _changelogState = {
+    entries: [],
+    sha: null,
+    selectedId: null,   // null means "new entry draft"
+    loading: false,
+    dirty: false,
+  };
+
+  async function loadChangelogAdmin() {
+    const root = document.getElementById('changelog-editor');
+    if (_changelogState.loading) return;
+    _changelogState.loading = true;
+    root.innerHTML = '<div class="editor-empty">Loading entries…</div>';
+    try {
+      const data = await gh(`/repos/${REPO}/contents/${CHANGELOG_PATH}`);
+      const decoded = decodeBase64(data.content);
+      let parsed;
+      try { parsed = JSON.parse(decoded); } catch { parsed = { entries: [] }; }
+      _changelogState.entries = Array.isArray(parsed.entries) ? parsed.entries : [];
+      _changelogState.sha = data.sha;
+    } catch (e) {
+      // 404: file doesn't exist yet — treat as empty list, sha=null.
+      if (/^404/.test(e.message)) {
+        _changelogState.entries = [];
+        _changelogState.sha = null;
+      } else {
+        root.innerHTML = `<div class="editor-empty" style="color: var(--danger);">${escapeHtml(e.message)}</div>`;
+        _changelogState.loading = false;
+        return;
+      }
+    } finally {
+      _changelogState.loading = false;
+    }
+    sortEntries(_changelogState.entries);
+    if (!_changelogState.selectedId && _changelogState.entries.length) {
+      _changelogState.selectedId = _changelogState.entries[0].id;
+    }
+    renderChangelogAdmin();
+  }
+
+  function sortEntries(entries) {
+    entries.sort((a, b) => {
+      if (a.date !== b.date) return (b.date || '') < (a.date || '') ? -1 : 1;
+      return (b.id || '') < (a.id || '') ? -1 : 1;
+    });
+  }
+
+  function renderChangelogAdmin() {
+    const root = document.getElementById('changelog-editor');
+    const entries = _changelogState.entries;
+    const selected = _changelogState.selectedId === '__new__' || _changelogState.selectedId === null
+      ? null
+      : entries.find(e => e.id === _changelogState.selectedId);
+
+    const listHTML = `
+      <div class="entry-list">
+        <div class="entry-list-header">
+          <h3>Entries (${entries.length})</h3>
+          <button class="btn ghost" onclick="newChangelogEntry()" style="font-size: 12px;">+ New</button>
+        </div>
+        ${entries.length === 0
+          ? '<div class="empty" style="padding: 24px 16px;">No entries yet.</div>'
+          : entries.map(e => entryRowHTML(e)).join('')}
+      </div>
+    `;
+
+    const formHTML = renderEditorForm(selected);
+
+    root.innerHTML = `<div class="editor-grid">${listHTML}${formHTML}</div>`;
+    bindEditorForm();
+  }
+
+  function entryRowHTML(e) {
+    const isActive = e.id === _changelogState.selectedId;
+    const tags = (e.tags || []).filter(t => CHANGELOG_TAGS.includes(t));
+    const tagHTML = tags.map(t => `<span class="tag ${t.toLowerCase()}">${escapeHtml(t)}</span>`).join('');
+    return `
+      <button class="entry-row${isActive ? ' active' : ''}" type="button" onclick="selectChangelogEntry('${escapeHtml(e.id)}')">
+        <div class="entry-row-title">${escapeHtml(e.title || '(untitled)')}</div>
+        <div class="entry-row-date">${escapeHtml(e.date || '—')}</div>
+        ${tagHTML ? `<div class="entry-row-tags">${tagHTML}</div>` : ''}
+      </button>
+    `;
+  }
+
+  function renderEditorForm(entry) {
+    // entry === null means "new entry draft". Pre-fill date with today.
+    const isNew = !entry;
+    const today = new Date().toISOString().slice(0, 10);
+    const date = entry?.date || today;
+    const title = entry?.title || '';
+    const tags = new Set(entry?.tags || []);
+    const body = entry?.body || '';
+
+    return `
+      <div class="editor-form">
+        <div class="field">
+          <label class="field-label" for="entry-date">Date</label>
+          <input id="entry-date" type="date" value="${escapeHtml(date)}">
+        </div>
+        <div class="field">
+          <label class="field-label" for="entry-title">Title</label>
+          <input id="entry-title" type="text" value="${escapeHtml(title)}" placeholder="What changed?">
+        </div>
+        <div class="field">
+          <label class="field-label">Tags</label>
+          <div class="tag-checks">
+            ${CHANGELOG_TAGS.map(t => `
+              <label class="tag-check">
+                <input type="checkbox" data-tag="${t}" ${tags.has(t) ? 'checked' : ''}>
+                <span class="tag ${t.toLowerCase()}" style="border: none; padding: 0; background: transparent;">${escapeHtml(t)}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="entry-body">Body (markdown)</label>
+          <textarea id="entry-body" placeholder="**Bold**, *italic*, \`code\`, [links](https://example.com), - lists, ## headings.">${escapeHtml(body)}</textarea>
+        </div>
+        <div class="editor-actions">
+          <button class="btn" id="entry-save" onclick="saveChangelogEntry()">${isNew ? 'Publish entry' : 'Save changes'}</button>
+          ${isNew
+            ? `<button class="btn secondary" onclick="discardDraft()">Discard</button>`
+            : `<button class="btn danger-ghost" onclick="deleteChangelogEntry()">Delete</button>`}
+          <span class="spacer"></span>
+          <span class="save-hint" id="entry-hint"></span>
+        </div>
+        <div class="editor-preview">
+          <div class="editor-preview-label">Live preview</div>
+          <div class="changelog-entry" style="padding: 0; background: transparent;">
+            <div class="changelog-entry-tags" id="preview-tags"></div>
+            <div class="changelog-entry-title" id="preview-title">${escapeHtml(title || '(untitled)')}</div>
+            <div class="changelog-entry-date" id="preview-date">${escapeHtml(formatLongDate(date))}</div>
+            <div class="changelog-entry-body" id="preview-body">${renderMarkdown(body)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function bindEditorForm() {
+    const dateEl = document.getElementById('entry-date');
+    const titleEl = document.getElementById('entry-title');
+    const bodyEl = document.getElementById('entry-body');
+    const tagEls = document.querySelectorAll('.tag-checks input[data-tag]');
+    if (!dateEl) return;   // no form rendered (e.g. error state)
+
+    const updatePreview = () => {
+      document.getElementById('preview-title').textContent = titleEl.value || '(untitled)';
+      document.getElementById('preview-date').textContent = formatLongDate(dateEl.value || new Date().toISOString().slice(0, 10));
+      document.getElementById('preview-body').innerHTML = renderMarkdown(bodyEl.value);
+      const ptags = document.getElementById('preview-tags');
+      const selected = [...tagEls].filter(c => c.checked).map(c => c.dataset.tag);
+      ptags.innerHTML = selected.map(t => `<span class="tag ${t.toLowerCase()}">${escapeHtml(t)}</span>`).join('');
+    };
+    [dateEl, titleEl, bodyEl, ...tagEls].forEach(el => el.addEventListener('input', updatePreview));
+    updatePreview();
+  }
+
+  function selectChangelogEntry(id) {
+    _changelogState.selectedId = id;
+    renderChangelogAdmin();
+  }
+  function newChangelogEntry() {
+    _changelogState.selectedId = '__new__';
+    renderChangelogAdmin();
+  }
+  function discardDraft() {
+    _changelogState.selectedId = _changelogState.entries[0]?.id || null;
+    renderChangelogAdmin();
+  }
+
+  function readEditorValues() {
+    const date = document.getElementById('entry-date').value.trim();
+    const title = document.getElementById('entry-title').value.trim();
+    const body = document.getElementById('entry-body').value;
+    const tags = [...document.querySelectorAll('.tag-checks input[data-tag]')]
+      .filter(c => c.checked).map(c => c.dataset.tag);
+    return { date, title, body, tags };
+  }
+
+  function slugify(s) {
+    return String(s)
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 60);
+  }
+
+  async function saveChangelogEntry() {
+    const btn = document.getElementById('entry-save');
+    const hint = document.getElementById('entry-hint');
+    const { date, title, body, tags } = readEditorValues();
+    if (!title) return toast('Title required', true);
+    if (!date) return toast('Date required', true);
+
+    const isNew = _changelogState.selectedId === '__new__' || _changelogState.selectedId === null;
+    const previousId = isNew ? null : _changelogState.selectedId;
+    const newId = `${date}-${slugify(title)}` || `${date}-entry`;
+    // Preserve old id (and hash links) if only the body changed.
+    const id = !isNew && previousId && date === entryById(previousId)?.date && title === entryById(previousId)?.title
+      ? previousId
+      : newId;
+
+    const entry = { id, date, title, tags, body };
+
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+    hint.textContent = '';
+    try {
+      await commitChangelogChange(prev => {
+        const out = (prev || []).filter(e => e.id !== previousId && e.id !== id);
+        out.push(entry);
+        sortEntries(out);
+        return out;
+      }, isNew ? `changelog: add "${title}"` : `changelog: edit "${title}"`);
+      _changelogState.selectedId = id;
+      renderChangelogAdmin();
+      hint.textContent = 'Saved. Visible publicly in ~1–2 min (mirror-admin syncing).';
+      toast('Entry saved');
+    } catch (e) {
+      toast(`Save failed: ${e.message}`, true);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  async function deleteChangelogEntry() {
+    const id = _changelogState.selectedId;
+    const entry = entryById(id);
+    if (!entry) return;
+    if (!confirm(`Delete entry "${entry.title}"? This cannot be undone.`)) return;
+    try {
+      await commitChangelogChange(prev => (prev || []).filter(e => e.id !== id),
+        `changelog: remove "${entry.title}"`);
+      _changelogState.selectedId = _changelogState.entries[0]?.id || null;
+      renderChangelogAdmin();
+      toast('Entry deleted');
+    } catch (e) {
+      toast(`Delete failed: ${e.message}`, true);
+    }
+  }
+
+  function entryById(id) {
+    return _changelogState.entries.find(e => e.id === id);
+  }
+
+  // GET-modify-PUT against admin/changelog.json with one retry on sha conflict.
+  async function commitChangelogChange(updater, message) {
+    let attempts = 0;
+    while (attempts < 2) {
+      attempts++;
+      let current = _changelogState.entries;
+      let sha = _changelogState.sha;
+      // Refetch on retry to pick up the freshest sha.
+      if (attempts === 2) {
+        try {
+          const data = await gh(`/repos/${REPO}/contents/${CHANGELOG_PATH}`);
+          const parsed = JSON.parse(decodeBase64(data.content));
+          current = Array.isArray(parsed.entries) ? parsed.entries : [];
+          sha = data.sha;
+        } catch (e) {
+          if (!/^404/.test(e.message)) throw e;
+          current = []; sha = null;
+        }
+      }
+      const next = updater(current);
+      sortEntries(next);
+      const payload = { generatedAt: new Date().toISOString(), entries: next };
+      const body = {
+        message,
+        content: encodeBase64(JSON.stringify(payload, null, 2) + '\n'),
+        branch: 'main',
+      };
+      if (sha) body.sha = sha;
+      try {
+        const res = await gh(`/repos/${REPO}/contents/${CHANGELOG_PATH}`, {
+          method: 'PUT',
+          body: JSON.stringify(body),
+        });
+        _changelogState.entries = next;
+        _changelogState.sha = res.content?.sha || null;
+        return;
+      } catch (e) {
+        // 409 / 422 with sha mismatch: retry once with fresh sha.
+        if (attempts < 2 && /\b(409|422)\b/.test(e.message)) continue;
+        if (/\b403\b/.test(e.message)) {
+          throw new Error('403 — your PAT needs Contents: Read & write on hellolexicon/ProductOS');
+        }
+        throw e;
+      }
+    }
+  }
+
+  // Base64 helpers that handle UTF-8 (atob/btoa are byte-only).
+  function encodeBase64(s) {
+    return btoa(unescape(encodeURIComponent(s)));
+  }
+  function decodeBase64(s) {
+    return decodeURIComponent(escape(atob(String(s).replace(/\n/g, ''))));
   }
 
   // ---------- Flags ----------
@@ -1513,23 +2280,23 @@
 
   // ---------- Boot ----------
   async function init() {
-    if (!getToken()) {
-      document.getElementById('auth').classList.remove('hidden');
-      document.getElementById('app').style.display = 'none';
-      return;
+    // App shell is always visible: Changelog and Roadmap are public.
+    // Only Settings requires a PAT; updateAuthVisibility handles that.
+    updateAuthVisibility();
+
+    if (getToken()) {
+      // Validate the token in the background — if it's been revoked, surface
+      // a toast and clear it so the Settings tab falls back to the auth prompt.
+      gh(`/repos/${REPO}`).catch(e => {
+        clearToken();
+        updateAuthVisibility();
+        toast(`Auth failed: ${e.message}`, true);
+      });
     }
-    try {
-      await gh(`/repos/${REPO}`);
-    } catch (e) {
-      clearToken();
-      toast(`Auth failed: ${e.message}`, true);
-      return;
-    }
-    document.getElementById('auth').classList.add('hidden');
-    document.getElementById('app').style.display = 'block';
-    loadRoadmap();
-    loadFlags();
-    loadRuns();
+
+    // Restore last-selected top tab; default to Changelog.
+    const initialTab = localStorage.getItem(TAB_KEY) || 'changelog';
+    switchTab(initialTab);
   }
   init();
 </script>
