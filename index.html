@@ -938,6 +938,104 @@
     .changelog-entry-section-body > *:first-child { margin-top: 0; }
     .changelog-entry-section-body > *:last-child { margin-bottom: 0; }
 
+    /* ---------- Requests ---------- */
+    .requests-toolbar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 4px 16px; flex-wrap: wrap;
+    }
+    .requests-meta-text {
+      font-size: 13px; color: var(--text-tertiary); flex: 1; min-width: 0;
+    }
+    .requests-meta-text .gen { color: var(--text-secondary); font-feature-settings: "tnum"; }
+    .requests-filter {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .requests-filter label { font-size: 13px; color: var(--text-secondary); white-space: nowrap; }
+    select.filter-select {
+      font: 13px/1 -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 5px 28px 5px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      -webkit-appearance: none; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23999' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 9px center;
+      cursor: pointer; max-width: 200px;
+    }
+    select.filter-select:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .req-group {
+      margin-bottom: 28px;
+    }
+    .req-group-header {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-tertiary);
+      padding: 0 2px 8px;
+    }
+    .req-group-header-count {
+      margin-left: auto; font-weight: 400; text-transform: none;
+      letter-spacing: normal; color: var(--text-tertiary); font-size: 11px;
+    }
+    .req-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .req-project-row {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 16px; padding: 14px 20px; align-items: center;
+      cursor: pointer; position: relative; transition: background var(--transition);
+    }
+    .req-project-row + .req-project-row::before {
+      content: ""; position: absolute; top: 0; left: 20px; right: 20px;
+      height: 1px; background: var(--border);
+    }
+    .req-project-row:hover { background: var(--surface-hover); }
+    .req-project-row[aria-expanded="true"] { background: var(--surface-hover); }
+    .req-project-name {
+      font-weight: 500; font-size: 15px; letter-spacing: -0.005em; color: var(--text);
+    }
+    .req-project-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; align-items: center; }
+    .req-side {
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .req-bar {
+      width: 48px; height: 4px; border-radius: 2px;
+      background: var(--border); overflow: hidden; flex-shrink: 0;
+    }
+    .req-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.3s ease; }
+    .req-count {
+      font-size: 13px; color: var(--text-secondary); min-width: 18px; text-align: right;
+      font-feature-settings: "tnum";
+    }
+    .req-expand-icon {
+      color: var(--text-tertiary); transition: transform 0.2s ease; font-size: 11px;
+      flex-shrink: 0;
+    }
+    .req-project-row[aria-expanded="true"] .req-expand-icon { transform: rotate(180deg); }
+    .req-requests-list { display: none; border-top: 1px solid var(--border); }
+    .req-requests-list.open { display: block; }
+    .req-request-row {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 12px; padding: 12px 20px 12px 36px;
+      align-items: start; position: relative; transition: background var(--transition);
+    }
+    .req-request-row + .req-request-row::before {
+      content: ""; position: absolute; top: 0; left: 36px; right: 20px;
+      height: 1px; background: var(--border);
+    }
+    .req-request-row:hover { background: var(--surface-hover); }
+    .req-request-body { font-size: 13.5px; color: var(--text); line-height: 1.55; }
+    .req-request-meta {
+      font-size: 12px; color: var(--text-tertiary);
+      display: flex; gap: 8px; align-items: center; margin-top: 4px; flex-wrap: wrap;
+    }
+    .req-request-customer { font-weight: 500; color: var(--text-secondary); }
+    .req-request-link {
+      font-size: 11px; color: var(--accent); text-decoration: none; white-space: nowrap;
+    }
+    .req-request-link:hover { text-decoration: underline; }
+
     /* ---------- Entry detail page ---------- */
     #entry-detail { max-width: 720px; margin: 0 auto; padding: 16px 0 48px; }
     .entry-detail-back {
@@ -1600,6 +1698,7 @@
     <div class="topbar-nav" id="topbar-nav">
       <button data-tab="changelog" class="active" onclick="switchTab('changelog')">Changelog</button>
       <button data-tab="roadmap" onclick="switchTab('roadmap')">Roadmap</button>
+      <button data-tab="requests" onclick="switchTab('requests')">Requests</button>
       <button data-tab="settings" onclick="switchTab('settings')">Settings</button>
     </div>
     <div class="topbar-aux">
@@ -1627,6 +1726,7 @@
     <div class="menu-sheet-inner">
       <button class="menu-link active" data-tab="changelog" onclick="switchTab('changelog'); closeMenu();">Changelog</button>
       <button class="menu-link" data-tab="roadmap" onclick="switchTab('roadmap'); closeMenu();">Roadmap</button>
+      <button class="menu-link" data-tab="requests" onclick="switchTab('requests'); closeMenu();">Requests</button>
       <button class="menu-link" data-tab="settings" onclick="switchTab('settings'); closeMenu();">Settings</button>
       <div class="menu-sheet-footer">
         <div class="theme-switch" role="group" aria-label="Theme">
@@ -1705,6 +1805,26 @@
         <button class="btn ghost" onclick="loadRoadmap()">Refresh</button>
       </div>
       <div id="roadmap-list">
+        <div class="group-card">
+          <div class="skeleton-row"><span class="skeleton" style="width: 280px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-requests">
+      <div class="requests-toolbar" id="requests-toolbar">
+        <div class="requests-meta-text" id="requests-meta-text">Customer requests — mirrored from Linear</div>
+        <div class="requests-filter">
+          <label for="requests-customer-filter">Customer</label>
+          <select class="filter-select" id="requests-customer-filter" onchange="filterRequests()">
+            <option value="">All customers</option>
+          </select>
+        </div>
+        <button class="btn ghost" onclick="loadRequests()">Refresh</button>
+      </div>
+      <div id="requests-list">
         <div class="group-card">
           <div class="skeleton-row"><span class="skeleton" style="width: 280px"></span></div>
           <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
@@ -1934,6 +2054,7 @@
     }
     if (_inDetailView) { _inDetailView = false; }
     if (id === 'roadmap') loadRoadmap();
+    if (id === 'requests') loadRequests();
     if (id === 'settings') {
       updateAuthVisibility();
       if (getToken()) {
@@ -2175,6 +2296,158 @@
         </div>
       </article>
     `;
+  }
+
+  // ---------- Customer Requests ----------
+
+  const REQUESTS_URL = `${location.pathname.replace(/index\.html?$/, '').replace(/\/changelog\/.*$/, '/')}requests.json`;
+  let _requestsLoading = false;
+  let _requestsData = null;   // cached full data
+
+  async function loadRequests() {
+    if (_requestsLoading) return;
+    _requestsLoading = true;
+    const list = document.getElementById('requests-list');
+    const meta = document.getElementById('requests-meta-text');
+    try {
+      const r = await fetch(`${REQUESTS_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(`${r.status} loading requests.json`);
+      _requestsData = await r.json();
+      // Populate customer filter
+      const sel = document.getElementById('requests-customer-filter');
+      const prev = sel.value;
+      // Keep "All customers" option, rebuild the rest
+      while (sel.options.length > 1) sel.remove(1);
+      for (const c of (_requestsData.customers || [])) {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = `${c.name} (${c.count})`;
+        sel.appendChild(opt);
+      }
+      // Restore previous selection if still valid
+      if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+      const gen = formatGenerated(_requestsData.generatedAt);
+      meta.innerHTML = `<strong>${_requestsData.totalCount} request${_requestsData.totalCount === 1 ? '' : 's'}</strong> across ${_requestsData.projectCount} project${_requestsData.projectCount === 1 ? '' : 's'} — mirrored from Linear <span class="gen">${gen}</span>`;
+      renderRequests(_requestsData, sel.value);
+    } catch (e) {
+      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No requests snapshot yet. Trigger <a href="https://github.com/hellolexicon/ProductOS/actions/workflows/requests.yml" target="_blank">requests.yml</a> to generate one. (${escapeHtml(e.message)})</div>`;
+    } finally {
+      _requestsLoading = false;
+    }
+  }
+
+  function filterRequests() {
+    if (!_requestsData) return;
+    const sel = document.getElementById('requests-customer-filter');
+    renderRequests(_requestsData, sel.value);
+  }
+
+  function renderRequests(data, customerId) {
+    const list = document.getElementById('requests-list');
+    let projects = data.projects || [];
+    // Filter by customer if selected
+    if (customerId) {
+      projects = projects
+        .map(p => ({
+          ...p,
+          requests: p.requests.filter(r => r.customerId === customerId),
+        }))
+        .filter(p => p.requests.length > 0);
+    }
+    if (projects.length === 0) {
+      list.innerHTML = '<div class="empty">No customer requests found.</div>';
+      return;
+    }
+
+    // Group projects by status name (use statusName if available, fall back to state)
+    const STATUS_ORDER = ['started', 'planned', 'backlog', 'paused', 'completed', 'canceled'];
+    const STATUS_LABELS = {
+      started: 'In Progress',
+      planned: 'Planned',
+      backlog: 'Backlog',
+      paused: 'Paused',
+      completed: 'Completed',
+      canceled: 'Canceled',
+    };
+    const groups = new Map();
+    for (const p of projects) {
+      const key = (p.statusName || p.status || 'backlog').toLowerCase();
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(p);
+    }
+    const maxCount = Math.max(...projects.map(p => p.requests.length), 1);
+
+    const orderedKeys = [...groups.keys()].sort((a, b) => {
+      const ai = STATUS_ORDER.indexOf(a);
+      const bi = STATUS_ORDER.indexOf(b);
+      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+    });
+
+    list.innerHTML = orderedKeys.map(key => {
+      const items = groups.get(key);
+      const label = STATUS_LABELS[key] || (key.charAt(0).toUpperCase() + key.slice(1));
+      const totalInGroup = items.reduce((s, p) => s + p.requests.length, 0);
+      const rows = items.map(p => requestProjectRowHTML(p, maxCount)).join('');
+      return `
+        <div class="req-group">
+          <div class="req-group-header">
+            ${escapeHtml(label)}
+            <span class="req-group-header-count">${items.length} project${items.length === 1 ? '' : 's'} · ${totalInGroup} request${totalInGroup === 1 ? '' : 's'}</span>
+          </div>
+          <div class="req-card">${rows}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function requestProjectRowHTML(p, maxCount) {
+    const pct = maxCount > 0 ? Math.round((p.requests.length / maxCount) * 100) : 0;
+    const chips = [];
+    if (p.teams && p.teams.length) chips.push(`<span class="meta-chip team">${escapeHtml(p.teams.join(' · '))}</span>`);
+    if (p.initiatives && p.initiatives.length) chips.push(`<span class="meta-chip">${escapeHtml(p.initiatives.join(' · '))}</span>`);
+    const chipsHTML = chips.length ? `<div class="req-project-chips">${chips.join('')}</div>` : '';
+    const requestsId = `req-reqs-${escapeHtml(p.id)}`;
+    const rowsHTML = p.requests.map(r => requestRowHTML(r)).join('');
+    return `
+      <div class="req-project-row" aria-expanded="false" onclick="toggleRequestRows(this, '${requestsId}')">
+        <div class="req-project-main">
+          <div class="req-project-name">${escapeHtml(p.name)}</div>
+          ${chipsHTML}
+        </div>
+        <div class="req-side">
+          <div class="req-bar"><div class="req-bar-fill" style="width:${pct}%"></div></div>
+          <span class="req-count">${p.requests.length}</span>
+          <span class="req-expand-icon">▾</span>
+        </div>
+      </div>
+      <div class="req-requests-list" id="${requestsId}">${rowsHTML}</div>
+    `;
+  }
+
+  function requestRowHTML(r) {
+    const date = r.createdAt ? formatDate(r.createdAt.slice(0, 10)) : '';
+    const linkHTML = r.url
+      ? `<a class="req-request-link" href="${escapeHtml(r.url)}" target="_blank" onclick="event.stopPropagation()">View ↗</a>`
+      : '';
+    return `
+      <div class="req-request-row">
+        <div>
+          <div class="req-request-body">${escapeHtml(r.body || '')}</div>
+          <div class="req-request-meta">
+            ${r.customerName ? `<span class="req-request-customer">${escapeHtml(r.customerName)}</span>` : ''}
+            ${date ? `<span class="req-request-date">${escapeHtml(date)}</span>` : ''}
+          </div>
+        </div>
+        <div>${linkHTML}</div>
+      </div>
+    `;
+  }
+
+  function toggleRequestRows(rowEl, listId) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+    const open = list.classList.toggle('open');
+    rowEl.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
 
   // ---------- Entry detail pages ----------
