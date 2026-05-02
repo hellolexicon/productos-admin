@@ -1,0 +1,1876 @@
+{
+  "generatedAt": "2026-05-02T13:44:15.976Z",
+  "totalCount": 132,
+  "projectCount": 40,
+  "customers": [
+    {
+      "id": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+      "name": "Zipline",
+      "count": 52
+    },
+    {
+      "id": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+      "name": "Anglicare",
+      "count": 11
+    },
+    {
+      "id": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+      "name": "Medenterprises",
+      "count": 10
+    },
+    {
+      "id": "87e7313d-816d-439d-861c-065ec83194c8",
+      "name": "Catholic Healthcare",
+      "count": 9
+    },
+    {
+      "id": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+      "name": "Calvary",
+      "count": 9
+    },
+    {
+      "id": "d30d77a8-baf7-401a-b151-d885a986dabb",
+      "name": "Intercom",
+      "count": 7
+    },
+    {
+      "id": "a846dfcc-a1e5-4b76-91ad-f10927dea4f0",
+      "name": "Uniting",
+      "count": 6
+    },
+    {
+      "id": "2a007040-745e-436c-98a0-81df76140641",
+      "name": "Chcs",
+      "count": 4
+    },
+    {
+      "id": "602c3eca-e44c-4263-b0d5-7966ba93108b",
+      "name": "McLean Care",
+      "count": 4
+    },
+    {
+      "id": "a7b9d8a0-a2c2-4291-a4e5-f93f46916a3f",
+      "name": "Bolton Clarke",
+      "count": 3
+    },
+    {
+      "id": "1b786e1a-c664-4ceb-a1b2-9ef740793ebb",
+      "name": "Silverchain",
+      "count": 2
+    },
+    {
+      "id": "fae8d1ba-6aa3-4dd7-b94c-544b646b6380",
+      "name": "Estia Health",
+      "count": 2
+    },
+    {
+      "id": "d71ce956-eda2-4e26-bde0-597c24d1c3d9",
+      "name": "Warrigal",
+      "count": 1
+    },
+    {
+      "id": "fa855641-70d8-45e3-8a2e-fe19218690f6",
+      "name": "Ozcare",
+      "count": 1
+    },
+    {
+      "id": "56f51979-2e54-44ba-a0c0-1e66b840ff7d",
+      "name": "Interprit",
+      "count": 1
+    },
+    {
+      "id": "75ec78dc-4f64-4200-be05-5d53a2c2d911",
+      "name": "Gold Coast Health",
+      "count": 1
+    },
+    {
+      "id": "3f7d02f5-ebab-4652-a005-ae2708b2cb59",
+      "name": "Sanctuaryrecruitment",
+      "count": 1
+    },
+    {
+      "id": "87c46e68-b5bd-40d9-aa5b-c5b5684dc77a",
+      "name": "Health.nsw",
+      "count": 1
+    },
+    {
+      "id": "be8948c9-91c9-4625-8233-fe28a8047eb5",
+      "name": "Knc",
+      "count": 1
+    },
+    {
+      "id": "d9ca3350-5953-428f-8949-47a2a72c996a",
+      "name": "RetireAustralia",
+      "count": 1
+    }
+  ],
+  "projects": [
+    {
+      "id": "464438de-d0cc-43cc-9798-97d063c5e22d",
+      "name": "QuickStart Bugs",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/quickstart-bugs-6fccace74db0",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "ef8ea01f-730e-4cae-a135-377018a7084a",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473936795198#part_id=?view=List",
+          "createdAt": "2026-04-27T00:09:56.788Z",
+          "customerId": "d30d77a8-baf7-401a-b151-d885a986dabb",
+          "customerName": "Intercom"
+        },
+        {
+          "id": "bf4fe49a-610a-48cc-aa1a-80c5727cd675",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215474071246033#part_id=?view=List",
+          "createdAt": "2026-04-27T00:08:33.897Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "ee96ac19-47cb-43dd-8b54-cd9634980546",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473717001137#part_id=?view=List",
+          "createdAt": "2026-03-31T13:37:22.485Z",
+          "customerId": "d30d77a8-baf7-401a-b151-d885a986dabb",
+          "customerName": "Intercom"
+        },
+        {
+          "id": "7483f221-eb9e-439e-96de-d512d8df303c",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473711072151#part_id=?view=List",
+          "createdAt": "2026-03-31T13:29:30.363Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "e6c3a80d-82c2-4a0f-9511-64d5449be1c8",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473463068912#part_id=?view=List",
+          "createdAt": "2026-03-13T01:17:44.933Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "79b57515-3a2a-4332-94dd-65f974ba174d",
+          "body": "Medenterpises: DocuSign link not working / asking for progress on fix.",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473397813696",
+          "createdAt": "2026-03-09T02:21:15.076Z",
+          "customerId": "d30d77a8-baf7-401a-b151-d885a986dabb",
+          "customerName": "Intercom"
+        },
+        {
+          "id": "764b902a-760f-4b41-8a4f-a55863a0feba",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473338288911",
+          "createdAt": "2026-03-04T01:27:24.113Z",
+          "customerId": "d30d77a8-baf7-401a-b151-d885a986dabb",
+          "customerName": "Intercom"
+        },
+        {
+          "id": "0e98e18c-0021-4110-9e78-65306744a360",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473222636729#part_id=?view=List",
+          "createdAt": "2026-02-26T16:13:45.458Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "63bd3549-8e91-4357-80e6-7570d9759eca",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473218711866",
+          "createdAt": "2026-02-25T08:49:46.079Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "50e1e54a-21ff-4a1b-b650-a7b6d614362d",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473130610063",
+          "createdAt": "2026-02-17T02:15:21.843Z",
+          "customerId": "87c46e68-b5bd-40d9-aa5b-c5b5684dc77a",
+          "customerName": "Health.nsw"
+        },
+        {
+          "id": "a89aae06-afd6-4850-8f07-6e734807e1a4",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473117548787",
+          "createdAt": "2026-02-17T00:53:48.265Z",
+          "customerId": "2a007040-745e-436c-98a0-81df76140641",
+          "customerName": "Chcs"
+        },
+        {
+          "id": "36c896b2-e8c0-407b-baad-191006273911",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473016818839#part_id=initial-part-215473016818839-3446816567",
+          "createdAt": "2026-02-09T01:13:09.750Z",
+          "customerId": "a846dfcc-a1e5-4b76-91ad-f10927dea4f0",
+          "customerName": "Uniting"
+        },
+        {
+          "id": "2c0b5a32-edfe-4edd-a6b5-0af988041baf",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472727832137#part_id=?view=List",
+          "createdAt": "2026-02-09T01:13:09.606Z",
+          "customerId": "a846dfcc-a1e5-4b76-91ad-f10927dea4f0",
+          "customerName": "Uniting"
+        },
+        {
+          "id": "4de1467b-77f1-4a40-aaf6-736c62414567",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472870501209#part_id=?view=List",
+          "createdAt": "2026-01-30T02:33:42.316Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "72363a82-3857-4388-999a-c8397d2f3162",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472839419880",
+          "createdAt": "2026-01-27T03:46:44.395Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "6dad6b99-9fef-4477-b2ff-833ba1ce08f6",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472744693043",
+          "createdAt": "2026-01-27T01:39:02.377Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "b0eff3c2-3bdd-4b18-a233-5e689358c111",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472652060020",
+          "createdAt": "2026-01-21T22:45:53.749Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "1973fa1b-526b-42ca-87fe-24a95086b50a",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472669024079",
+          "createdAt": "2026-01-14T06:55:57.149Z",
+          "customerId": "",
+          "customerName": ""
+        },
+        {
+          "id": "3761efd8-ac03-4a94-a9f9-e158ffed4228",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472334062840#part_id=comment-215472334062840-36277071206",
+          "createdAt": "2026-01-05T00:13:45.722Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "aad8d682-1952-4879-aba0-2d1681071ee4",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472486651574",
+          "createdAt": "2025-12-31T01:54:54.787Z",
+          "customerId": "",
+          "customerName": ""
+        },
+        {
+          "id": "498b3be0-c0d3-418b-8ec1-4ce3c8ee8f24",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472485909994#part_id=initial-part-215472485909994-3360451172",
+          "createdAt": "2025-12-31T00:44:44.656Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "cc48a6ab-df49-40d7-861c-29160c572292",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471920409240",
+          "createdAt": "2025-12-29T01:27:05.417Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "a64124b1-20ee-4fb5-9d54-197bd88c2a10",
+          "body": "Medenterprise migration scenario where admins need to exempt IDs when an existing NCCHC has already been accepted.\n\nContext from Slack thread (Dec 18, 2025):\n\n* Medenterprises are migrating doctors on an ad hoc basis.\n* Migrated doctors already have a valid and acceptable NCCHC, which admins upload.\n* Historically, admins cannot approve/exempt IDs because this is a Zipline-managed requirement, so doctors take longer to be compliant (ID requirements remain open).\n* As an interim, admins have been temporarily granted access to manage IDs for cases where NCCHC is already approved, to avoid high-volume support requests over the holiday period.\n* Example application link shared: [https://portal.zipline.app/applications?id=oEcZY4CfzcOBJqMQTjfU](https://portal.zipline.app/applications?id=oEcZY4CfzcOBJqMQTjfU)\n\nThis customer request is for the workflow where, if the parent NCCHC check is effectively \"approved/accepted\", related ID requirements can be skipped/exempted automatically instead of relying on manual admin intervention or temporary permissions.",
+          "url": null,
+          "createdAt": "2025-12-18T11:22:00.999Z",
+          "customerId": "",
+          "customerName": ""
+        },
+        {
+          "id": "880f4b2f-3f08-4083-85c8-c7c7e8d1da0d",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472213590596#part_id=?view=List",
+          "createdAt": "2025-12-15T04:35:35.281Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "403a7044-d0dc-4605-8c0b-a03b9dc56912",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471728916453#part_id=?view=List",
+          "createdAt": "2025-12-09T05:11:14.953Z",
+          "customerId": "be8948c9-91c9-4625-8233-fe28a8047eb5",
+          "customerName": "Knc"
+        },
+        {
+          "id": "34a6fb35-3f0b-439e-b89c-934b2112ecb6",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LGF4MMP0/p1765249786204889?thread_ts=1765249786.204889&cid=C09LGF4MMP0",
+          "createdAt": "2025-12-09T03:16:46.538Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        },
+        {
+          "id": "8c9bd80a-cd3a-41e3-b9fe-0369f72f9fb4",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471959815200#part_id=?view=List",
+          "createdAt": "2025-12-08T03:02:27.204Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "4e91c39c-d40a-428e-a69f-fe9eadcbe8b3",
+          "body": "Customer report from Uniting about filter changes not saving on Approvals/Applications/People tabs, due to excessive query string length when many owners are selected.\n\nContext and thread: [Intercom conversation](https://app.intercom.com/a/inbox/vwjczc0x/inbox/view/1054698/conversation/215470786773966).\n\nCurrent workaround discussion: filters with a smaller number of options work; large owner lists cause failures. No reliable workaround identified yet for large owner lists.",
+          "url": null,
+          "createdAt": "2025-12-06T03:54:30.947Z",
+          "customerId": "",
+          "customerName": ""
+        },
+        {
+          "id": "d326d692-a754-4553-b895-21c67d43c7e2",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472132755260#part_id=?view=List",
+          "createdAt": "2025-12-06T01:07:25.461Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "7e4aaef3-2efd-4f89-8f4c-9bf60fe3e5f3",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471942485330#part_id=?view=List",
+          "createdAt": "2025-12-05T06:16:08.823Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "af6e79dd-4253-455b-88da-1c0a8eb27763",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472002919656",
+          "createdAt": "2025-12-04T04:47:41.610Z",
+          "customerId": "2a007040-745e-436c-98a0-81df76140641",
+          "customerName": "Chcs"
+        },
+        {
+          "id": "4914d76d-0262-4896-954c-a8a011dbbcd3",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471920596896#part_id=?custom_folder_id=1989&view=List",
+          "createdAt": "2025-12-04T01:45:53.289Z",
+          "customerId": "2a007040-745e-436c-98a0-81df76140641",
+          "customerName": "Chcs"
+        },
+        {
+          "id": "6a04117c-0133-4684-ba97-eedf61950aff",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1764553755909059?thread_ts=1764553755.909059&cid=C03BVV2BG85",
+          "createdAt": "2025-12-01T23:59:05.399Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        },
+        {
+          "id": "63b68323-f898-45b1-8912-299ebc6b88a9",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472052555588#part_id=?view=List",
+          "createdAt": "2025-12-01T03:41:20.206Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "414528ea-a991-437b-afa1-291e26658e83",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471884980509#part_id=?view=List",
+          "createdAt": "2025-11-30T12:50:36.350Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "952e81ab-6c3f-4792-8b3f-7583167a0a75",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472001266121",
+          "createdAt": "2025-11-28T08:56:12.658Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "375f289f-0571-4308-9ba2-a5e25c37ba46",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472002849990#part_id=?view=List",
+          "createdAt": "2025-11-28T08:51:39.650Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "c5232a86-ded9-4efc-b4c6-1bdfb02f71f2",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471963463941#part_id=?view=List",
+          "createdAt": "2025-11-26T11:56:27.239Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "5f6e3397-7b63-4335-b2fa-f27002f21c60",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471942485330#part_id=?view=List",
+          "createdAt": "2025-11-25T07:58:48.589Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "b9ea9485-e954-42cd-8c7a-b17711caca40",
+          "body": "This will save them a tonne of admin time because they need to put files in another system and classify them properly.",
+          "url": null,
+          "createdAt": "2025-11-07T13:18:49.749Z",
+          "customerId": "d9ca3350-5953-428f-8949-47a2a72c996a",
+          "customerName": "RetireAustralia"
+        }
+      ],
+      "requestCount": 40
+    },
+    {
+      "id": "64889fc2-b244-41d1-9c5b-fd5ed22328fe",
+      "name": "♥ QuickStart Snacks",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 1,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/love-quickstart-snacks-8463f2796ba8",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "1a0011b4-7ef0-48ca-be48-5c91201aff8e",
+          "body": "Requested a report of all current locations and the export code from QS PROD.",
+          "url": "https://zipline-io.slack.com/archives/C09R27QS46S/p1776035225933729?thread_ts=1776035225.933729&cid=C09R27QS46S",
+          "createdAt": "2026-04-13T00:33:51.920Z",
+          "customerId": "a7b9d8a0-a2c2-4291-a4e5-f93f46916a3f",
+          "customerName": "Bolton Clarke"
+        },
+        {
+          "id": "848949f1-3833-4b7e-a8bd-dd1cbb896d9f",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473141455081#part_id=?view=List",
+          "createdAt": "2026-03-22T15:03:40.969Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "d7a88850-b991-4619-b82e-c0183c75d2a1",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473267695385#part_id=initial-part-215473267695385-3487264751",
+          "createdAt": "2026-03-21T01:45:15.503Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "59b98b85-bf4e-41c6-af60-20da90ab376e",
+          "body": "Visible markers to highlight sections requiring amendments, with clearer instructions about what is wrong and which line needs to be updated.",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1772155877977409?thread_ts=1772155877.977409&cid=C03BVV2BG85",
+          "createdAt": "2026-03-21T01:45:13.298Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        },
+        {
+          "id": "228a742a-8807-406b-987f-dfb9bb5f0a5b",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472985688050#part_id=?view=List",
+          "createdAt": "2026-02-09T02:33:58.486Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "a66d4cad-300f-4ff5-9d8e-5e33da979d02",
+          "body": "Candidates click form links and they open in the same Zipline tab; request is to open links in a new tab for the listed forms.",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472983830758#part_id=?view=List",
+          "createdAt": "2026-02-09T02:31:27.824Z",
+          "customerId": "75ec78dc-4f64-4200-be05-5d53a2c2d911",
+          "customerName": "Gold Coast Health"
+        },
+        {
+          "id": "6cd4c482-a47d-47fe-99c3-14cce47a79dc",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472742948102",
+          "createdAt": "2026-01-20T03:51:36.775Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "750632e1-fc79-43bc-ab30-5286afa85f82",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472131464754",
+          "createdAt": "2026-01-14T04:39:54.172Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "1f821bf8-9b35-436e-afcd-2a353f2ddccb",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472197097937#part_id=?view=List",
+          "createdAt": "2026-01-07T08:19:44.731Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "33a9def2-c4fe-4cf7-a8c3-cbf04205cfcd",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472573881415#part_id=?view=List",
+          "createdAt": "2026-01-07T08:16:06.792Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "a8015534-9df7-44aa-8a76-b170f48dd159",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472330513995",
+          "createdAt": "2025-12-19T04:31:25.818Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "d70109cc-9d46-413c-b302-1c34ae18da4f",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1751173446367669?thread_ts=1751173446.367669&cid=C03BVV2BG85",
+          "createdAt": "2025-12-18T22:15:58.463Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "92acd80f-a0ec-4bfd-898e-8c5e49d567a2",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C01LDPNNBSM/p1764900379160479?thread_ts=1764900042.794709&cid=C01LDPNNBSM",
+          "createdAt": "2025-12-16T00:09:54.949Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        },
+        {
+          "id": "c211b6aa-798c-4a27-8e8b-27e668f1a8aa",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472165264222#part_id=?view=List",
+          "createdAt": "2025-12-11T01:20:16.140Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "e771df64-1678-479c-a7e1-958b3f224085",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LGF4MMP0/p1764100953952399?thread_ts=1764100723.390939&cid=C09LGF4MMP0",
+          "createdAt": "2025-11-25T22:17:50.299Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        },
+        {
+          "id": "e3d01f95-4294-4d4e-a389-ef5203018ab4",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471596447372#part_id=?view=List",
+          "createdAt": "2025-11-12T04:25:45.219Z",
+          "customerId": "3f7d02f5-ebab-4652-a005-ae2708b2cb59",
+          "customerName": "Sanctuaryrecruitment"
+        },
+        {
+          "id": "f6ba7c71-cbef-40f3-a148-8658721d8d9f",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LF3PQRU5/p1762388270103539?thread_ts=1762316896.066659&cid=C09LF3PQRU5",
+          "createdAt": "2025-11-06T00:21:15.495Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        },
+        {
+          "id": "89edb605-62be-4358-aab7-f574c5537800",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1757542750685729?thread_ts=1757538833.679809&cid=C03BVV2BG85",
+          "createdAt": "2025-09-11T02:10:56.427Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        },
+        {
+          "id": "c3c4d808-bccc-4d63-8a7a-78104897451c",
+          "body": "Needed for Calvary launch",
+          "url": null,
+          "createdAt": "2025-09-09T12:37:39.443Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        },
+        {
+          "id": "d3c76031-97e6-4ef0-bd93-741d382317c4",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C01LDPNNBSM/p1756781013097289?thread_ts=1756774018.065279&cid=C01LDPNNBSM",
+          "createdAt": "2025-09-02T14:32:42.062Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        }
+      ],
+      "requestCount": 20
+    },
+    {
+      "id": "d2ac00ae-9f6c-4a2d-a7e2-ec9658a88cff",
+      "name": "Integration Bugs & Snacks",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/integration-bugs-and-snacks-ace3760e6f5f",
+      "teams": [
+        "Zipline",
+        "BlackOps",
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "2ca38768-28fd-4847-ad0e-c7cbe104d9c3",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472651853871#part_id=?view=List",
+          "createdAt": "2026-01-19T01:02:04.586Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "6c7d4404-01f9-4008-8b8e-159ca5ffefd6",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1768170975373019?thread_ts=1768170975.373019&cid=C03BVV2BG85",
+          "createdAt": "2026-01-11T23:13:57.132Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        },
+        {
+          "id": "9ab5cab6-b6f8-4962-9e2c-a7b00bf30081",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1764906437386269?thread_ts=1764906437.386269&cid=C03BVV2BG85",
+          "createdAt": "2025-12-17T01:44:31.875Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        },
+        {
+          "id": "a721c91a-6128-49c5-8982-7e6566e87c8a",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472196576810",
+          "createdAt": "2025-12-11T14:23:43.431Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "830aba8f-0bb2-4720-b604-f4e0b63f96b0",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471597243059",
+          "createdAt": "2025-12-06T03:43:53.812Z",
+          "customerId": "2a007040-745e-436c-98a0-81df76140641",
+          "customerName": "Chcs"
+        },
+        {
+          "id": "68b57037-ad57-426d-a6c0-e111cd1bcf9c",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471939811817",
+          "createdAt": "2025-11-25T03:19:10.672Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "1e79087f-363e-4d2b-a086-368fa44c0205",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471928310269",
+          "createdAt": "2025-11-24T13:08:25.398Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "7b2c3f9c-d8dd-4eed-be74-cb1916fb8cd1",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1762235806288039?thread_ts=1762235709.895679&cid=C03BVV2BG85",
+          "createdAt": "2025-11-04T22:09:53.494Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        }
+      ],
+      "requestCount": 8
+    },
+    {
+      "id": "e3118032-b8e6-4841-953e-35b767018342",
+      "name": "Lifecycle Management v2",
+      "status": "backlog",
+      "statusName": "Opportunity Discovery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/lifecycle-management-v2-6d800389fe9f",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "adaeaac5-f48f-4f8b-9c67-1b121f783faa",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471712379276",
+          "createdAt": "2026-01-27T01:07:54.408Z",
+          "customerId": "d30d77a8-baf7-401a-b151-d885a986dabb",
+          "customerName": "Intercom"
+        },
+        {
+          "id": "fb2d06f5-aede-49dd-ad31-36f9313f308c",
+          "body": "Wondering if you can help me with the best approach for rehires after more than three months. The customer retains the same profile for those who returns withint the three months after the offboarding. However, for more than three months, they need to create a new staff profile. Since they are using the same phone number, how do we create a new profile? Do we need to have a different phone number for the new profile? Can we remove the phone number from the old profile and add it to the new profile instead?",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1763534010640499",
+          "createdAt": "2026-01-08T21:05:29.086Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        },
+        {
+          "id": "90f329ed-ca1d-4c3e-ab5e-259ef675b576",
+          "body": "**Fwd: Rehire compliance check our use cases**\n\nFrom: **Nitya Mishra** <[Nitya.Mishra@estiahealth.com.au](mailto:Nitya.Mishra@estiahealth.com.au)>\nDate: Mon, 29 Sept 2025 at 11:31\nSubject: Rehire compliance check our use cases\nTo: Ryan How <[ryan.how@zipline.io](mailto:ryan.how@zipline.io)>, Lachlan van der Velden <[lachlan.vandervelden@zipline.io](mailto:lachlan.vandervelden@zipline.io)>\nCc: Ann Marie Spicer <[AnnMarie.Spicer@estiahealth.com.au](mailto:AnnMarie.Spicer@estiahealth.com.au)>, Kieran Cunningham <[Kieran.Cunningham@estiahealth.com.au](mailto:Kieran.Cunningham@estiahealth.com.au)>\n\nHi Ryan,\n\n \n\nFor rehires, as per our discussion before, these are our requirements based on our policy.\n\nWe are keen to see what Zipline is building around this. \n\n| **Check Type** | **Action** | **Notes** |\n| -- | -- | -- |\n| Criminal History Check | New check required if Gap in service ≥ 2 months |  |\n| NDIS | Existing NDIS Data should appear but not approved. | Will be checked by People support team in Proda and approved. Notification should not be triggered for applicant. |\n| Statutory Declaration | New check required if Gap in service ≥ 2 months |  |\n| Work Rights | Recheck required using existing work rights by Zipline. | Always rechecked for visa holders; Zipline support should recheck using existing visa details, reminder notification should not be triggered for applicant. |\n| COVID Vaccination Record | Use existing approved compliance record |  |\n| Flu Vaccination Record | Use existing approved compliance record |  |\n| Qualifications | Use existing approved compliance record |  |\n| Bankruptcy/Insolvency | New check required if Gap in service ≥ 2 months |  |\n| ASIC Banned/Disqualified | New check required if Gap in service ≥ 2 months |  |\n| Employment History | Use existing approved compliance record |  |\n| Qualification Check | Use existing approved compliance record |  |\n| AHPRA Registration | Zipline to Recheck required on application. |  |\n| Banning Order | Zipline to Recheck required on application. |  |\n",
+          "url": null,
+          "createdAt": "2025-12-17T04:55:22.960Z",
+          "customerId": "fae8d1ba-6aa3-4dd7-b94c-544b646b6380",
+          "customerName": "Estia Health"
+        },
+        {
+          "id": "0422bc27-a813-4684-a755-5c72767f022d",
+          "body": "**Sense check | MedEnt: re-initiating police check every 6-12 months**\n**\nMedEnt is keen on being able to re-initiate police checks every 6–12 months. My current understanding is that once a police check is completed, we only re-run it upon expiry (3 years).\nMedEnt’s context:\n\n* They’re an agency working with hospitals. Some hospitals require police checks that are less than 6 months old before a placement starts (validity differs from hospital to hospital).\n\nTheir compliance flows look like this:\n\n1. Base flow: Requirements for a doctor to join MedEnt’s network (e.g. NCCHC, Work rights, AHPRA).\n2. Placement-specific flow: Requirements for a doctor to start a hospital placement (e.g. COVID, flu).\n\nQuestion:\n\n* Is there a smart way to configure re-initiating a police check? I recall you mentioning in a product update that customers can re-initiate checks when a worker is in the candidate stage, would that work for this scenario?\n\nI know this one’s a little confusing",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1757895033721139?thread_ts=1757894975.603779&cid=C03BVV2BG85",
+          "createdAt": "2025-09-15T06:54:33.090Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        }
+      ],
+      "requestCount": 4
+    },
+    {
+      "id": "15baa12d-7781-4616-88e1-054022a40038",
+      "name": "QuickStart Reports - 2025 Q3",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 0,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/quickstart-reports-2025-q3-031e2ae9610a",
+      "teams": [
+        "Data",
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "c4f1e2a3-0fc8-4fd9-9670-fa102020ea7b",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LF3PQRU5/p1762318034912079?thread_ts=1762317936.578109&cid=C09LF3PQRU5",
+          "createdAt": "2025-11-05T23:52:55.846Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        },
+        {
+          "id": "b75a6e12-d9c9-4f51-805c-1abddae7be44",
+          "body": "",
+          "url": "https://uploads.linear.app/c108aa88-e306-4d08-8acf-eca74933ab4c/d3c3618d-1c93-4730-9ba0-b5ea4c069261/5074be58-0b98-4e7e-80c6-5e69a1a33c41",
+          "createdAt": "2025-09-29T08:31:00.520Z",
+          "customerId": "a846dfcc-a1e5-4b76-91ad-f10927dea4f0",
+          "customerName": "Uniting"
+        },
+        {
+          "id": "da6aae50-9369-42c9-bb59-9ee851b7b6f9",
+          "body": "Calvary need for launch",
+          "url": null,
+          "createdAt": "2025-09-09T12:36:56.471Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        },
+        {
+          "id": "276959c3-2ec0-4641-bccb-bc7d54aabb0f",
+          "body": "Need this as part of launch",
+          "url": null,
+          "createdAt": "2025-09-09T12:35:47.311Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        }
+      ],
+      "requestCount": 4
+    },
+    {
+      "id": "4e5ea79e-5cdf-410e-9214-7b701f5f838d",
+      "name": "Ongoing Visa Checks v2: vSure + Frequency by Class",
+      "status": "started",
+      "statusName": "Shipped",
+      "priority": 2,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/ongoing-visa-checks-v2-vsure-frequency-by-class-3089c3452e64",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "3d4948cc-335c-4996-9ff6-439b28f62f84",
+          "body": "[https://portal.zipline.app/people/directory?staffMemberId=rQ6XK5lmBA6GCQeJ95UA](https://portal.zipline.app/people/directory?staffMemberId=rQ6XK5lmBA6GCQeJ95UA)\n[@Lex](https://zipline-io.slack.com/team/U01CUC9KM9Q) this visa is due for renewel 27-AUG-2025\nOn 28 JUNE 2025 a new record was created, and the employee was notified and uploaded a document.\nWhat is the exact platform set up for ongoing visas on expiry?\nCurrent message:\n\"You are receiving this email because our records show that you are currently on a visa.\nWe must keep an up-to-date record of your visa to support your continued work with us.\nTherefore, you are required to notify to us of:\n\n1. Any change to your visa, e.g. conditions, type, or expiry – by contacting your manager directly\n2. Any change to your passport – by adding your new passport photo using this link: [https://estia.zipline.app/J5CFAG0KTv40iNB](https://estia.zipline.app/J5CFAG0KTv40iNB)\n\nIf nothing has changed, there is no need to do anything.\nFor further support on the current status of your visa and expiry date, please contact the Department of Home Affairs\"\nSo they get this message 2 months before expiry\nIf they didn't upload a document, what would happen ? Would it just have popped into our queue on the 27 AUG ? For us to check using existing data ?\nIn this case they have uploaded a document which is not relevant and now what do we do ? This is in our queue, I ran an immi and its the same document expiry 27-8-2025.\nI think this is somewhat the issue you were talking about the other day. (edited) ",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1751173446367669",
+          "createdAt": "2025-12-19T04:22:30.728Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "9af794ff-5bc8-4e66-bba1-c042f3234521",
+          "body": "Intercom conversation: [https://app.intercom.com/a/inbox/vwjczc0x/inbox/view/1054699/conversation/215471575870599](https://app.intercom.com/a/inbox/vwjczc0x/inbox/view/1054699/conversation/215471575870599)",
+          "url": null,
+          "createdAt": "2025-12-06T04:52:59.261Z",
+          "customerId": "",
+          "customerName": ""
+        },
+        {
+          "id": "3b0de169-89fc-4144-8f4d-7b147f8650db",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1755742502407509?thread_ts=1755742157.205409&cid=C03BVV2BG85",
+          "createdAt": "2025-09-04T04:43:26.337Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        },
+        {
+          "id": "8766be53-0dba-4e99-9ca4-a69171a66f06",
+          "body": "Want ability to toggle on/off reminders, or maybe root cause is just bug where reminders send for visas with no expiry date",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215469764859499",
+          "createdAt": "2025-07-08T09:40:25.687Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 4
+    },
+    {
+      "id": "3df1bd85-39b5-4d4f-b84b-d70e151e23f3",
+      "name": "Ongoing Visa Checks v4: Memory",
+      "status": "backlog",
+      "statusName": "Opportunity Discovery",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/ongoing-visa-checks-v4-memory-d8bed6c58683",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "a3c9c392-63a7-41ed-997c-11125e203821",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473391061773",
+          "createdAt": "2026-03-08T07:22:14.807Z",
+          "customerId": "d30d77a8-baf7-401a-b151-d885a986dabb",
+          "customerName": "Intercom"
+        },
+        {
+          "id": "ede3ea97-7e60-47e5-b686-1e807d9c3e14",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472098707334",
+          "createdAt": "2025-12-29T04:01:33.355Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "454e9607-42e5-4504-a788-a8ff436e022c",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472079185774",
+          "createdAt": "2025-12-29T04:01:33.287Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 3
+    },
+    {
+      "id": "229fdb00-9eff-48c0-abcc-16917ae1b78c",
+      "name": "People Merge/Split v1",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/people-mergesplit-v1-f00f2bbbc6b6",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "e02ad36c-5669-4be0-b1fa-feb716500d44",
+          "body": "### Example Issue\n\nEstia reported recurring issues with one staff member’s AHPRA requirement after two different people (Komalpreet Kaur and Neethu Abraham) initially shared the same contact details and had multiple applications created and renamed.\n\nHistorically, identity and AHPRA records for these two people became intertwined. Even after their profiles and contact details were separated and most records cleaned up, AHPRA checks for Komalpreet still intermittently show Neethu’s details (e.g. health practitioner name / registration number) instead of Komalpreet’s.\n\nHypothesis discussed in the thread is that when multiple AHPRA compliance records exist for a staff member with different AHPRA numbers, the re-check process may not always use the latest AHPRA number, and may be picking up an older/incorrect one that was associated when records were previously mixed.\n\nThis has been raised as a customer request from Zipline to be considered as part of the People Merge bet / duplicate staff handling work.",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1743124446874529",
+          "createdAt": "2025-12-18T23:43:07.133Z",
+          "customerId": "fae8d1ba-6aa3-4dd7-b94c-544b646b6380",
+          "customerName": "Estia Health"
+        },
+        {
+          "id": "706ba634-2580-47eb-b6f5-4ac1fa5386cf",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1756861531602789?thread_ts=1756861531.602789&cid=C03BVV2BG85",
+          "createdAt": "2025-09-25T00:01:07.257Z",
+          "customerId": "602c3eca-e44c-4263-b0d5-7966ba93108b",
+          "customerName": "McLean Care"
+        },
+        {
+          "id": "18213968-5bc0-484d-87a8-f1e01ad62b46",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1752044796553259?thread_ts=1752044622.924189&cid=C03BVV2BG85",
+          "createdAt": "2025-09-24T23:32:49.845Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        }
+      ],
+      "requestCount": 3
+    },
+    {
+      "id": "5d0b2868-f1dc-4bf1-9eee-c8642f5e54e0",
+      "name": "Lifecycle Management v1",
+      "status": "completed",
+      "statusName": "Done",
+      "priority": 2,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/lifecycle-management-v1-3fb9dac0e00d",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "e688259a-632f-435f-8453-077ec194df96",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1756701819959169?thread_ts=1756701819.959169&cid=C03BVV2BG85",
+          "createdAt": "2025-09-02T14:27:49.791Z",
+          "customerId": "602c3eca-e44c-4263-b0d5-7966ba93108b",
+          "customerName": "McLean Care"
+        },
+        {
+          "id": "84fc89e9-e545-4bb9-ab6d-53a914a5cd7e",
+          "body": "Ideally need to develop a solution that allows candidates to be separated from variations (i.e. candidates from employees on the applications tab).",
+          "url": null,
+          "createdAt": "2025-09-01T06:17:58.276Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        },
+        {
+          "id": "4a24bbf7-b6cd-4df5-87a3-3a4fa46d5196",
+          "body": "hi team. just wondering if you can help provide what the best approach/flow is in managing Application and Employee profiles with integrations.\n\nIt appears that when customers make a candidate as employee and marked as engaged with the Application profile still active, Zipline sends a reminder/invite to complete checks that had already been done in the application. This is causing confusion to the workers; they are also marked as non compliant.\n\nAny tips would be appreciated. 🙏\n\nSample profile from Silverchain: [https://portal.zipline.app/applications?id=tdrD5DaqfIIDGtzK4FPA](https://portal.zipline.app/applications?id=tdrD5DaqfIIDGtzK4FPA)",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1756433465787679",
+          "createdAt": "2025-08-30T05:40:01.858Z",
+          "customerId": "1b786e1a-c664-4ceb-a1b2-9ef740793ebb",
+          "customerName": "Silverchain"
+        }
+      ],
+      "requestCount": 3
+    },
+    {
+      "id": "d761d84c-5e68-4013-98ad-dddace80e93b",
+      "name": "Platform Snacks",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 0,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/platform-snacks-bd5c24b0b735",
+      "teams": [
+        "BlackOps",
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "34439e9c-1004-4a3e-8b7a-03139bb0ae35",
+          "body": "Anglicare has requested easier user management when assigning location access to users.\n\nThey currently have to add location access one location at a time. They have many locations within each division, so this is time consuming.\n\nThey’re asking for an option to assign access based on division or business unit (location groups), instead of selecting individual locations for each user.\n\nSource: Intercom conversation about assigning users per division.",
+          "url": null,
+          "createdAt": "2025-12-18T01:56:59.406Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        },
+        {
+          "id": "2cc72284-2caf-4ca0-88f3-7c928cc56f14",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472282945021",
+          "createdAt": "2025-12-18T01:56:31.698Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "cbdf386d-f07b-4545-af6b-4c26e52b5c87",
+          "body": "Wants this feature",
+          "url": null,
+          "createdAt": "2025-09-18T13:20:47.641Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        }
+      ],
+      "requestCount": 3
+    },
+    {
+      "id": "7638096a-6ebd-4c43-b9c7-6edf3681ae42",
+      "name": "Platform Bugs",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/platform-bugs-77a9b9f2b252",
+      "teams": [
+        "Zipline",
+        "BlackOps",
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Core Platform"
+      ],
+      "requests": [
+        {
+          "id": "196418e1-8067-4bd0-aeab-ccd4b6ee3804",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473933635963#part_id=?view=List",
+          "createdAt": "2026-04-17T08:12:16.635Z",
+          "customerId": "56f51979-2e54-44ba-a0c0-1e66b840ff7d",
+          "customerName": "Interprit"
+        },
+        {
+          "id": "9d5f0812-6f77-41d4-97ae-13946ed7eace",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472653598341",
+          "createdAt": "2026-01-14T00:38:20.684Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "4617811d-7398-49ce-b567-03508e460b6c",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472604415726",
+          "createdAt": "2026-01-12T06:53:34.472Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 3
+    },
+    {
+      "id": "6ac28399-d5df-4c77-a835-2c9d5d09880d",
+      "name": "Angular Upgrade",
+      "status": "completed",
+      "statusName": "Impact Assessed",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/angular-upgrade-7e12b7c8b831",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Core Platform"
+      ],
+      "requests": [
+        {
+          "id": "40da1468-a3e0-4e93-8e08-1333c6073407",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472743734082",
+          "createdAt": "2026-01-20T01:12:48.356Z",
+          "customerId": "d30d77a8-baf7-401a-b151-d885a986dabb",
+          "customerName": "Intercom"
+        },
+        {
+          "id": "4c8c2a9e-eff5-41a7-8a35-2c7e53b96fe5",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472729910214",
+          "createdAt": "2026-01-19T07:17:56.908Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "a8f97860-09e9-40ac-acf2-c3ce44d02860",
+      "name": "Validity v2: Recurring Static Due Date, Improved Issue Dates",
+      "status": "completed",
+      "statusName": "Done",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/validity-v2-recurring-static-due-date-improved-issue-dates-93802422ed52",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "b7a4b769-b414-4168-9a67-287088d159e1",
+          "body": "Medenterprises needs NSW statutory declaration (AI pack 1) renewals to be handled based on the issue date, which currently isn’t captured as a field on the default stat dec requirement. We need a configurable way to (1) store issue date for default stat decs, (2) automatically set renewal to 1 year from date of completion/issue, and (3) provide a way to track and renew stat decs already completed before this solution is shipped, including other similar stat decs (e.g. responsible persons) so they can share the same logic where appropriate.",
+          "url": null,
+          "createdAt": "2025-12-16T12:26:41.930Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        },
+        {
+          "id": "20ca3613-4dee-4ac8-9d4c-422d01019877",
+          "body": "Anglicare needs to manage certain annual compliance checks based on a common anniversary date (e.g. 01 March) rather than per-worker issue or expiry dates. This affects at least the following checks for key personnel:\n\n* Statutory Declaration\n* Australian Counselling Association\n* Psychotherapy and Counselling Federation of Australia\n\nTemporary exemptions are currently being used through 01 March to maintain compliance visibility, but this is not a scalable approach.\n\nThe product team should:\n\n* Decide on the preferred product pattern for handling common-date, organisation-wide annual checks \n* Consider whether Campaigns could be used for this\n* Explore a recurring due date capability (for static/common dates) aligned to the Validity v2 roadmap\n* Provide clear guidance and an interim workflow recommendation back to Anglicare",
+          "url": null,
+          "createdAt": "2025-12-16T12:23:05.425Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "1c6ec794-bef3-4693-bd43-0a5a8ba4d394",
+      "name": "Snacks & Bugs: Internal QS Reports",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/snacks-and-bugs-internal-qs-reports-a027ddbd4b90",
+      "teams": [
+        "Data"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "6a0700d3-c515-4199-b5c3-ff4d31dab738",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09Q48S4BUG/p1775610305020349?thread_ts=1775610163.345069&cid=C09Q48S4BUG",
+          "createdAt": "2026-04-10T00:27:23.334Z",
+          "customerId": "a846dfcc-a1e5-4b76-91ad-f10927dea4f0",
+          "customerName": "Uniting"
+        },
+        {
+          "id": "38f6bdde-d74a-4e96-8a48-fac916d2510c",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C05N6J8QMB3/p1774845193050599?thread_ts=1774845193.050599&cid=C05N6J8QMB3",
+          "createdAt": "2026-03-31T11:40:15.003Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "1261b865-7a6f-4c47-b812-bb06328ff8e0",
+      "name": "Medenterprises QS 2025",
+      "status": "completed",
+      "statusName": "Impact Assessed",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/medenterprises-qs-2025-1b6e0d38834a",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "5f99f5fa-cc46-44de-afac-47b5188df68e",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LC5N95BM/p1765331332328879?thread_ts=1765331307.336079&cid=C09LC5N95BM",
+          "createdAt": "2025-12-10T02:23:39.761Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        },
+        {
+          "id": "dcbccd74-6a19-44c6-8fcc-534cbe6c2a95",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LC5N95BM/p1765235014727159?thread_ts=1764651301.190529&cid=C09LC5N95BM",
+          "createdAt": "2025-12-08T23:27:31.064Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "7d7039a8-6a61-46ad-ade4-08b3c4c3e4fe",
+      "name": "Calvary QS 2025 Launch",
+      "status": "completed",
+      "statusName": "Impact Assessed",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/calvary-qs-2025-launch-cdb39c937472",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "38cf8011-c886-4a29-ac02-a373fc0fb1bc",
+          "body": "Restore data for overwritten Quickstart Portal applications for Calvary where documents for Abhash Bhattarai are attached to applications now showing as Davide Lovison and Divya Raju.",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1767761882084739?thread_ts=1767761882.084739&cid=C03BVV2BG85",
+          "createdAt": "2026-01-11T23:10:07.653Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        },
+        {
+          "id": "6ed938ac-ca89-46e2-a536-d62bbb2e0f10",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471960223918#part_id=?view=List",
+          "createdAt": "2025-12-01T03:17:00.675Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "a4b026bd-47f7-4c5f-a0ae-9f12d2aee633",
+      "name": "Ongoing CC Feedback and Issues",
+      "status": "planned",
+      "statusName": "Ready for Delivery",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/ongoing-cc-feedback-and-issues-b532f817d95f",
+      "teams": [
+        "Zipline",
+        "BlackOps",
+        "Data"
+      ],
+      "initiatives": [
+        "Wave 2 Contractor Compliance"
+      ],
+      "requests": [
+        {
+          "id": "1b01cc5c-36fd-484b-a86e-2e5af99e4a4e",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473369859584#part_id=?view=List",
+          "createdAt": "2026-03-16T02:40:33.719Z",
+          "customerId": "fa855641-70d8-45e3-8a2e-fe19218690f6",
+          "customerName": "Ozcare"
+        },
+        {
+          "id": "fbcef711-ef45-4213-a335-faa9049ec609",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472900570388",
+          "createdAt": "2026-02-16T05:43:27.605Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "f2ffd484-11d1-416a-b6f6-ccdd1ccc8591",
+      "name": "Workday Integration v2",
+      "status": "completed",
+      "statusName": "Done",
+      "priority": 1,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/workday-integration-v2-98ee3afb1414",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "3bd8ce01-5a43-4833-89ba-674f7fa29df7",
+          "body": "Anglicare need the system to prioritise Position ID when mapping to Zipline roles, falling back to Job Profile ID when Position ID is not specified due to the complex compliance requirements.\n\nThis will require Anglicare to manage the roles and compliance mappings for new seats within the organization that have custom compliance requirements. ",
+          "url": null,
+          "createdAt": "2025-09-11T03:51:34.160Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        },
+        {
+          "id": "284841a2-1c43-45f1-9d08-09890deb3c18",
+          "body": "As part of the Workday integration with Anglicare, they have requested that Candidates in Workday have the reference Check PDF as an attachment once the reference check is completed on the application.\n\nWe have agreed to accept this portion of work for them as part of their Initial Integration Development, however it will likely not be enabled until Deloitte or some other third party integration partner can configure the workday tenant for the correct permissions for this to function.",
+          "url": null,
+          "createdAt": "2025-09-11T01:48:51.068Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "28756d52-d7fa-49c6-8185-1ffaf8a571c0",
+      "name": "Launch Support",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/launch-support-0e7783bc112d",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "ff705a48-f02c-4b96-a5e3-aed72552275e",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LGF4MMP0/p1762479582219009?thread_ts=1762479582.219009&cid=C09LGF4MMP0",
+          "createdAt": "2025-11-07T01:41:52.171Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        },
+        {
+          "id": "30c5faaf-f83e-49f6-b7cf-c11424f4f971",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1761550563343059?thread_ts=1761550018.699859&cid=C03BVV2BG85",
+          "createdAt": "2025-10-27T22:25:24.934Z",
+          "customerId": "602c3eca-e44c-4263-b0d5-7966ba93108b",
+          "customerName": "McLean Care"
+        }
+      ],
+      "requestCount": 2
+    },
+    {
+      "id": "805f73c7-8250-47da-95e5-afb3f26c8fb6",
+      "name": "Smarter Checks: Rethink Identify",
+      "status": "backlog",
+      "statusName": "Opportunity Discovery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/smarter-checks-rethink-identify-958741a2240a",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "204deb87-7797-46d2-b6a6-b5cf4dd22bf7",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473218459436#part_id=initial-part-215473218459436-3479696098",
+          "createdAt": "2026-03-21T01:32:51.319Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "b9591c65-6e79-48ed-89f4-d5e17fc2cdbe",
+      "name": "Conditional Checks v3: Ongoing Compliance Rules",
+      "status": "started",
+      "statusName": "Shipped",
+      "priority": 2,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/conditional-checks-v3-ongoing-compliance-rules-0cafb5a80ed2",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "8687d34a-ad82-49a7-b672-8a046d08281f",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09PQ4XKV5J/p1768789174155309?thread_ts=1768789112.890379&cid=C09PQ4XKV5J",
+          "createdAt": "2026-04-01T03:48:32.571Z",
+          "customerId": "87e7313d-816d-439d-861c-065ec83194c8",
+          "customerName": "Catholic Healthcare"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "e94dc875-9615-40f8-b23f-091b47cf4c2b",
+      "name": "Miscellaneous action items or generic technical debt",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 4,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/miscellaneous-action-items-or-generic-technical-debt-691ba79b38f9",
+      "teams": [
+        "BlackOps"
+      ],
+      "initiatives": [
+        "Core Platform"
+      ],
+      "requests": [
+        {
+          "id": "3a1899f7-2661-4eb0-9601-18b2c6a28d32",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473447453858#part_id=comment-215473447453858-41465617793",
+          "createdAt": "2026-03-17T04:50:41.498Z",
+          "customerId": "d71ce956-eda2-4e26-bde0-597c24d1c3d9",
+          "customerName": "Warrigal"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "f1fa3b5e-27fe-4853-ba09-398f226fb051",
+      "name": "Suremploy Integration",
+      "status": "backlog",
+      "statusName": "Ready for Solution Disco",
+      "priority": 4,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/suremploy-integration-f0b77c62a296",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "f2271413-ba31-49e6-9981-8dc714e3b90b",
+          "body": "",
+          "url": null,
+          "createdAt": "2026-01-13T21:48:26.539Z",
+          "customerId": "a7b9d8a0-a2c2-4291-a4e5-f93f46916a3f",
+          "customerName": "Bolton Clarke"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "623f79d7-958b-47d8-b867-5b9470491aa6",
+      "name": "Ban/Deny List",
+      "status": "backlog",
+      "statusName": "Pending",
+      "priority": 4,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/bandeny-list-7060122d71d2",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "595bf7bb-c651-4537-80d0-e8b1090aae07",
+          "body": "14 Min Uniting Snippet\n\n[https://hello.chorus.ai/listen?guid=1b7f9f950141459587df5dc5977b6b0f](https://hello.chorus.ai/listen?guid=1b7f9f950141459587df5dc5977b6b0f)\n\nZali: \n\n* Concerns it would be more towards compliance because obviously if they're on the do not rehire list there therefore a reason and there's a certain process and procedure that they have to go through through the management team to be highlighted on this list so there'll be a risk to the business and a compliance risk\n* We currently have it on our SharePoint which gets updated on a regular basis that our specialist check manually\n* The only information that we have about the candidate is their personal details so their name the date of birth contact number email address and address from memory if I can remember\n* Yes yeah you have on that list is the name the date the birth and the email address so if anyone comes with those 3 matching then we would like them to be flagged\n* Permissions: In regards to talent acquisition all the specialists have access to this with high confidentiality obviously in regards to who uploads it I'm not too sure about that maybe Paul is able to provide you more details with that\n\nDavid\n\n* We should have the reason as well well depending on if the hiring manager puts a reason in there but it's either yes no or a reason why\n\nKarley\n\n* Yeah so through the management approval process the manager does provide a like a specific reason and that's what has to be approved so they can't just say you know this person can't work weekends we don't ever want to re hire them again that's not a good enough reason to put them on a do not hire list but the I think the list that Zali is talking about it just has their name so that we know we just if this person applies for a job again we want that to be flagged we can you know avoid hiring the hiring them again it's usually because of you know serious misconduct behavioral issues things like that\n* I think it's the date of birth and email address and full name that need to match with\n\nMoon/Zali\n\n* Yeah we are checking it twice right like when we are checking the do not rehire list because at the beginning we don't when we are checking we don't have the date of birth so we just check the email address and full name and then later we check the get the date of button we check that again yeah that's why Lex I think you guys have the date of birth when they start the process so you can check immediately at the starting of the process if that person falls on in the do not rehire list or not\n* And that's the same issue that we're having checking manually anyways but we would like this to be automated through Zipline so whatever challenges you're going you're expressing right now that the date of birth may not match because they have a change of name because they not using their maven name anymore or then e mail address change from a gmail to a hotmail now we're experiencing the same see we want this to be automated\n\n## Emails with Paul\n\nHey Tanmay\n\nYou’re right to call out the timing and thank you for pointing out the earlier feature (one of the reasons I love Zipline – actual curiosity and partnership!). Unfortunately, whilst we do use that feature, we can only match based on personal email… which will detect some unsavoury characters but not all since people can just change their email if they wish. We don’t collect candidate DOB until thecompliance phase to lessen discrimination risk – so we want to do a second check right at the end when we can make it more sophisticated (and reliable).\n\n \n\nThe scenario (in my head) would be:\n\n \n\n* Uniting provides do not rehire (DNR) data to Zipline – just name and date of birth\n* A DNR check requirement would be placed against all workflows as part of stage 1 (pre-offer)\n* The requirement would take the candidate name and DOB per Zipline (think we need to have these taken from another source e.g. the NCCHC inputs), compare it to the DNR data provided by Uniting, and return a ‘for Uniting review’ result if there was a match (name and/or DOB). Otherwise (no match), the requirement is marked as completed.\n\n \n\nSound ok? Happy to talk it all through!\n\n \n\n \n\n**From:** Tanmay Bhola <[tanmay.bhola@zipline.io](mailto:tanmay.bhola@zipline.io)>\n**Sent:** Thursday, 21 August 2025 9:42 PM\n**To:** Paul Hayton <[phayton@uniting.org](mailto:phayton@uniting.org)>\n**Cc:** Nonny Evans <[nonny@zipline.io](mailto:nonny@zipline.io)>; Sarka Petrik <[sbudinska@uniting.org](mailto:sbudinska@uniting.org)>; Michelle Whitton <[mwhitton@uniting.org](mailto:mwhitton@uniting.org)>\n**Subject:** RE: Uniting - new check requirement\n\n \n\nHi Paul, \n\n \n\nThanks for sharing this, and appreciate your patience as I dug into it. Great call on adding yet another key signal to prevent risk of harm to vulnerable people. \n\n \n\nIn short, I am pretty sure we will be able to introduce this as a check by leveraging the same capability we use for Aged Care / Banning Order registers, which we have recently expanded to support a broader set of registers and databases. \n\n \n\n**However, I am wondering if it would be too late by the time they come into Zipline for their compliance checks, or when the offer is made, as you would have to spend effort on the hiring process (e.g. earlier interviews).**\n\n \n\n**Would it be better for this \"Do Not Hire\" flag to show up right when they apply, so you can filter them out straight away?**\n\n \n\nI quickly dug into whether Dayforce supports something like this, and found their Do Not Hire capability: [https://help.dayforce.com/r/documents/Recruiting-Guide/Add-the-Do-Not-Hire-Flag-for-Candidates](https://help.dayforce.com/r/documents/Recruiting-Guide/Add-the-Do-Not-Hire-Flag-for-Candidates).  \n\n \n\nI am not 100% sure whether the Dayforce capability just matches on email ID (or does something more sophisticated - re name / DOB), and whether that would be sufficient for your use cases, but might be worth checking if this is a better option to solve this problem. \n\n \n\nIf that doesn't work, let me know a little more about the scenarios, and we can figure out the next steps, and the right experience. \n\n \n\nCheers,\n\nTanmay\n\n \n\n \n\n \n\nOn Thu, 14 Aug 2025 at 7:25 pm, Paul Hayton <[phayton@uniting.org](mailto:phayton@uniting.org)> wrote:\n\n> Thanks Nonny, sorry to interrupt your hols!\n>\n>  \n>\n> Hey Tanmay\n>\n>  \n>\n> It’s a bit of a different one, and quite simple/boring, but very impactful.\n>\n>  \n>\n> We have a ‘do not rehire’ list. Currently recruiters will manually check the list before each offer is made, which is… medieval. I would like it if we could provide the list to Zipline and use your system gymnastics to check name/DOB of candidate and flag when there is a match with our list, removing the need for manual checks in 99% of cases. By nature, the process would occur for everyone that goes through Zipline. We would need to think about how the data gets into the system and I wonder if we can build it as part of the upcoming integration with Dayforce – but in the interest of time we could schedule a report to a Zipline location. \n>\n>  \n>\n> It’s important to me – not just to remove the work effort but to make it more secure (I trust the system more than I trust the humans, just because of the human condition). The urgency is moderate. This isn’t as a result of legislative requirement, but we’ve had issues with people on the ‘do not rehire’ list being rehired, which in general increases risk of harm to vulnerable people, and in some specific cases that we’ve since caught has significantly increased that risk.\n>\n>  ",
+          "url": null,
+          "createdAt": "2025-12-19T01:17:31.353Z",
+          "customerId": "a846dfcc-a1e5-4b76-91ad-f10927dea4f0",
+          "customerName": "Uniting"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "8db4bf65-f61e-42bd-9bb0-b7a90f99e710",
+      "name": "Browse Compliance Status by Flow",
+      "status": "backlog",
+      "statusName": "Ready for Solution Disco",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/browse-compliance-status-by-flow-dc9a52c4d9c8",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "bbf3bff4-524e-4159-b57a-a91ebc168f16",
+          "body": "* **Compliance Status by Compliance Flow**\n  * Problem: Zipline displays compliance status at the individual profile level only. Medenterprises often has doctors engaged in multiple placements concurrently, resulting in multiple active compliance flows. Medenterprises needs a way to know which compliance flow(s) an individual is compliant with in order to send them to their respective placements.\n    * E.g. John has compliance flows A, B and C. John is compliant with A & B and non-compliant with C. Currently, Zipline will display John as non-compliant. However, Medenterprises is still able to send John to placements A & B which is currently not clear in the product.\n  * Recommendation: Product work?\n  * Outcome:\n    * Solution:\n      * 1 w Effort - @Alexis Ituarte Can you please add to Q1 26 potential bets\n      * We can work it out in the current model - we want to figure out where we want to display it\n      * Should be able to get something in place in cQ1 2026",
+          "url": "https://www.notion.so/ziplineio/LIVE-JIP-Success-X-team-2025-18e685fb1e1780d9b5d8f15489ac8571?source=copy_link#28c685fb1e178146be14ded167b6da4f",
+          "createdAt": "2025-12-18T12:20:25.157Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "565a3d70-1a05-4fdd-9284-3dd38f37a02a",
+      "name": "Consent Module (For Checks)",
+      "status": "backlog",
+      "statusName": "Ready for Solution Disco",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/consent-module-for-checks-574560d55fc4",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "a095d594-f493-44e6-9cec-e96463c5f7fc",
+          "body": "* **Ability to configure NCCHC Consent in NCCHC requirement (not the one-time consent tick box that all workers get prior to commencing checks)**\n  * Problem: Medenterprises are requesting to include ‘*You understand and acknowledge that you will not be operating in a commercial capacity in relation to nationally coordinated criminal history checks nor will you provide nationally coordinated criminal history checks to third parties, whether in exchange for a fee or for any other purpose, **unless authorised** or required by law.’* in NCCHC consent tick box.\n  * Recommendation: I have suggested the use of the one-time consent tick box for this as a workaround. Recommend we continue to push for this and see what Medenterprises comes back with. Personally don’t see how this is a blocker\n  * Outcome:\n    * Can include without tick box now in NCCHC info (right underneath it includes tick box and signatures.\n    * Tick box will be looked at in Q1 2026\n    * Ask Med if they do police checks via a provider",
+          "url": "https://www.notion.so/ziplineio/LIVE-JIP-Success-X-team-2025-18e685fb1e1780d9b5d8f15489ac8571?source=copy_link#28c685fb1e17817db9abe27fd45a8aaf",
+          "createdAt": "2025-12-18T12:17:59.490Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "56691225-6ee7-40c8-8221-d8fc6f780c19",
+      "name": "Reports: Compliance Rate by Check",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/reports-compliance-rate-by-check-a438add513c2",
+      "teams": [
+        "Data",
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "6eacdb0c-9f84-4d30-a3b8-aa1076a78223",
+          "body": "Calvary really wants",
+          "url": "https://zipline-io.slack.com/archives/C02U8P0F44S/p1764166425397799?thread_ts=1764166402.334979&cid=C02U8P0F44S",
+          "createdAt": "2025-11-26T14:19:06.545Z",
+          "customerId": "0029d33e-fc6e-4b03-a270-9a5c8917e44d",
+          "customerName": "Calvary"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "bb906409-3b14-464d-a68c-32f36e983b98",
+      "name": "Special Cohort Rules (e.g. Board Members)",
+      "status": "backlog",
+      "statusName": "Pending",
+      "priority": 0,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/special-cohort-rules-eg-board-members-3eca99e6f7f8",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "37c476ad-8f3f-4ba4-9e38-eec287592838",
+          "body": "Request to support special cohort rules (e.g. board members) so they can be managed differently from standard staff while still handling compliance requirements.",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1760592258549889?thread_ts=1760592258.549889&cid=C03BVV2BG85",
+          "createdAt": "2025-11-26T11:21:46.507Z",
+          "customerId": "1b786e1a-c664-4ceb-a1b2-9ef740793ebb",
+          "customerName": "Silverchain"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "410ece2e-469e-4e4d-b1ba-337bbf03f6c4",
+      "name": "Anglicare QS 2025 Launch",
+      "status": "completed",
+      "statusName": "Impact Assessed",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/anglicare-qs-2025-launch-2007fd251641",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "b812c2bd-89fe-44bb-a39d-38908133afcf",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LGF4MMP0/p1764899698873639?thread_ts=1764889902.884459&cid=C09LGF4MMP0",
+          "createdAt": "2025-12-05T02:32:30.189Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "7208af9c-11cd-4478-bad5-ca9b980d0d48",
+      "name": "Basic Forms v2 & Explicit Check Consent",
+      "status": "planned",
+      "statusName": "Planned",
+      "priority": 4,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/basic-forms-v2-and-explicit-check-consent-9d405d1db411",
+      "teams": [
+        "Zipline"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "e2fcf79d-e0ab-441c-8b56-234a8cc5bcb6",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C03BVV2BG85/p1758832080128589?thread_ts=1758831989.575729&cid=C03BVV2BG85",
+          "createdAt": "2025-11-12T02:17:07.033Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "1e1c9e49-1576-44a1-83f9-5003cd52bb27",
+      "name": "Supplier Portal 2.0",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 2,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/supplier-portal-20-6c35effa5762",
+      "teams": [
+        "BlackOps"
+      ],
+      "initiatives": [
+        "Wave 2 Contractor Compliance"
+      ],
+      "requests": [
+        {
+          "id": "e6d80d46-0341-4c23-9c79-77b1a844a113",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215473543398212",
+          "createdAt": "2026-03-31T03:48:56.036Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "540235eb-bb08-4afe-878f-489e927ec721",
+      "name": "Ref Checks v4",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/ref-checks-v4-baebccab4389",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "fc148201-2f1d-4535-ba43-b18997979c2e",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472835993484#part_id=comment-215472835993484-39216692194",
+          "createdAt": "2026-03-21T01:05:55.523Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "f0acd526-d1e1-4b69-83d0-7a72afad12dd",
+      "name": "Spotlight Workers for Faster Processing",
+      "status": "backlog",
+      "statusName": "Opportunity Discovery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/spotlight-workers-for-faster-processing-99b0b3447d4a",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "18751906-1b54-4293-9bc3-5859b74c03ea",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C074URT39FH/p1758666440641669?thread_ts=1758666387.894889&cid=C074URT39FH",
+          "createdAt": "2025-09-23T23:27:34.621Z",
+          "customerId": "a846dfcc-a1e5-4b76-91ad-f10927dea4f0",
+          "customerName": "Uniting"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "52f5f057-7715-4dfa-87df-2deacd9fbe98",
+      "name": "Importer Bugs & Snacks",
+      "status": "planned",
+      "statusName": "Planned",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/importer-bugs-and-snacks-f2d1b1364997",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "21d67a08-dcf8-41b3-bbe7-6c7a06a4b3ab",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C09LGF4MMP0/p1764723440132929?thread_ts=1764722396.683579&cid=C09LGF4MMP0",
+          "createdAt": "2025-12-03T01:03:03.810Z",
+          "customerId": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
+          "customerName": "Anglicare"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "9b2b07eb-e8d0-466f-9008-4a3ea662388b",
+      "name": "Passwordless Login for Suppliers",
+      "status": "completed",
+      "statusName": "Done",
+      "priority": 2,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/passwordless-login-for-suppliers-e0dc7206ac2c",
+      "teams": [
+        "BlackOps"
+      ],
+      "initiatives": [
+        "Wave 2 Contractor Compliance"
+      ],
+      "requests": [
+        {
+          "id": "ed2d9df4-da5a-4a79-98b9-c3dd53a3f896",
+          "body": "![image.png](https://uploads.linear.app/c108aa88-e306-4d08-8acf-eca74933ab4c/2fe8714a-c678-4ff5-a427-e3061eb42375/93b8ba87-7994-4e10-9593-7aa8b2f4ca10)",
+          "url": null,
+          "createdAt": "2025-09-29T06:07:36.651Z",
+          "customerId": "a7b9d8a0-a2c2-4291-a4e5-f93f46916a3f",
+          "customerName": "Bolton Clarke"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "7565c6de-3b49-4d84-9bc0-359a220241cf",
+      "name": "QS: Integrations Snacks",
+      "status": "backlog",
+      "statusName": "Pending",
+      "priority": 4,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/qs-integrations-snacks-842f9c972796",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "3d2636e7-6984-4b32-9eda-16da0d034cae",
+          "body": "",
+          "url": "https://zipline-io.slack.com/archives/C027E5KJ1NW/p1764712954540759",
+          "createdAt": "2025-12-02T22:15:32.613Z",
+          "customerId": "602c3eca-e44c-4263-b0d5-7966ba93108b",
+          "customerName": "McLean Care"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "de35b661-e513-4c63-9379-636cc845e3f0",
+      "name": "Bugs: AI",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/bugs-ai-470faabfa7b9",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "1cbadeac-c1d5-4c8f-9477-bfc0788fd682",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215471929410510",
+          "createdAt": "2025-12-28T05:48:24.802Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "9a138e70-d962-4733-a6e1-a6210a170bc0",
+      "name": "Kiosk - On-site contractor check-in",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 3,
+      "health": "atRisk",
+      "linearUrl": "https://linear.app/zipline/project/kiosk-on-site-contractor-check-in-6e00909f91f2",
+      "teams": [
+        "BlackOps"
+      ],
+      "initiatives": [
+        "Wave 2 Contractor Compliance"
+      ],
+      "requests": [
+        {
+          "id": "2f76a69a-e4bc-4276-a9c2-8c525496a463",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472132050326#part_id=initial-part-215472132050326-3309585830",
+          "createdAt": "2026-01-07T03:45:11.914Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "caf28c77-aebd-4342-889b-37f3099f514b",
+      "name": "Customer Issues Bash H2 2025",
+      "status": "completed",
+      "statusName": "Done",
+      "priority": 3,
+      "health": "onTrack",
+      "linearUrl": "https://linear.app/zipline/project/customer-issues-bash-h2-2025-b9529b8ca2af",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "b0740062-82c9-4fe5-a647-e0393e8c818c",
+          "body": "Medenterprises is an agency and need this working for launch because they'll be sharing \"candidate packs\" with their own customers a lot. ",
+          "url": null,
+          "createdAt": "2025-09-09T12:35:08.440Z",
+          "customerId": "71f33ab8-8e62-4203-872f-5b88fca4010b",
+          "customerName": "Medenterprises"
+        }
+      ],
+      "requestCount": 1
+    },
+    {
+      "id": "00ea994f-d10d-477a-945a-158082388fac",
+      "name": "Snacks: AI",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/snacks-ai-3f19db5fc6ad",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "requests": [
+        {
+          "id": "8f2f3d49-1ced-4c05-8062-8188aa3a2847",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215472742948102",
+          "createdAt": "2026-01-20T03:51:36.983Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 1
+    }
+  ]
+}
