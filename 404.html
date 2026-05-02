@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ProductOS</title>
+  <script>
+    // GitHub Pages serves this file for any unmatched path. If the path looks
+    // like /changelog/<id>, store the ID and redirect to the index so the SPA
+    // can restore the clean URL and render the entry detail view.
+    (function () {
+      var m = location.pathname.match(/\/changelog\/([^/?#]+)/);
+      if (m) sessionStorage.setItem('productos_redirect', m[1]);
+      location.replace(location.pathname.split('/changelog/')[0].replace(/\/?$/, '/'));
+    })();
+  </script>
+</head>
+<body></body>
+</html>
