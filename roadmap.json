@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-02T00:03:01.951Z",
+  "generatedAt": "2026-05-02T03:48:18.517Z",
   "windowDays": 92,
   "totalCount": 13,
   "projects": [
@@ -107,11 +107,15 @@
       "teams": [
         "SuperStream"
       ],
-      "initiatives": [],
-      "labels": [],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "Bet"
+      ],
       "priority": "Medium",
       "health": null,
-      "effort": null,
+      "effort": "2 Weeks",
       "linearUrl": "https://linear.app/zipline/project/people-mergesplit-v1-f00f2bbbc6b6",
       "notionUrl": "https://www.notion.so/340685fb1e178137930bf18f3c54a395"
     },
