@@ -943,7 +943,7 @@
     .changelog-entry-section-body > *:last-child { margin-bottom: 0; }
 
     /* ---------- Entry detail page ---------- */
-    #entry-detail { padding: 16px 4px 48px; }
+    #entry-detail { max-width: 720px; margin: 0 auto; padding: 16px 0 48px; }
     .entry-detail-back {
       display: inline-flex;
       align-items: center;
@@ -985,7 +985,6 @@
       font-size: 16px;
       color: var(--text-secondary);
       line-height: 1.7;
-      max-width: 640px;
     }
     .entry-detail-body p { margin-bottom: 14px; }
     .entry-detail-body p:last-child { margin-bottom: 0; }
@@ -2773,7 +2772,11 @@
   // by which point the public URL has settled.
   const _pendingImagePreviews = new Map();   // publicPath -> blob: URL
   function resolveImageSrc(src) {
-    return _pendingImagePreviews.get(src) || src;
+    if (_pendingImagePreviews.has(src)) return _pendingImagePreviews.get(src);
+    // changelog-images/ is a root-relative path on the Pages site. Make it
+    // absolute so it resolves correctly whether we're at / or /changelog/<id>.
+    if (src && src.startsWith('changelog-images/')) return siteBase() + '/' + src;
+    return src;
   }
 
   function readFileAsBase64(file) {
