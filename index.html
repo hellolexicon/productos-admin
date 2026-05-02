@@ -828,30 +828,26 @@
        thin divider between entries. No card chrome — flatter, more editorial. */
     .changelog-meta { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 24px; max-width: 760px; margin: 0 auto; }
     .changelog-meta-text { font-size: 13px; color: var(--text-tertiary); }
-    .changelog-timeline { display: flex; flex-direction: column; max-width: 760px; margin: 0 auto; }
+    .changelog-timeline { display: flex; flex-direction: column; max-width: 620px; margin: 0 auto; }
     .changelog-entry {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 32px;
-      padding: 40px 4px;
-      align-items: start;
+      display: block;
+      position: relative;
+      padding: 40px 0;
     }
     .changelog-entry + .changelog-entry { border-top: 1px solid var(--border); }
     .changelog-entry:first-child { padding-top: 8px; }
     .changelog-entry-meta {
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 14px;
+      flex-direction: row-reverse;
+      gap: 8px;
+      font-size: 13px;
       color: var(--text-secondary);
-      padding-top: 6px;     /* nudge so the dot aligns with the title cap-height */
       font-feature-settings: "tnum";
-      /* Stick to the top of the viewport (just below the 44px topbar) while
-         the entry's content scrolls past, so the reader always knows what
-         entry they're in. */
-      position: sticky;
-      top: 60px;
-      align-self: start;
+      white-space: nowrap;
+      position: absolute;
+      right: calc(100% + 28px);
+      top: 40px;
     }
     .changelog-entry-meta::before {
       content: "";
@@ -1549,9 +1545,9 @@
       /* Changelog: collapse to single column on mobile, date as a small
          label above the content instead of a left gutter. Sticky doesn't
          make sense once it's no longer in a side gutter. */
-      .changelog-entry { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
+      .changelog-entry { padding: 28px 0; }
       .changelog-entry:first-child { padding-top: 4px; }
-      .changelog-entry-meta { padding-top: 0; font-size: 12.5px; position: static; }
+      .changelog-entry-meta { position: static; flex-direction: row; font-size: 12.5px; margin-bottom: 10px; white-space: normal; }
       .changelog-entry-title { font-size: 21px; margin-bottom: 12px; }
 
       /* Settings sub-nav: scrollable horizontal strip */
