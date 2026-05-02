@@ -824,44 +824,51 @@
     a:hover { text-decoration: underline; }
 
     /* ---------- Changelog (public reader) ---------- */
-    .changelog-meta { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 16px; }
+    /* Linear-style timeline: date in a left gutter, content on the right,
+       thin divider between entries. No card chrome — flatter, more editorial. */
+    .changelog-meta { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 24px; }
     .changelog-meta-text { font-size: 13px; color: var(--text-tertiary); }
-    .changelog-month-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
+    .changelog-timeline { display: flex; flex-direction: column; }
     .changelog-entry {
-      padding: 24px 24px 28px;
-      position: relative;
-      transition: background var(--transition);
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 32px;
+      padding: 40px 4px;
+      align-items: start;
     }
-    .changelog-entry + .changelog-entry::before {
-      content: ""; position: absolute; top: 0; left: 24px; right: 24px;
-      height: 1px; background: var(--border);
+    .changelog-entry + .changelog-entry { border-top: 1px solid var(--border); }
+    .changelog-entry:first-child { padding-top: 8px; }
+    .changelog-entry-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding-top: 6px;     /* nudge so the dot aligns with the title cap-height */
+      font-feature-settings: "tnum";
     }
-    .changelog-entry-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .changelog-entry-meta::before {
+      content: "";
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--warning);
+      flex-shrink: 0;
+    }
+    .changelog-entry-content { min-width: 0; }
+    .changelog-entry-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
     .changelog-entry-title {
-      font: 600 19px/1.3 -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-      letter-spacing: -0.018em;
+      font: 600 26px/1.2 -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      letter-spacing: -0.022em;
       color: var(--text);
       text-decoration: none;
-      display: inline-block;
-      margin-bottom: 4px;
+      display: block;
+      margin-bottom: 16px;
     }
     .changelog-entry-title:hover { color: var(--accent); text-decoration: none; }
-    .changelog-entry-date {
-      font: 12px ui-monospace, "SF Mono", Menlo, monospace;
-      color: var(--text-tertiary);
-      font-feature-settings: "tnum";
-      margin-bottom: 12px;
-    }
     .changelog-entry-body {
-      font-size: 14.5px;
+      font-size: 15px;
       color: var(--text-secondary);
-      line-height: 1.6;
+      line-height: 1.65;
     }
     .changelog-entry-body p { margin-bottom: 10px; }
     .changelog-entry-body p:last-child { margin-bottom: 0; }
@@ -1245,14 +1252,12 @@
 
     /* Cover image in the public reader (above the entry's title row). */
     .changelog-entry-cover {
-      width: calc(100% + 48px);
-      margin: -24px -24px 18px;
+      width: 100%;
+      margin: 0 0 20px;
       max-height: 360px;
       object-fit: cover;
       display: block;
-    }
-    @media (max-width: 720px) {
-      .changelog-entry-cover { width: calc(100% + 36px); margin: -18px -18px 14px; }
+      border-radius: var(--radius-sm);
     }
 
     /* Inline images inside markdown bodies. */
@@ -1410,10 +1415,12 @@
       }
       .meta-chip { max-width: none; }
 
-      /* Changelog: tighter padding on mobile */
-      .changelog-entry { padding: 18px 18px 22px; }
-      .changelog-entry + .changelog-entry::before { left: 18px; right: 18px; }
-      .changelog-entry-title { font-size: 17px; }
+      /* Changelog: collapse to single column on mobile, date as a small
+         label above the content instead of a left gutter. */
+      .changelog-entry { grid-template-columns: 1fr; gap: 12px; padding: 28px 0; }
+      .changelog-entry:first-child { padding-top: 4px; }
+      .changelog-entry-meta { padding-top: 0; font-size: 12.5px; }
+      .changelog-entry-title { font-size: 21px; margin-bottom: 12px; }
 
       /* Settings sub-nav: scrollable horizontal strip */
       .subnav { padding: 3px; gap: 2px; }
@@ -1997,33 +2004,9 @@
       list.innerHTML = '<div class="group-card"><div class="empty">No entries yet. Author the first one in Settings → Changelog.</div></div>';
       return;
     }
-    // Group by month-of-date, newest month first (entries already sorted desc by date).
-    const groups = new Map();
-    for (const e of entries) {
-      const key = e.date ? monthKey(e.date) : 'No date';
-      if (!groups.has(key)) groups.set(key, []);
-      groups.get(key).push(e);
-    }
-    const order = [...groups.keys()].sort((a, b) => {
-      if (a === 'No date') return 1;
-      if (b === 'No date') return -1;
-      return a < b ? 1 : -1;   // newest month first
-    });
-    list.innerHTML = order.map(key => {
-      const items = groups.get(key);
-      const label = key === 'No date' ? 'No date' : monthLabel(key);
-      const rows = items.map(changelogEntryHTML).join('');
-      return `
-        <div class="group">
-          <div class="group-header">
-            <span class="glyph">${GLYPHS.clock ?? ''}</span>
-            ${escapeHtml(label)}
-            <span style="font-weight: 400; text-transform: none; letter-spacing: normal; color: var(--text-tertiary); margin-left: auto;">${items.length} ${items.length === 1 ? 'entry' : 'entries'}</span>
-          </div>
-          <div class="changelog-month-card">${rows}</div>
-        </div>
-      `;
-    }).join('');
+    // Flat timeline, newest first (entries already sorted desc by date). Date
+    // sits in the left gutter of each entry — no month grouping needed.
+    list.innerHTML = `<div class="changelog-timeline">${entries.map(changelogEntryHTML).join('')}</div>`;
   }
 
   function changelogEntryHTML(e) {
@@ -2036,11 +2019,13 @@
       : '';
     return `
       <article class="changelog-entry" id="entry-${escapeHtml(id)}">
-        ${cover}
-        ${tagHTML ? `<div class="changelog-entry-tags">${tagHTML}</div>` : ''}
-        <a class="changelog-entry-title" href="#entry-${escapeHtml(id)}">${escapeHtml(e.title || '(untitled)')}</a>
-        ${dateTxt ? `<div class="changelog-entry-date">${escapeHtml(dateTxt)}</div>` : ''}
-        <div class="changelog-entry-body">${renderMarkdown(e.body || '')}</div>
+        <div class="changelog-entry-meta">${escapeHtml(dateTxt)}</div>
+        <div class="changelog-entry-content">
+          ${cover}
+          ${tagHTML ? `<div class="changelog-entry-tags">${tagHTML}</div>` : ''}
+          <a class="changelog-entry-title" href="#entry-${escapeHtml(id)}">${escapeHtml(e.title || '(untitled)')}</a>
+          <div class="changelog-entry-body">${renderMarkdown(e.body || '')}</div>
+        </div>
       </article>
     `;
   }
