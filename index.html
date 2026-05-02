@@ -1178,6 +1178,94 @@
     }
     .doc-body::placeholder { color: var(--text-tertiary); }
 
+    /* Cover image slot in the editor */
+    .cover-slot {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1200 / 480;
+      max-height: 320px;
+      background: var(--surface-2);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius);
+      margin-bottom: 22px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cover-slot:hover { border-color: var(--accent); background: var(--surface-hover); }
+    .cover-slot.uploading { cursor: progress; }
+    .cover-slot .cover-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-tertiary);
+      font-size: 13px;
+      pointer-events: none;
+    }
+    .cover-slot .cover-empty svg { width: 22px; height: 22px; }
+    .cover-slot.filled {
+      border: 1px solid var(--border);
+      border-style: solid;
+      background: var(--surface);
+      aspect-ratio: auto;
+      max-height: none;
+    }
+    .cover-slot.filled img {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .cover-actions {
+      position: absolute;
+      top: 10px; right: 10px;
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+    .cover-slot:hover .cover-actions { opacity: 1; }
+    .cover-actions .icon-btn {
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 6px;
+    }
+    .cover-actions .icon-btn:hover { background: rgba(0, 0, 0, 0.75); color: #fff; }
+    .cover-actions .icon-btn.danger { background: rgba(255, 59, 48, 0.85); }
+    .cover-actions .icon-btn.danger:hover { background: rgba(255, 59, 48, 1); }
+
+    /* Cover image in the public reader (above the entry's title row). */
+    .changelog-entry-cover {
+      width: calc(100% + 48px);
+      margin: -24px -24px 18px;
+      max-height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 720px) {
+      .changelog-entry-cover { width: calc(100% + 36px); margin: -18px -18px 14px; }
+    }
+
+    /* Inline images inside markdown bodies. */
+    .changelog-entry-body img,
+    .doc-body-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      display: block;
+      margin: 12px 0;
+    }
+
     /* Slash command menu */
     .slash-menu {
       position: absolute;
@@ -1943,14 +2031,25 @@
     const tags = (e.tags || []).filter(t => CHANGELOG_TAGS.includes(t));
     const tagHTML = tags.map(t => `<span class="tag ${t.toLowerCase()}">${escapeHtml(t)}</span>`).join('');
     const dateTxt = e.date ? formatLongDate(e.date) : '';
+    const cover = isAllowedImageUrl(e.coverImage)
+      ? `<img class="changelog-entry-cover" src="${escapeHtml(e.coverImage)}" alt="${escapeHtml(e.title || '')}" loading="lazy">`
+      : '';
     return `
       <article class="changelog-entry" id="entry-${escapeHtml(id)}">
+        ${cover}
         ${tagHTML ? `<div class="changelog-entry-tags">${tagHTML}</div>` : ''}
         <a class="changelog-entry-title" href="#entry-${escapeHtml(id)}">${escapeHtml(e.title || '(untitled)')}</a>
         ${dateTxt ? `<div class="changelog-entry-date">${escapeHtml(dateTxt)}</div>` : ''}
         <div class="changelog-entry-body">${renderMarkdown(e.body || '')}</div>
       </article>
     `;
+  }
+
+  // Reject anything that isn't an http(s) URL or a same-origin path under
+  // changelog-images/ — keeps `javascript:` and `data:` etc. out of <img src>.
+  function isAllowedImageUrl(u) {
+    if (!u || typeof u !== 'string') return false;
+    return /^https?:\/\/\S+$/.test(u) || /^changelog-images\/[\w./-]+$/.test(u);
   }
 
   function formatLongDate(iso) {
@@ -1986,8 +2085,13 @@
     let out = escapeHtml(s);
     // Code spans first so their contents aren't further processed.
     out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
-    // Links — only http(s) URLs; matched against escaped text, so & has
-    // become &amp; which is still valid in href.
+    // Images — must run before the link regex so ![]() isn't half-matched as
+    // []() with a stray "!" in front. Allowed sources: http(s) or our own
+    // changelog-images/ directory; anything else is dropped to avoid
+    // javascript:/data: smuggling.
+    out = out.replace(/!\[([^\]]*)\]\((https?:\/\/[^)\s]+|changelog-images\/[\w./-]+)\)/g,
+      (_m, alt, src) => `<img src="${src}" alt="${alt}" loading="lazy">`);
+    // Links — http(s) only.
     out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
       '<a href="$2" target="_blank" rel="noopener">$1</a>');
     out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
@@ -2133,6 +2237,7 @@
         tags: new Set(),
         body: '',
         status: 'draft',
+        coverImage: null,
         isNew: true,
       };
     } else {
@@ -2143,9 +2248,35 @@
         tags: new Set((entry.tags || []).filter(t => CHANGELOG_TAGS.includes(t))),
         body: entry.body || '',
         status: entryStatus(entry),
+        coverImage: isAllowedImageUrl(entry.coverImage) ? entry.coverImage : null,
         isNew: false,
       };
     }
+  }
+
+  function coverSlotHTML(coverImage) {
+    if (coverImage && isAllowedImageUrl(coverImage)) {
+      return `
+        <div class="cover-slot filled" id="cover-slot" onclick="pickCoverImage(true)">
+          <img src="${escapeHtml(coverImage)}" alt="">
+          <div class="cover-actions">
+            <button class="icon-btn" type="button" onclick="event.stopPropagation(); pickCoverImage(true)">Replace</button>
+            <button class="icon-btn danger" type="button" onclick="event.stopPropagation(); removeCoverImage()">Remove</button>
+          </div>
+        </div>`;
+    }
+    return `
+      <div class="cover-slot" id="cover-slot" onclick="pickCoverImage(false)" role="button" tabindex="0">
+        <div class="cover-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <circle cx="9" cy="11" r="1.5"/>
+            <path d="M21 16l-5-5-7 8"/>
+          </svg>
+          <span>Add cover image</span>
+          <span style="font-size: 11px; color: var(--text-tertiary);">Ideal dimensions are 1200 × 480</span>
+        </div>
+      </div>`;
   }
 
   function renderDocCanvas() {
@@ -2189,6 +2320,8 @@
             ${published ? (ed.isNew ? 'Publish' : 'Update') : 'Publish'}
           </button>
         </div>
+
+        ${coverSlotHTML(ed.coverImage)}
 
         <textarea id="entry-title" class="doc-title" rows="1" placeholder="Untitled">${escapeHtml(ed.title)}</textarea>
 
@@ -2289,6 +2422,7 @@
     { id: 'div', label: 'Divider',  shortcut: '---', icon: '—',  insert: '\n---\n\n' },
     { id: 'lnk', label: 'Link',     shortcut: '[',   icon: '↗',  insert: '[](https://)' },
     { id: 'cd',  label: 'Inline code', shortcut: '`', icon: '<>', insert: '``', cursorOffset: -1 },
+    { id: 'img', label: 'Image',    shortcut: '![]', icon: '▣', action: 'image' },
   ];
   let _slashAnchor = null;   // { startIndex, query }
 
@@ -2364,6 +2498,20 @@
     if (!opt || !_slashAnchor) return closeSlashMenu();
     const before = textarea.value.slice(0, _slashAnchor.startIndex);
     const after = textarea.value.slice(_slashAnchor.startIndex + 1 + (_slashAnchor.query?.length || 0));
+    if (opt.action === 'image') {
+      // Strip the `/img` token now and trigger the file picker. The inserted
+      // markdown is appended once the upload completes.
+      const cursorAfterStrip = before.length;
+      textarea.value = before + after;
+      _editor.body = textarea.value;
+      textarea.focus();
+      textarea.setSelectionRange(cursorAfterStrip, cursorAfterStrip);
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+      closeSlashMenu();
+      pickInlineImage(textarea, cursorAfterStrip);
+      return;
+    }
     const insert = opt.insert;
     const cursor = before.length + insert.length + (opt.cursorOffset || 0);
     textarea.value = before + insert + after;
@@ -2373,6 +2521,121 @@
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
     closeSlashMenu();
+  }
+
+  // ---------- Image uploads ----------
+  // Files commit to admin/changelog-images/<timestamp>-<slug>.<ext> on
+  // hellolexicon/ProductOS via the Contents API. mirror-admin.yml then
+  // syncs the binary to productos-admin/changelog-images/<filename>, so
+  // the public reader can load it from the same Pages origin.
+  const IMAGE_DIR = 'admin/changelog-images';
+  const PUBLIC_IMAGE_DIR = 'changelog-images';   // path on the Pages site
+  const MAX_IMAGE_BYTES = 5 * 1024 * 1024;       // 5 MB
+  const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+
+  function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const dataUrl = String(reader.result || '');
+        const comma = dataUrl.indexOf(',');
+        resolve(comma >= 0 ? dataUrl.slice(comma + 1) : '');
+      };
+      reader.onerror = () => reject(reader.error || new Error('FileReader failed'));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function pickFile() {
+    return new Promise(resolve => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = ALLOWED_IMAGE_TYPES.join(',');
+      input.onchange = () => resolve(input.files?.[0] || null);
+      input.click();
+    });
+  }
+
+  // Upload a File to admin/changelog-images/. Returns the public-side URL
+  // (e.g. "changelog-images/<filename>") on success.
+  async function uploadImage(file) {
+    if (!file) return null;
+    if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+      throw new Error(`Unsupported image type: ${file.type || 'unknown'}`);
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      throw new Error(`Image is ${(file.size / 1024 / 1024).toFixed(1)} MB; max 5 MB.`);
+    }
+    const ext = (file.name.match(/\.([a-zA-Z0-9]+)$/)?.[1] || file.type.split('/')[1] || 'bin').toLowerCase();
+    const stem = slugify(file.name.replace(/\.[^.]+$/, '')) || 'image';
+    const filename = `${Date.now()}-${stem}.${ext}`;
+    const sourcePath = `${IMAGE_DIR}/${filename}`;
+    const content = await readFileAsBase64(file);
+    try {
+      await gh(`/repos/${REPO}/contents/${sourcePath}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: `changelog: upload ${filename}`,
+          content,
+          branch: 'main',
+        }),
+      });
+    } catch (e) {
+      if (/\b403\b/.test(e.message)) {
+        throw new Error('403 — your PAT needs Contents: Read & write on hellolexicon/ProductOS');
+      }
+      throw e;
+    }
+    return `${PUBLIC_IMAGE_DIR}/${filename}`;
+  }
+
+  async function pickCoverImage(replace) {
+    const slot = document.getElementById('cover-slot');
+    const file = await pickFile();
+    if (!file) return;
+    if (slot) slot.classList.add('uploading');
+    try {
+      const url = await uploadImage(file);
+      _editor.coverImage = url;
+      // Re-render the slot in place.
+      if (slot) slot.outerHTML = coverSlotHTML(url);
+      flashHint(replace ? 'Cover replaced. Save to publish.' : 'Cover added. Save to publish.');
+    } catch (e) {
+      toast(e.message, true);
+    } finally {
+      slot?.classList.remove('uploading');
+    }
+  }
+
+  function removeCoverImage() {
+    if (!confirm('Remove cover image? (The file stays in the repo; the entry just won\'t reference it.)')) return;
+    _editor.coverImage = null;
+    const slot = document.getElementById('cover-slot');
+    if (slot) slot.outerHTML = coverSlotHTML(null);
+    flashHint('Cover removed. Save to publish.');
+  }
+
+  async function pickInlineImage(textarea, cursorAt) {
+    const file = await pickFile();
+    if (!file) return;
+    flashHint('Uploading image…');
+    try {
+      const url = await uploadImage(file);
+      const altText = file.name.replace(/\.[^.]+$/, '');
+      const insert = `![${altText}](${url})\n`;
+      const before = textarea.value.slice(0, cursorAt);
+      const after = textarea.value.slice(cursorAt);
+      textarea.value = before + insert + after;
+      _editor.body = textarea.value;
+      const newCaret = before.length + insert.length;
+      textarea.focus();
+      textarea.setSelectionRange(newCaret, newCaret);
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+      flashHint('Image inserted.');
+    } catch (e) {
+      toast(e.message, true);
+    }
   }
 
   function onBodyKeyDown(e, textarea) {
@@ -2439,6 +2702,7 @@
     ed.isNew = false;
 
     const entry = { id, date, title, tags, status: nextStatus, body };
+    if (ed.coverImage && isAllowedImageUrl(ed.coverImage)) entry.coverImage = ed.coverImage;
 
     btn.disabled = true;
     const prevLabel = btn.textContent;
