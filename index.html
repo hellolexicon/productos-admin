@@ -2032,7 +2032,7 @@
     const tagHTML = tags.map(t => `<span class="tag ${t.toLowerCase()}">${escapeHtml(t)}</span>`).join('');
     const dateTxt = e.date ? formatLongDate(e.date) : '';
     const cover = isAllowedImageUrl(e.coverImage)
-      ? `<img class="changelog-entry-cover" src="${escapeHtml(e.coverImage)}" alt="${escapeHtml(e.title || '')}" loading="lazy">`
+      ? `<img class="changelog-entry-cover" src="${escapeHtml(resolveImageSrc(e.coverImage))}" alt="${escapeHtml(e.title || '')}" loading="lazy">`
       : '';
     return `
       <article class="changelog-entry" id="entry-${escapeHtml(id)}">
@@ -2090,7 +2090,7 @@
     // changelog-images/ directory; anything else is dropped to avoid
     // javascript:/data: smuggling.
     out = out.replace(/!\[([^\]]*)\]\((https?:\/\/[^)\s]+|changelog-images\/[\w./-]+)\)/g,
-      (_m, alt, src) => `<img src="${src}" alt="${alt}" loading="lazy">`);
+      (_m, alt, src) => `<img src="${resolveImageSrc(src)}" alt="${alt}" loading="lazy">`);
     // Links — http(s) only.
     out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
       '<a href="$2" target="_blank" rel="noopener">$1</a>');
@@ -2271,7 +2271,7 @@
     if (coverImage && isAllowedImageUrl(coverImage)) {
       return `
         <div class="cover-slot filled" id="cover-slot" onclick="pickCoverImage(true)">
-          <img src="${escapeHtml(coverImage)}" alt="">
+          <img src="${escapeHtml(resolveImageSrc(coverImage))}" alt="">
           <div class="cover-actions">
             <button class="icon-btn" type="button" onclick="event.stopPropagation(); pickCoverImage(true)">Replace</button>
             <button class="icon-btn danger" type="button" onclick="event.stopPropagation(); removeCoverImage()">Remove</button>
@@ -2546,6 +2546,16 @@
   const MAX_IMAGE_BYTES = 5 * 1024 * 1024;       // 5 MB
   const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
 
+  // mirror-admin.yml needs ~30s–2min to copy a fresh upload from ProductOS
+  // into productos-admin and rebuild Pages, so during that window an
+  // <img src="changelog-images/…"> 404s. We hold a blob: URL for the
+  // uploaded File and swap it in at render time until the page reloads,
+  // by which point the public URL has settled.
+  const _pendingImagePreviews = new Map();   // publicPath -> blob: URL
+  function resolveImageSrc(src) {
+    return _pendingImagePreviews.get(src) || src;
+  }
+
   function readFileAsBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -2599,7 +2609,9 @@
       }
       throw e;
     }
-    return `${PUBLIC_IMAGE_DIR}/${filename}`;
+    const publicPath = `${PUBLIC_IMAGE_DIR}/${filename}`;
+    _pendingImagePreviews.set(publicPath, URL.createObjectURL(file));
+    return publicPath;
   }
 
   async function pickCoverImage(replace) {
