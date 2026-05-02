@@ -2,10 +2,19 @@
   "generatedAt": "2026-05-02T00:00:00Z",
   "entries": [
     {
+      "id": "2026-05-02-productlane-editor",
+      "date": "2026-05-02",
+      "title": "Document-style changelog editor",
+      "tags": ["New", "Improved"],
+      "status": "published",
+      "body": "Settings → Changelog now feels like a notebook page. Type a title, drop in tags, and write the body — no form labels, no live-preview pane.\n\nType `/` at the start of a line to open the slash menu (Heading 1/2/3, lists, divider, link). Drafts get a Draft badge in the sidebar and stay hidden from the public reader until you hit Publish."
+    },
+    {
       "id": "2026-05-02-public-changelog",
       "date": "2026-05-02",
       "title": "Public changelog with type tags",
       "tags": ["New"],
+      "status": "published",
       "body": "Settings now lives behind its own tab. The top nav is **Changelog · Roadmap · Settings**. The changelog you're reading is published from `admin/changelog.json` in the private repo and mirrored to Pages on every push.\n\nEntries can be tagged `New`, `Improved`, or `Fixed` — same vocabulary as [Linear's changelog](https://linear.app/changelog)."
     },
     {
@@ -13,6 +22,7 @@
       "date": "2026-04-15",
       "title": "Bidirectional status writes (Notion → Linear)",
       "tags": ["New", "Improved"],
+      "status": "published",
       "body": "`WRITE_STATUS` is now safe to enable. Notion edits push back to Linear when the diff has a clear winner; manual Linear states are never overwritten.\n\nSee `Settings → Flags → Bidirectional` to flip it on."
     },
     {
@@ -20,6 +30,7 @@
       "date": "2026-03-28",
       "title": "Hourly roadmap snapshot",
       "tags": ["New"],
+      "status": "published",
       "body": "`roadmap.yml` now publishes a fresh `roadmap.json` every hour at :15. The Roadmap tab loads it without auth, so the page is shareable as a public link."
     }
   ]
