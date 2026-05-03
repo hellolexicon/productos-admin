@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ProductOS — Revolutionising product management</title>
+  <title>ProductOS</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" href="favicon.svg">
   <link rel="mask-icon" href="favicon.svg" color="#7C5CFF">
@@ -1759,7 +1759,7 @@
         <rect x="14" y="28" width="36" height="8" rx="2.5" fill="white" opacity="0.7"/>
         <rect x="12" y="39" width="40" height="10" rx="2.5" fill="white"/>
       </svg>
-      <span class="name">ProductOS</span>
+      <span class="name" id="topbar-product-name">ProductOS</span>
     </a>
     <div class="topbar-nav" id="topbar-nav">
       <button data-tab="changelog" class="active" onclick="switchTab('changelog')">Changelog</button>
@@ -1780,7 +1780,7 @@
           <svg viewBox="0 0 16 16"><path d="M6 1a7 7 0 1 0 9 9 6 6 0 0 1-9-9z"/></svg>
         </button>
       </div>
-      <a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">GitHub ↗</a>
+      <a class="repo-link" id="topbar-github-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">GitHub ↗</a>
     </div>
     <button class="menu-btn" id="menu-btn" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
       <svg viewBox="0 0 24 24" stroke-linecap="round">
@@ -1808,7 +1808,7 @@
             <svg viewBox="0 0 16 16"><path d="M6 1a7 7 0 1 0 9 9 6 6 0 0 1-9-9z"/></svg>
           </button>
         </div>
-        <a class="repo-link" href="https://github.com/hellolexicon/ProductOS" target="_blank" style="font-size: 13px;">GitHub ↗</a>
+        <a class="repo-link" id="menu-github-link" href="https://github.com/hellolexicon/ProductOS" target="_blank" style="font-size: 13px;">GitHub ↗</a>
       </div>
     </div>
   </div>
@@ -1847,8 +1847,8 @@
       <path d="M 38 41.5 L 43 44.5 L 38 47.5" stroke="#7C5CFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     <div class="hero-text">
-      <h1>ProductOS</h1>
-      <div class="tagline">Revolutionising product management.</div>
+      <h1 id="hero-product-name">ProductOS</h1>
+      <div class="tagline" id="hero-tagline">Revolutionising product management.</div>
     </div>
   </header>
 
@@ -1940,7 +1940,7 @@
         <h2>Sign in with a GitHub token</h2>
         <p>
           Generate a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank">fine-grained PAT</a>
-          scoped to <code>hellolexicon/ProductOS</code> only, with these
+          scoped to <code data-tenant-repo>hellolexicon/ProductOS</code> only, with these
           <strong>repository permissions</strong>:
           <code>Metadata: Read</code>, <code>Actions: Read &amp; write</code>,
           <code>Variables: Read &amp; write</code>, <code>Contents: Read &amp; write</code>
@@ -2011,7 +2011,54 @@
 <div id="toast" class="toast"></div>
 
 <script>
-  const REPO = 'hellolexicon/ProductOS';
+  // ---------- Tenant config ----------
+  // Defaults ship with the product. At boot, loadTenantConfig() fetches
+  // config.json from the same origin and merges any overrides in. That one
+  // file is the only thing that changes between customer deployments.
+  const TENANT = {
+    productName: 'ProductOS',
+    tagline:     'Revolutionising product management',
+    repo:        'hellolexicon/ProductOS',
+    // Future: primaryColor, logoUrl, features {requests, feedback, ...}
+  };
+
+  async function loadTenantConfig() {
+    try {
+      const base = siteBase();
+      const url  = (base === '/' ? '' : base) + '/config.json';
+      const r = await fetch(url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (r.ok) Object.assign(TENANT, await r.json());
+    } catch { /* silently fall back to defaults */ }
+  }
+
+  function applyTenantConfig() {
+    document.title = TENANT.productName;
+    const els = {
+      'topbar-product-name': TENANT.productName,
+      'hero-product-name':   TENANT.productName,
+      'hero-tagline':        TENANT.tagline + '.',
+    };
+    for (const [id, text] of Object.entries(els)) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    }
+    // Update any elements that display the repo name (auth instructions, etc.)
+    document.querySelectorAll('[data-tenant-repo]').forEach(el => {
+      el.textContent = TENANT.repo;
+    });
+    // Update repo links in the topbar / mobile menu
+    const repoUrl = `https://github.com/${TENANT.repo}`;
+    ['topbar-github-link', 'menu-github-link'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.href = repoUrl;
+    });
+  }
+
+  // Convenience getter — always reflects the live TENANT object so code
+  // that caches REPO at load time (flags, runs, changelog writes) still works
+  // after a future hot-reload of config.
+  function getRepo() { return TENANT.repo; }
+
   const WORKFLOW_FILE = 'sync.yml';
 
   // Grouped flag definitions. Each: [name, label, hint, tags].
@@ -2103,7 +2150,7 @@
     if (!t) return toast('Token required', true);
     localStorage.setItem(TOKEN_KEY, t);
     try {
-      await gh(`/repos/${REPO}`);
+      await gh(`/repos/${getRepo()}`);
     } catch (e) {
       clearToken({ reload: false });
       updateAuthVisibility();
@@ -2259,7 +2306,7 @@
       meta.innerHTML = `<strong>Coming next ${data.windowDays || 92} days</strong> — ${data.totalCount} project${data.totalCount === 1 ? '' : 's'}, mirrored from Notion <span class="gen">${formatGenerated(data.generatedAt)}</span>`;
       renderRoadmap(data.projects || []);
     } catch (e) {
-      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No roadmap snapshot yet. The hourly workflow publishes one at the top of every hour, or you can trigger <a href="https://github.com/hellolexicon/ProductOS/actions/workflows/roadmap.yml" target="_blank">roadmap.yml</a> manually. (${escapeHtml(e.message)})</div>`;
+      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No roadmap snapshot yet. The hourly workflow publishes one at the top of every hour, or you can trigger <a href="https://github.com/${getRepo()}/actions/workflows/roadmap.yml" target="_blank">roadmap.yml</a> manually. (${escapeHtml(e.message)})</div>`;
     } finally {
       _roadmapLoading = false;
     }
@@ -2460,7 +2507,7 @@
       meta.innerHTML = `<strong>${_requestsData.totalCount} request${_requestsData.totalCount === 1 ? '' : 's'}</strong> across ${_requestsData.projectCount} project${_requestsData.projectCount === 1 ? '' : 's'} — mirrored from Linear <span class="gen">${gen}</span>`;
       renderRequests(_requestsData, sel.value);
     } catch (e) {
-      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No requests snapshot yet. Trigger <a href="https://github.com/hellolexicon/ProductOS/actions/workflows/requests.yml" target="_blank">requests.yml</a> to generate one. (${escapeHtml(e.message)})</div>`;
+      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No requests snapshot yet. Trigger <a href="https://github.com/${getRepo()}/actions/workflows/requests.yml" target="_blank">requests.yml</a> to generate one. (${escapeHtml(e.message)})</div>`;
     } finally {
       _requestsLoading = false;
     }
@@ -2602,7 +2649,7 @@
       populateFeedbackFilter(_requestsData);
       renderFeedback();
     } catch (e) {
-      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No feedback snapshot yet. Trigger <a href="https://github.com/hellolexicon/ProductOS/actions/workflows/requests.yml" target="_blank">requests.yml</a> to generate one. (${escapeHtml(e.message)})</div>`;
+      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No feedback snapshot yet. Trigger <a href="https://github.com/${getRepo()}/actions/workflows/requests.yml" target="_blank">requests.yml</a> to generate one. (${escapeHtml(e.message)})</div>`;
     } finally {
       _feedbackLoading = false;
     }
@@ -2706,7 +2753,7 @@
     const url = siteBase() + '/changelog/' + id;
     if (replaceState) history.replaceState({ entryId: id }, '', url);
     else history.pushState({ entryId: id }, '', url);
-    document.title = entry.title + ' — ProductOS';
+    document.title = entry.title + ' — ' + TENANT.productName;
 
     document.getElementById('changelog-meta').style.display = 'none';
     document.getElementById('changelog-list').style.display = 'none';
@@ -2719,7 +2766,7 @@
 
   function showChangelogList() {
     history.pushState({}, '', siteBase() + '/');
-    document.title = 'ProductOS — Revolutionising product management';
+    document.title = TENANT.productName + ' — ' + TENANT.tagline;
     document.getElementById('changelog-meta').style.display = '';
     document.getElementById('changelog-list').style.display = '';
     document.getElementById('entry-detail').style.display = 'none';
@@ -2751,7 +2798,7 @@
   window.addEventListener('popstate', e => {
     if (e.state?.entryId) showEntryDetail(e.state.entryId, /* replaceState */ true);
     else if (_inDetailView) {
-      document.title = 'ProductOS — Revolutionising product management';
+      document.title = TENANT.productName + ' — ' + TENANT.tagline;
       document.getElementById('changelog-meta').style.display = '';
       document.getElementById('changelog-list').style.display = '';
       document.getElementById('entry-detail').style.display = 'none';
@@ -2852,7 +2899,7 @@
     _changelogState.loading = true;
     root.innerHTML = '<div class="editor-empty">Loading entries…</div>';
     try {
-      const data = await gh(`/repos/${REPO}/contents/${CHANGELOG_PATH}`);
+      const data = await gh(`/repos/${getRepo()}/contents/${CHANGELOG_PATH}`);
       const decoded = decodeBase64(data.content);
       let parsed;
       try { parsed = JSON.parse(decoded); } catch { parsed = { entries: [] }; }
@@ -2870,7 +2917,7 @@
           <div class="editor-empty">
             <p style="color: var(--danger); margin-bottom: 12px;">Your PAT can't read <code>admin/changelog.json</code>.</p>
             <p>Add <strong>Contents: Read &amp; write</strong> to your fine-grained PAT for
-            <code>hellolexicon/ProductOS</code> at
+            <code data-tenant-repo>hellolexicon/ProductOS</code> at
             <a href="https://github.com/settings/personal-access-tokens" target="_blank">
             github.com/settings/personal-access-tokens</a>, then reload.</p>
           </div>`;
@@ -3337,7 +3384,7 @@
     const sourcePath = `${IMAGE_DIR}/${filename}`;
     const content = await readFileAsBase64(file);
     try {
-      await gh(`/repos/${REPO}/contents/${sourcePath}`, {
+      await gh(`/repos/${getRepo()}/contents/${sourcePath}`, {
         method: 'PUT',
         body: JSON.stringify({
           message: `changelog: upload ${filename}`,
@@ -3347,7 +3394,7 @@
       });
     } catch (e) {
       if (/\b403\b/.test(e.message)) {
-        throw new Error('403 — your PAT needs Contents: Read & write on hellolexicon/ProductOS');
+        throw new Error(`403 — your PAT needs Contents: Read & write on ${getRepo()}`);
       }
       throw e;
     }
@@ -3535,7 +3582,7 @@
       // Refetch on retry to pick up the freshest sha.
       if (attempts === 2) {
         try {
-          const data = await gh(`/repos/${REPO}/contents/${CHANGELOG_PATH}`);
+          const data = await gh(`/repos/${getRepo()}/contents/${CHANGELOG_PATH}`);
           const parsed = JSON.parse(decodeBase64(data.content));
           current = Array.isArray(parsed.entries) ? parsed.entries : [];
           sha = data.sha;
@@ -3554,7 +3601,7 @@
       };
       if (sha) body.sha = sha;
       try {
-        const res = await gh(`/repos/${REPO}/contents/${CHANGELOG_PATH}`, {
+        const res = await gh(`/repos/${getRepo()}/contents/${CHANGELOG_PATH}`, {
           method: 'PUT',
           body: JSON.stringify(body),
         });
@@ -3565,7 +3612,7 @@
         // 409 / 422 with sha mismatch: retry once with fresh sha.
         if (attempts < 2 && /\b(409|422)\b/.test(e.message)) continue;
         if (/\b403\b/.test(e.message)) {
-          throw new Error('403 — your PAT needs Contents: Read & write on hellolexicon/ProductOS');
+          throw new Error(`403 — your PAT needs Contents: Read & write on ${getRepo()}`);
         }
         throw e;
       }
@@ -3584,7 +3631,7 @@
   let flagState = {};
   async function loadFlags() {
     try {
-      const data = await gh(`/repos/${REPO}/actions/variables?per_page=100`);
+      const data = await gh(`/repos/${getRepo()}/actions/variables?per_page=100`);
       flagState = {};
       for (const v of data.variables) flagState[v.name] = v.value;
       renderFlags();
@@ -3641,12 +3688,12 @@
     try {
       const exists = name in flagState;
       if (exists) {
-        await gh(`/repos/${REPO}/actions/variables/${name}`, {
+        await gh(`/repos/${getRepo()}/actions/variables/${name}`, {
           method: 'PATCH',
           body: JSON.stringify({ name, value }),
         });
       } else {
-        await gh(`/repos/${REPO}/actions/variables`, {
+        await gh(`/repos/${getRepo()}/actions/variables`, {
           method: 'POST',
           body: JSON.stringify({ name, value }),
         });
@@ -3671,7 +3718,7 @@
     try {
       const inputs = { dry_run: dry ? 'true' : 'false' };
       if (project) inputs.project = project;
-      await gh(`/repos/${REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`, {
+      await gh(`/repos/${getRepo()}/actions/workflows/${WORKFLOW_FILE}/dispatches`, {
         method: 'POST',
         body: JSON.stringify({ ref: 'main', inputs }),
       });
@@ -3689,7 +3736,7 @@
   async function loadRuns() {
     const root = document.getElementById('runs-list');
     try {
-      const data = await gh(`/repos/${REPO}/actions/workflows/${WORKFLOW_FILE}/runs?per_page=15`);
+      const data = await gh(`/repos/${getRepo()}/actions/workflows/${WORKFLOW_FILE}/runs?per_page=15`);
       if (!data.workflow_runs || data.workflow_runs.length === 0) {
         root.innerHTML = '<div class="empty">No runs yet.</div>';
         return;
@@ -3751,10 +3798,12 @@
 
   // ---------- Boot ----------
   async function init() {
+    await loadTenantConfig();
+    applyTenantConfig();
     updateAuthVisibility();
 
     if (getToken()) {
-      gh(`/repos/${REPO}`).catch(e => {
+      gh(`/repos/${getRepo()}`).catch(e => {
         clearToken();
         updateAuthVisibility();
         toast(`Auth failed: ${e.message}`, true);
