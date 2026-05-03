@@ -1,5 +1,5 @@
 {
-  "enabled": false,
+  "enabled": true,
   "headline": "Follow along as we build",
   "visibleProjectIds": [],
   "feedbackEndpoint": ""
