@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f9f9f9;
+      --border:    #e8e8e8;
+      --text:      #111111;
+      --text-2:    #555555;
+      --text-3:    #999999;
+      --accent:    #0066cc;
+      --accent-bg: rgba(0, 102, 204, 0.08);
+      --radius:    10px;
+      --max-w:     700px;
+    }
+    body {
+      font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ---- Header ---- */
+    .portal-header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(255,255,255,0.9); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .portal-header-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; align-items: center; gap: 20px;
+      height: 56px;
+    }
+    .portal-brand {
+      font-weight: 700; font-size: 16px; letter-spacing: -0.02em;
+      color: var(--text); flex-shrink: 0;
+    }
+    .portal-nav {
+      display: flex; gap: 2px; margin-left: auto;
+    }
+    .portal-nav button {
+      background: none; border: none; cursor: pointer;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      color: var(--text-2); padding: 6px 12px;
+      border-radius: 8px; transition: background 0.15s, color 0.15s;
+    }
+    .portal-nav button:hover { background: var(--surface); color: var(--text); }
+    .portal-nav button.active { background: var(--accent-bg); color: var(--accent); }
+
+    /* ---- Layout ---- */
+    .portal-body { max-width: var(--max-w); margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ---- Panel ---- */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ---- Changelog ---- */
+    .cl-meta { font-size: 13px; color: var(--text-3); margin-bottom: 32px; }
+    .cl-entry { padding: 32px 0; border-bottom: 1px solid var(--border); }
+    .cl-entry:first-child { padding-top: 0; }
+    .cl-entry:last-child { border-bottom: none; }
+    .cl-tags { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+    .cl-tag {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .06em; padding: 2px 8px; border-radius: 999px;
+    }
+    .cl-tag.new      { color: #1a9a3a; background: rgba(26,154,58,.12); }
+    .cl-tag.improved { color: #005fcc; background: rgba(0,95,204,.10); }
+    .cl-tag.fixed    { color: #b85c00; background: rgba(184,92,0,.10); }
+    .cl-title {
+      font-size: 21px; font-weight: 700; letter-spacing: -.025em;
+      color: var(--text); margin-bottom: 8px; line-height: 1.25;
+    }
+    .cl-date { font-size: 13px; color: var(--text-3); margin-bottom: 12px; }
+    .cl-excerpt { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+    .cl-excerpt p { margin-bottom: 8px; }
+    .cl-excerpt p:last-child { margin-bottom: 0; }
+
+    /* ---- Roadmap ---- */
+    .rm-section { margin-bottom: 36px; }
+    .rm-section-title {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-3); margin-bottom: 10px;
+    }
+    .rm-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .rm-row {
+      padding: 14px 18px; position: relative;
+      transition: background .15s;
+    }
+    .rm-row + .rm-row { border-top: 1px solid var(--border); }
+    .rm-row:hover { background: #f0f0f0; }
+    .rm-row-head { display: flex; align-items: center; gap: 10px; }
+    .rm-title { font-weight: 500; font-size: 14.5px; }
+    .rm-status {
+      margin-left: auto; flex-shrink: 0;
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .05em; padding: 2px 8px; border-radius: 999px;
+    }
+    .rm-status.now   { color: #1a9a3a; background: rgba(26,154,58,.12); }
+    .rm-status.next  { color: #005fcc; background: rgba(0,95,204,.10); }
+    .rm-status.later { color: var(--text-3); background: var(--border); }
+    .rm-desc { font-size: 13px; color: var(--text-3); margin-top: 4px; line-height: 1.5; }
+    .rm-chips { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .rm-chip {
+      font-size: 11px; color: var(--text-3); background: var(--border);
+      padding: 1px 8px; border-radius: 5px;
+    }
+    .rm-target { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+
+    /* ---- Feedback ---- */
+    .fb-hero { margin-bottom: 28px; }
+    .fb-hero p { font-size: 14px; color: var(--text-2); margin-top: 6px; }
+    .fb-submit-btn {
+      margin-top: 14px;
+      background: var(--accent); color: #fff; border: none;
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600;
+      padding: 9px 18px; border-radius: 8px; cursor: pointer;
+      transition: opacity .15s;
+    }
+    .fb-submit-btn:hover { opacity: .88; }
+    .fb-form {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 20px; margin-bottom: 28px; display: none;
+    }
+    .fb-form.open { display: block; }
+    .fb-form h3 { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+    .fb-field { margin-bottom: 12px; }
+    .fb-field label { display: block; font-size: 12px; font-weight: 600; color: var(--text-2); margin-bottom: 4px; }
+    .fb-field input, .fb-field textarea, .fb-field select {
+      width: 100%; font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 7px;
+      background: var(--bg); color: var(--text); resize: vertical;
+    }
+    .fb-field textarea { min-height: 80px; }
+    .fb-field input:focus, .fb-field textarea:focus, .fb-field select:focus {
+      outline: 2px solid var(--accent); outline-offset: 1px;
+    }
+    .fb-form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+    .fb-cancel-btn {
+      background: none; border: 1px solid var(--border);
+      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 7px 14px; border-radius: 7px; cursor: pointer; color: var(--text-2);
+    }
+    .fb-projects-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .07em; color: var(--text-3); margin-bottom: 10px;
+    }
+    .fb-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .fb-project-row { padding: 14px 18px; position: relative; }
+    .fb-project-row + .fb-project-row { border-top: 1px solid var(--border); }
+    .fb-project-row-head { display: flex; align-items: flex-start; gap: 12px; }
+    .fb-project-name { font-weight: 500; font-size: 14.5px; }
+    .fb-project-status { margin-left: auto; flex-shrink: 0; }
+    .fb-project-desc { font-size: 13px; color: var(--text-3); margin-top: 4px; line-height: 1.5; }
+    .fb-req-count { font-size: 12px; color: var(--text-3); margin-top: 6px; }
+
+    /* ---- Status pills (shared) ---- */
+    .status-pill {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: .05em; padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+    }
+    [data-status="In Progress"], [data-status="started"] { color: #1a9a3a; background: rgba(26,154,58,.12); }
+    [data-status="Planned"], [data-status="planned"]     { color: #005fcc; background: rgba(0,95,204,.10); }
+    [data-status="Backlog"], [data-status="backlog"]     { color: var(--text-3); background: var(--border); }
+
+    /* ---- Empty / loading ---- */
+    .empty { padding: 48px 20px; text-align: center; color: var(--text-3); font-size: 14px; }
+    .skeleton {
+      display: inline-block; height: 14px; border-radius: 4px;
+      background: linear-gradient(90deg, var(--surface), #ececec, var(--surface));
+      background-size: 200% 100%; animation: sk 1.4s ease-in-out infinite;
+    }
+    @keyframes sk { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ---- Disabled overlay ---- */
+    #portal-disabled {
+      display: none; position: fixed; inset: 0; background: var(--bg);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 12px; text-align: center; padding: 40px;
+    }
+    #portal-disabled.show { display: flex; }
+    #portal-disabled h2 { font-size: 22px; font-weight: 700; }
+    #portal-disabled p  { font-size: 15px; color: var(--text-2); }
+
+    /* ---- Toast ---- */
+    #toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(16px);
+      background: var(--text); color: #fff; border-radius: 8px;
+      font-size: 13px; font-weight: 500; padding: 10px 18px;
+      opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.error { background: #c0392b; }
+
+    @media (max-width: 600px) {
+      .portal-header-inner { gap: 12px; }
+      .portal-nav button { padding: 6px 9px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="portal-disabled">
+  <h2 id="portal-disabled-name">Product Portal</h2>
+  <p>The customer portal is not yet enabled.</p>
+</div>
+
+<header class="portal-header">
+  <div class="portal-header-inner">
+    <span class="portal-brand" id="portal-brand">Portal</span>
+    <nav class="portal-nav">
+      <button class="active" data-tab="changelog" onclick="switchTab('changelog')">Changelog</button>
+      <button data-tab="roadmap" onclick="switchTab('roadmap')">Roadmap</button>
+      <button data-tab="feedback" onclick="switchTab('feedback')">Feedback</button>
+    </nav>
+  </div>
+</header>
+
+<div class="portal-body">
+  <!-- Changelog -->
+  <div class="panel active" id="panel-changelog">
+    <p class="cl-meta" id="cl-meta"></p>
+    <div id="cl-list"><div class="empty"><span class="skeleton" style="width:220px"></span></div></div>
+  </div>
+
+  <!-- Roadmap -->
+  <div class="panel" id="panel-roadmap">
+    <div id="rm-list"><div class="empty"><span class="skeleton" style="width:240px"></span></div></div>
+  </div>
+
+  <!-- Feedback -->
+  <div class="panel" id="panel-feedback">
+    <div class="fb-hero">
+      <h2 id="fb-headline" style="font-size:22px;font-weight:700;letter-spacing:-.02em"></h2>
+      <p id="fb-sub">See what we're working on and share your ideas.</p>
+      <button class="fb-submit-btn" onclick="toggleFeedbackForm(true)">Share feedback</button>
+    </div>
+    <div class="fb-form" id="fb-form">
+      <h3>Share your feedback</h3>
+      <div class="fb-field">
+        <label>Your feedback <span style="color:#c00">*</span></label>
+        <textarea id="fb-body" placeholder="Describe what you'd like to see…"></textarea>
+      </div>
+      <div class="fb-field">
+        <label>Name <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
+        <input id="fb-name" type="text" placeholder="Your name">
+      </div>
+      <div class="fb-field">
+        <label>Email <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
+        <input id="fb-email" type="email" placeholder="you@company.com">
+      </div>
+      <div class="fb-form-actions">
+        <button class="fb-cancel-btn" onclick="toggleFeedbackForm(false)">Cancel</button>
+        <button class="fb-submit-btn" id="fb-send-btn" onclick="submitFeedback()">Submit</button>
+      </div>
+    </div>
+    <p class="fb-projects-label" id="fb-projects-label" style="display:none">Feature requests</p>
+    <div class="fb-card" id="fb-projects" style="display:none"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ---------- Config ----------
+  const BASE = (() => {
+    const p = location.pathname;
+    const idx = p.indexOf('/portal.html');
+    return idx !== -1 ? p.slice(0, idx) : p.replace(/\/?$/, '');
+  })();
+
+  let TENANT = { productName: 'Portal', tagline: '', repo: '' };
+  let PORTAL  = { enabled: false, headline: 'Follow along as we build', visibleProjectIds: [], feedbackEndpoint: '' };
+
+  async function boot() {
+    await Promise.all([
+      fetch(`${BASE}/config.json?t=${Date.now()}`, { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : {}).then(d => Object.assign(TENANT, d)).catch(() => {}),
+      fetch(`${BASE}/portal-config.json?t=${Date.now()}`, { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : {}).then(d => Object.assign(PORTAL, d)).catch(() => {}),
+    ]);
+
+    document.getElementById('portal-brand').textContent = TENANT.productName;
+    document.getElementById('portal-disabled-name').textContent = TENANT.productName;
+    document.title = TENANT.productName + ' — Portal';
+
+    if (!PORTAL.enabled) {
+      document.getElementById('portal-disabled').classList.add('show');
+      return;
+    }
+
+    document.getElementById('fb-headline').textContent = PORTAL.headline;
+
+    const tab = new URLSearchParams(location.search).get('tab') || 'changelog';
+    switchTab(tab);
+  }
+
+  // ---------- Tabs ----------
+  function switchTab(id) {
+    document.querySelectorAll('[data-tab]').forEach(b =>
+      b.classList.toggle('active', b.dataset.tab === id));
+    document.querySelectorAll('.panel').forEach(p =>
+      p.classList.toggle('active', p.id === `panel-${id}`));
+    history.replaceState(null, '', `${BASE}/portal.html?tab=${id}`);
+    if (id === 'changelog') loadChangelog();
+    if (id === 'roadmap')   loadRoadmap();
+    if (id === 'feedback')  loadFeedback();
+  }
+
+  // ---------- Changelog ----------
+  let _cl; let _clLoading = false;
+  async function loadChangelog() {
+    if (_cl || _clLoading) return;
+    _clLoading = true;
+    const list = document.getElementById('cl-list');
+    const meta = document.getElementById('cl-meta');
+    try {
+      const r = await fetch(`${BASE}/changelog.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(r.status);
+      _cl = await r.json();
+      const published = (_cl.entries || []).filter(e => e.status === 'published');
+      meta.textContent = `${published.length} update${published.length === 1 ? '' : 's'}`;
+      if (!published.length) { list.innerHTML = '<div class="empty">No updates yet.</div>'; return; }
+      list.innerHTML = published.map(e => {
+        const date = e.date ? new Date(e.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+        const tags = (e.tags || []).map(t =>
+          `<span class="cl-tag ${t.toLowerCase()}">${esc(t)}</span>`).join('');
+        const cover = e.coverImage
+          ? `<img src="${esc(resolveImg(e.coverImage))}" style="width:100%;border-radius:8px;margin-bottom:16px;display:block" loading="lazy" alt="">`
+          : '';
+        const excerpt = plainText(e.body || '').slice(0, 280).trimEnd();
+        return `<div class="cl-entry">
+          ${tags ? `<div class="cl-tags">${tags}</div>` : ''}
+          <div class="cl-title">${esc(e.title || '(untitled)')}</div>
+          ${date ? `<div class="cl-date">${date}</div>` : ''}
+          ${cover}
+          ${excerpt ? `<div class="cl-excerpt"><p>${esc(excerpt)}${e.body && e.body.length > 280 ? '…' : ''}</p></div>` : ''}
+        </div>`;
+      }).join('');
+    } catch { list.innerHTML = '<div class="empty">Changelog unavailable.</div>'; }
+    finally { _clLoading = false; }
+  }
+
+  function resolveImg(src) {
+    if (!src) return src;
+    if (src.startsWith('http')) return src;
+    if (src.startsWith('changelog-images/')) return `${BASE}/${src}`;
+    return src;
+  }
+
+  function plainText(md) {
+    return md
+      .replace(/^#{1,6}\s+/gm, '')
+      .replace(/!\[.*?\]\(.*?\)/g, '')
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      .replace(/[*_`~]/g, '')
+      .replace(/^[-*+]\s+/gm, '')
+      .replace(/^>\s+/gm, '')
+      .replace(/\n{2,}/g, ' ')
+      .replace(/\n/g, ' ')
+      .trim();
+  }
+
+  // ---------- Roadmap ----------
+  let _rm; let _rmLoading = false;
+  async function loadRoadmap() {
+    if (_rm || _rmLoading) return;
+    _rmLoading = true;
+    const list = document.getElementById('rm-list');
+    try {
+      const r = await fetch(`${BASE}/roadmap.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(r.status);
+      _rm = await r.json();
+      renderRoadmap(_rm.projects || []);
+    } catch { list.innerHTML = '<div class="empty">Roadmap unavailable.</div>'; }
+    finally { _rmLoading = false; }
+  }
+
+  function renderRoadmap(projects) {
+    const list = document.getElementById('rm-list');
+    if (!projects.length) { list.innerHTML = '<div class="empty">Nothing on the roadmap yet.</div>'; return; }
+    const buckets = { now: [], next: [], later: [] };
+    for (const p of projects) {
+      const s = (p.status || p.statusName || '').toLowerCase();
+      if (s === 'started' || s === 'in progress') buckets.now.push(p);
+      else if (s === 'planned') buckets.next.push(p);
+      else buckets.later.push(p);
+    }
+    const LABELS = { now: 'In Progress', next: 'Planned', later: 'Up next' };
+    list.innerHTML = Object.entries(buckets)
+      .filter(([, items]) => items.length)
+      .map(([key, items]) => `
+        <div class="rm-section">
+          <div class="rm-section-title">${LABELS[key]}</div>
+          <div class="rm-card">${items.map(p => rmRow(p, key)).join('')}</div>
+        </div>
+      `).join('');
+  }
+
+  function rmRow(p, key) {
+    const chips = [...(p.teams || []), ...(p.initiatives || [])]
+      .map(c => `<span class="rm-chip">${esc(c)}</span>`).join('');
+    const target = p.targetDate
+      ? `<div class="rm-target">Target: ${new Date(p.targetDate).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</div>`
+      : '';
+    const desc = p.description ? `<div class="rm-desc">${esc(truncate(p.description, 140))}</div>` : '';
+    return `<div class="rm-row">
+      <div class="rm-row-head">
+        <span class="rm-title">${esc(p.title || '(untitled)')}</span>
+        <span class="rm-status ${key}">${['now','next','later'].includes(key) ? {now:'In Progress',next:'Planned',later:'Up next'}[key] : esc(p.status)}</span>
+      </div>
+      ${desc}${chips ? `<div class="rm-chips">${chips}</div>` : ''}${target}
+    </div>`;
+  }
+
+  // ---------- Feedback ----------
+  let _req; let _reqLoading = false;
+  async function loadFeedback() {
+    if (_req || _reqLoading) return;
+    _reqLoading = true;
+    try {
+      const r = await fetch(`${BASE}/requests.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(r.status);
+      _req = await r.json();
+      renderFeedbackProjects();
+    } catch { /* no visible projects — form still shows */ }
+    finally { _reqLoading = false; }
+  }
+
+  function renderFeedbackProjects() {
+    const visible = PORTAL.visibleProjectIds || [];
+    if (!_req || !visible.length) return;
+    const projects = (_req.projects || []).filter(p => visible.includes(p.id));
+    if (!projects.length) return;
+    const label = document.getElementById('fb-projects-label');
+    const card  = document.getElementById('fb-projects');
+    label.style.display = '';
+    card.style.display  = '';
+    card.innerHTML = projects.map(p => {
+      const status = p.statusName || p.status || '';
+      const desc = p.requests?.[0]?.body ? truncate(p.requests[0].body, 120) : '';
+      const cnt = p.requests?.length || 0;
+      return `<div class="fb-project-row">
+        <div class="fb-project-row-head">
+          <span class="fb-project-name">${esc(p.name)}</span>
+          ${status ? `<span class="fb-project-status"><span class="status-pill" data-status="${esc(status)}">${esc(status)}</span></span>` : ''}
+        </div>
+        ${desc ? `<div class="fb-project-desc">${esc(desc)}…</div>` : ''}
+        <div class="fb-req-count">${cnt} customer request${cnt === 1 ? '' : 's'}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ---------- Feedback form ----------
+  function toggleFeedbackForm(open) {
+    document.getElementById('fb-form').classList.toggle('open', open);
+    if (open) document.getElementById('fb-body').focus();
+  }
+
+  async function submitFeedback() {
+    const body  = document.getElementById('fb-body').value.trim();
+    const name  = document.getElementById('fb-name').value.trim();
+    const email = document.getElementById('fb-email').value.trim();
+    if (!body) { toast('Please enter your feedback.', true); return; }
+
+    if (!PORTAL.feedbackEndpoint) {
+      toast('Feedback submission is not yet configured.', true);
+      return;
+    }
+
+    const btn = document.getElementById('fb-send-btn');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      const r = await fetch(PORTAL.feedbackEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ body, name, email, product: TENANT.productName, source: location.href }),
+      });
+      if (!r.ok) throw new Error(r.status);
+      toggleFeedbackForm(false);
+      document.getElementById('fb-body').value = '';
+      document.getElementById('fb-name').value = '';
+      document.getElementById('fb-email').value = '';
+      toast('Thank you for your feedback!');
+    } catch { toast('Submission failed. Please try again.', true); }
+    finally { btn.disabled = false; btn.textContent = 'Submit'; }
+  }
+
+  // ---------- Helpers ----------
+  function esc(s) {
+    return String(s || '').replace(/[&<>"']/g, c =>
+      ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]);
+  }
+  function truncate(s, n) { return s.length <= n ? s : s.slice(0, n); }
+  let _toastTimer;
+  function toast(msg, err = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.toggle('error', err);
+    t.classList.add('show'); clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+  }
+
+  boot();
+</script>
+</body>
+</html>

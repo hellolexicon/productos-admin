@@ -1956,6 +1956,7 @@
       <div id="settings-content" hidden>
         <div class="subnav" id="settings-subnav" role="tablist">
           <button data-subtab="flags" class="active" onclick="switchSubTab('flags')">Flags</button>
+          <button data-subtab="portal" onclick="switchSubTab('portal')">Portal</button>
           <button data-subtab="changelog-edit" onclick="switchSubTab('changelog-edit')">Changelog</button>
           <button data-subtab="runs" onclick="switchSubTab('runs')">Runs</button>
           <button data-subtab="trigger" onclick="switchSubTab('trigger')">Trigger</button>
@@ -1967,6 +1968,61 @@
               <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
               <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
               <div class="skeleton-row"><span class="skeleton" style="width: 220px"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="subpanel" id="subpanel-portal">
+          <div id="portal-settings-panel">
+            <div class="trigger-card" style="margin-bottom:16px">
+              <div class="trigger-row" style="align-items:center">
+                <div>
+                  <strong>Customer portal</strong>
+                  <div style="font-size:13px;color:var(--text-tertiary);margin-top:3px">
+                    Public page showing your changelog, roadmap, and feature requests.
+                  </div>
+                </div>
+                <label class="flag-toggle" style="margin-left:auto">
+                  <input type="checkbox" id="portal-enabled-toggle" onchange="savePortalEnabled(this.checked)">
+                  <span class="flag-toggle-track"></span>
+                </label>
+              </div>
+              <div class="trigger-row" style="align-items:center;margin-top:8px" id="portal-link-row">
+                <span style="font-size:13px;color:var(--text-secondary)">Portal URL</span>
+                <a id="portal-link" href="#" target="_blank" style="font-size:13px;margin-left:8px"></a>
+              </div>
+            </div>
+
+            <div class="trigger-card" style="margin-bottom:16px">
+              <div class="trigger-row" style="flex-direction:column;align-items:flex-start;gap:6px">
+                <label for="portal-headline" style="font-size:13px;font-weight:600">Feedback page headline</label>
+                <input id="portal-headline" type="text" placeholder="Follow along as we build"
+                  style="width:100%;max-width:400px" oninput="portalSettingsDirty()">
+              </div>
+              <div class="trigger-row" style="flex-direction:column;align-items:flex-start;gap:6px;margin-top:12px">
+                <label for="portal-feedback-endpoint" style="font-size:13px;font-weight:600">Feedback submission endpoint</label>
+                <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:2px">
+                  A URL to POST feedback JSON to (Formspree, Zapier, etc.). Leave blank to disable submissions.
+                </div>
+                <input id="portal-feedback-endpoint" type="url" placeholder="https://formspree.io/f/…"
+                  style="width:100%;max-width:400px" oninput="portalSettingsDirty()">
+              </div>
+              <div class="trigger-row" style="justify-content:flex-end;margin-top:12px">
+                <button class="btn" id="portal-save-btn" onclick="savePortalSettings()" disabled>Save</button>
+              </div>
+            </div>
+
+            <div class="trigger-card">
+              <div style="font-size:13px;font-weight:600;margin-bottom:10px">Visible feature requests</div>
+              <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:14px">
+                Select which projects appear on the portal's Feedback tab. Projects are pulled from the most recent requests snapshot.
+              </div>
+              <div id="portal-projects-list">
+                <div style="font-size:13px;color:var(--text-tertiary)">Loading projects…</div>
+              </div>
+              <div class="trigger-row" style="justify-content:flex-end;margin-top:12px">
+                <button class="btn" id="portal-visibility-btn" onclick="savePortalVisibility()" disabled>Save visibility</button>
+              </div>
             </div>
           </div>
         </div>
@@ -2226,6 +2282,7 @@
     localStorage.setItem(SUBTAB_KEY, id);
     if (!getToken()) return;
     if (id === 'flags') loadFlags();
+    if (id === 'portal') loadPortalSettings();
     if (id === 'changelog-edit') loadChangelogAdmin();
     if (id === 'runs') loadRuns();
     // 'trigger' has no async load; the form is static
@@ -3783,6 +3840,106 @@
     return String(s).replace(/[&<>"']/g, c => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
     })[c]);
+  }
+
+  // ---------- Portal settings ----------
+  const PORTAL_CONFIG_PATH = 'admin/portal-config.json';
+  let _portalConfig = null;
+  let _portalDirty  = false;
+
+  async function loadPortalSettings() {
+    const listEl = document.getElementById('portal-projects-list');
+    try {
+      const data = await gh(`/repos/${getRepo()}/contents/${PORTAL_CONFIG_PATH}`);
+      _portalConfig = JSON.parse(atob(data.content.replace(/\n/g, '')));
+    } catch {
+      _portalConfig = { enabled: false, headline: 'Follow along as we build', visibleProjectIds: [], feedbackEndpoint: '' };
+    }
+    // Populate form fields
+    document.getElementById('portal-enabled-toggle').checked = !!_portalConfig.enabled;
+    document.getElementById('portal-headline').value         = _portalConfig.headline || '';
+    document.getElementById('portal-feedback-endpoint').value = _portalConfig.feedbackEndpoint || '';
+    // Build portal URL
+    const portalUrl = `${location.origin}${siteBase()}/portal.html`;
+    const link = document.getElementById('portal-link');
+    link.href = portalUrl; link.textContent = portalUrl;
+    // Load project list from requests.json for visibility toggles
+    try {
+      const reqRes = await fetch(`${siteBase()}/requests.json?t=${Date.now()}`, { cache: 'no-store' });
+      if (reqRes.ok) {
+        const reqData = await reqRes.json();
+        renderPortalProjectList(reqData.projects || []);
+      } else {
+        listEl.innerHTML = '<div style="font-size:13px;color:var(--text-tertiary)">No requests snapshot yet — trigger requests.yml first.</div>';
+      }
+    } catch {
+      listEl.innerHTML = '<div style="font-size:13px;color:var(--text-tertiary)">Could not load projects.</div>';
+    }
+  }
+
+  function renderPortalProjectList(projects) {
+    const listEl = document.getElementById('portal-projects-list');
+    const visibleIds = new Set(_portalConfig.visibleProjectIds || []);
+    if (!projects.length) {
+      listEl.innerHTML = '<div style="font-size:13px;color:var(--text-tertiary)">No projects found in requests snapshot.</div>';
+      return;
+    }
+    listEl.innerHTML = projects.map(p => `
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1;min-width:0">
+          <input type="checkbox" data-project-id="${escapeHtml(p.id)}"
+            ${visibleIds.has(p.id) ? 'checked' : ''}
+            onchange="document.getElementById('portal-visibility-btn').disabled=false">
+          <span style="font-size:13.5px;font-weight:500">${escapeHtml(p.name)}</span>
+        </label>
+        <span class="meta-chip">${escapeHtml(p.statusName || p.status || '')}</span>
+        <span style="font-size:12px;color:var(--text-tertiary);flex-shrink:0">${p.requestCount} request${p.requestCount === 1 ? '' : 's'}</span>
+      </div>
+    `).join('');
+  }
+
+  function portalSettingsDirty() {
+    _portalDirty = true;
+    document.getElementById('portal-save-btn').disabled = false;
+  }
+
+  async function savePortalEnabled(enabled) {
+    if (!_portalConfig) return;
+    _portalConfig.enabled = enabled;
+    await writePortalConfig();
+  }
+
+  async function savePortalSettings() {
+    if (!_portalConfig) return;
+    _portalConfig.headline         = document.getElementById('portal-headline').value.trim();
+    _portalConfig.feedbackEndpoint = document.getElementById('portal-feedback-endpoint').value.trim();
+    await writePortalConfig();
+    document.getElementById('portal-save-btn').disabled = true;
+    _portalDirty = false;
+  }
+
+  async function savePortalVisibility() {
+    if (!_portalConfig) return;
+    const ids = [...document.querySelectorAll('#portal-projects-list input[data-project-id]:checked')]
+      .map(cb => cb.dataset.projectId);
+    _portalConfig.visibleProjectIds = ids;
+    await writePortalConfig();
+    document.getElementById('portal-visibility-btn').disabled = true;
+  }
+
+  async function writePortalConfig() {
+    const btn = document.getElementById('portal-save-btn');
+    try {
+      // Get current SHA (if file exists)
+      let sha;
+      try { sha = (await gh(`/repos/${getRepo()}/contents/${PORTAL_CONFIG_PATH}`)).sha; } catch {}
+      const content = btoa(JSON.stringify(_portalConfig, null, 2) + '\n');
+      await gh(`/repos/${getRepo()}/contents/${PORTAL_CONFIG_PATH}`, {
+        method: 'PUT',
+        body: JSON.stringify({ message: 'admin: update portal-config.json', content, ...(sha ? { sha } : {}) }),
+      });
+      toast('Portal settings saved');
+    } catch (e) { toast(`Save failed: ${e.message}`, true); }
   }
 
   // ---------- Toast ----------
