@@ -1036,6 +1036,72 @@
     }
     .req-request-link:hover { text-decoration: underline; }
 
+    /* ---------- Auth-gated tabs ---------- */
+    /* Tabs with data-protected are hidden from unauthenticated visitors */
+    .topbar-nav button[data-protected], .menu-link[data-protected] {
+      /* visibility toggled via JS; start visible so there's no flash if already signed in */
+    }
+    .panel-auth-gate {
+      padding: 56px 20px;
+      text-align: center;
+    }
+    .panel-auth-gate p { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+
+    /* ---------- Feedback ---------- */
+    .feedback-toolbar {
+      display: flex; align-items: center; gap: 12px;
+      padding: 0 4px 16px; flex-wrap: wrap;
+    }
+    .feedback-search {
+      font: 13.5px -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 5px 10px 5px 30px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      width: 200px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Ccircle cx='6' cy='6' r='4.5' stroke='%23999' stroke-width='1.5' fill='none'/%3E%3Cline x1='9.5' y1='9.5' x2='13' y2='13' stroke='%23999' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 9px center;
+      flex-shrink: 0;
+    }
+    .feedback-search:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .feedback-search::placeholder { color: var(--text-tertiary); }
+    .feedback-meta-text {
+      font-size: 13px; color: var(--text-tertiary); flex: 1; min-width: 0;
+    }
+    .feedback-meta-text .gen { color: var(--text-secondary); font-feature-settings: "tnum"; }
+    .feedback-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .feedback-row {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 16px; padding: 14px 20px; align-items: start;
+      position: relative; transition: background var(--transition);
+    }
+    .feedback-row + .feedback-row::before {
+      content: ""; position: absolute; top: 0; left: 20px; right: 20px;
+      height: 1px; background: var(--border);
+    }
+    .feedback-row:hover { background: var(--surface-hover); }
+    .feedback-body { font-size: 13.5px; color: var(--text); line-height: 1.55; }
+    .feedback-meta {
+      font-size: 12px; color: var(--text-tertiary);
+      display: flex; gap: 8px; align-items: center; margin-top: 5px; flex-wrap: wrap;
+    }
+    .feedback-customer { font-weight: 500; color: var(--text-secondary); }
+    .feedback-project {
+      color: var(--text-tertiary);
+      padding: 1px 7px; border-radius: 4px;
+      background: var(--surface-2); border: 1px solid var(--border);
+      font-size: 11px;
+    }
+    .feedback-link {
+      font-size: 11px; color: var(--accent); text-decoration: none; white-space: nowrap; flex-shrink: 0;
+    }
+    .feedback-link:hover { text-decoration: underline; }
+    .feedback-date { white-space: nowrap; }
+
     /* ---------- Entry detail page ---------- */
     #entry-detail { max-width: 720px; margin: 0 auto; padding: 16px 0 48px; }
     .entry-detail-back {
@@ -1698,7 +1764,8 @@
     <div class="topbar-nav" id="topbar-nav">
       <button data-tab="changelog" class="active" onclick="switchTab('changelog')">Changelog</button>
       <button data-tab="roadmap" onclick="switchTab('roadmap')">Roadmap</button>
-      <button data-tab="requests" onclick="switchTab('requests')">Requests</button>
+      <button data-tab="requests" data-protected onclick="switchTab('requests')">Requests</button>
+      <button data-tab="feedback" data-protected onclick="switchTab('feedback')">Feedback</button>
       <button data-tab="settings" onclick="switchTab('settings')">Settings</button>
     </div>
     <div class="topbar-aux">
@@ -1726,7 +1793,8 @@
     <div class="menu-sheet-inner">
       <button class="menu-link active" data-tab="changelog" onclick="switchTab('changelog'); closeMenu();">Changelog</button>
       <button class="menu-link" data-tab="roadmap" onclick="switchTab('roadmap'); closeMenu();">Roadmap</button>
-      <button class="menu-link" data-tab="requests" onclick="switchTab('requests'); closeMenu();">Requests</button>
+      <button class="menu-link" data-tab="requests" data-protected onclick="switchTab('requests'); closeMenu();">Requests</button>
+      <button class="menu-link" data-tab="feedback" data-protected onclick="switchTab('feedback'); closeMenu();">Feedback</button>
       <button class="menu-link" data-tab="settings" onclick="switchTab('settings'); closeMenu();">Settings</button>
       <div class="menu-sheet-footer">
         <div class="theme-switch" role="group" aria-label="Theme">
@@ -1814,21 +1882,55 @@
     </section>
 
     <section class="panel" id="panel-requests">
-      <div class="requests-toolbar" id="requests-toolbar">
-        <div class="requests-meta-text" id="requests-meta-text">Customer requests — mirrored from Linear</div>
-        <div class="requests-filter">
-          <label for="requests-customer-filter">Customer</label>
-          <select class="filter-select" id="requests-customer-filter" onchange="filterRequests()">
-            <option value="">All customers</option>
-          </select>
-        </div>
-        <button class="btn ghost" onclick="loadRequests()">Refresh</button>
+      <div id="requests-auth-gate" class="panel-auth-gate" hidden>
+        <p>Sign in to view customer requests.</p>
+        <button class="btn primary" onclick="switchTab('settings')">Sign in →</button>
       </div>
-      <div id="requests-list">
-        <div class="group-card">
-          <div class="skeleton-row"><span class="skeleton" style="width: 280px"></span></div>
-          <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
-          <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
+      <div id="requests-main" hidden>
+        <div class="requests-toolbar" id="requests-toolbar">
+          <div class="requests-meta-text" id="requests-meta-text">Customer requests — mirrored from Linear</div>
+          <div class="requests-filter">
+            <label for="requests-customer-filter">Customer</label>
+            <select class="filter-select" id="requests-customer-filter" onchange="filterRequests()">
+              <option value="">All customers</option>
+            </select>
+          </div>
+          <button class="btn ghost" onclick="loadRequests()">Refresh</button>
+        </div>
+        <div id="requests-list">
+          <div class="group-card">
+            <div class="skeleton-row"><span class="skeleton" style="width: 280px"></span></div>
+            <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
+            <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-feedback">
+      <div id="feedback-auth-gate" class="panel-auth-gate" hidden>
+        <p>Sign in to view customer feedback.</p>
+        <button class="btn primary" onclick="switchTab('settings')">Sign in →</button>
+      </div>
+      <div id="feedback-main" hidden>
+        <div class="feedback-toolbar" id="feedback-toolbar">
+          <input type="search" class="feedback-search" id="feedback-search"
+            placeholder="Search feedback…" oninput="filterFeedback()" autocomplete="off">
+          <div class="requests-filter">
+            <label for="feedback-customer-filter">Customer</label>
+            <select class="filter-select" id="feedback-customer-filter" onchange="filterFeedback()">
+              <option value="">All customers</option>
+            </select>
+          </div>
+          <div class="feedback-meta-text" id="feedback-meta-text">Feedback — mirrored from Linear</div>
+          <button class="btn ghost" onclick="loadFeedback()">Refresh</button>
+        </div>
+        <div id="feedback-list">
+          <div class="group-card">
+            <div class="skeleton-row"><span class="skeleton" style="width: 280px"></span></div>
+            <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
+            <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
+          </div>
         </div>
       </div>
     </section>
@@ -2054,7 +2156,14 @@
     }
     if (_inDetailView) { _inDetailView = false; }
     if (id === 'roadmap') loadRoadmap();
-    if (id === 'requests') loadRequests();
+    if (id === 'requests') {
+      if (!getToken()) { switchTab('settings'); return; }
+      loadRequests();
+    }
+    if (id === 'feedback') {
+      if (!getToken()) { switchTab('settings'); return; }
+      loadFeedback();
+    }
     if (id === 'settings') {
       updateAuthVisibility();
       if (getToken()) {
@@ -2077,10 +2186,29 @@
 
   function updateAuthVisibility() {
     const signedIn = !!getToken();
+    // Settings panel gate
     const auth = document.getElementById('auth');
     const content = document.getElementById('settings-content');
     if (auth) auth.classList.toggle('hidden', signedIn);
     if (content) content.hidden = !signedIn;
+    // Protected tabs: hide from nav when not signed in
+    document.querySelectorAll('[data-protected]').forEach(el => {
+      el.style.display = signedIn ? '' : 'none';
+    });
+    // Protected panels: show gate vs. main content
+    for (const id of ['requests', 'feedback']) {
+      const gate = document.getElementById(`${id}-auth-gate`);
+      const main = document.getElementById(`${id}-main`);
+      if (gate) gate.hidden = signedIn;
+      if (main) main.hidden = !signedIn;
+    }
+    // If currently on a protected tab while signed out, go to changelog
+    if (!signedIn) {
+      const cur = localStorage.getItem(TAB_KEY);
+      if (cur === 'requests' || cur === 'feedback') {
+        switchTab('changelog');
+      }
+    }
   }
 
   // ---------- Mobile menu ----------
@@ -2326,6 +2454,8 @@
       }
       // Restore previous selection if still valid
       if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+      // Also seed the Feedback customer filter since we share the same data
+      populateFeedbackFilter(_requestsData);
       const gen = formatGenerated(_requestsData.generatedAt);
       meta.innerHTML = `<strong>${_requestsData.totalCount} request${_requestsData.totalCount === 1 ? '' : 's'}</strong> across ${_requestsData.projectCount} project${_requestsData.projectCount === 1 ? '' : 's'} — mirrored from Linear <span class="gen">${gen}</span>`;
       renderRequests(_requestsData, sel.value);
@@ -2448,6 +2578,117 @@
     if (!list) return;
     const open = list.classList.toggle('open');
     rowEl.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  // ---------- Feedback ----------
+  // Reuses _requestsData / REQUESTS_URL from the Requests section above.
+  let _feedbackLoading = false;
+
+  async function loadFeedback() {
+    if (_feedbackLoading) return;
+    // If requests data is already loaded, reuse it to save a round trip
+    if (_requestsData) {
+      populateFeedbackFilter(_requestsData);
+      renderFeedback();
+      return;
+    }
+    _feedbackLoading = true;
+    const list = document.getElementById('feedback-list');
+    const meta = document.getElementById('feedback-meta-text');
+    try {
+      const r = await fetch(`${REQUESTS_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(`${r.status} loading requests.json`);
+      _requestsData = await r.json();
+      populateFeedbackFilter(_requestsData);
+      renderFeedback();
+    } catch (e) {
+      list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No feedback snapshot yet. Trigger <a href="https://github.com/hellolexicon/ProductOS/actions/workflows/requests.yml" target="_blank">requests.yml</a> to generate one. (${escapeHtml(e.message)})</div>`;
+    } finally {
+      _feedbackLoading = false;
+    }
+  }
+
+  function populateFeedbackFilter(data) {
+    const sel = document.getElementById('feedback-customer-filter');
+    if (!sel) return;
+    const prev = sel.value;
+    while (sel.options.length > 1) sel.remove(1);
+    for (const c of (data.customers || [])) {
+      const opt = document.createElement('option');
+      opt.value = c.id;
+      opt.textContent = `${c.name} (${c.count})`;
+      sel.appendChild(opt);
+    }
+    if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+  }
+
+  function filterFeedback() {
+    renderFeedback();
+  }
+
+  function renderFeedback() {
+    if (!_requestsData) return;
+    const list = document.getElementById('feedback-list');
+    const meta = document.getElementById('feedback-meta-text');
+    const customerId = document.getElementById('feedback-customer-filter')?.value || '';
+    const query = (document.getElementById('feedback-search')?.value || '').toLowerCase().trim();
+
+    // Flatten all requests from all projects, attach project name
+    let items = [];
+    for (const p of (_requestsData.projects || [])) {
+      for (const r of (p.requests || [])) {
+        items.push({ ...r, projectName: p.name, projectLinearUrl: p.linearUrl });
+      }
+    }
+
+    // Filter by customer
+    if (customerId) items = items.filter(r => r.customerId === customerId);
+
+    // Filter by search query (body + customer name)
+    if (query) {
+      items = items.filter(r =>
+        (r.body || '').toLowerCase().includes(query) ||
+        (r.customerName || '').toLowerCase().includes(query) ||
+        (r.projectName || '').toLowerCase().includes(query)
+      );
+    }
+
+    // Sort newest first
+    items.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+
+    const total = _requestsData.totalCount || 0;
+    const filtered = items.length;
+    const filterDesc = (customerId || query)
+      ? ` (${filtered} shown)`
+      : '';
+    const gen = formatGenerated(_requestsData.generatedAt);
+    meta.innerHTML = `<strong>${total} feedback item${total === 1 ? '' : 's'}</strong>${filterDesc} — mirrored from Linear <span class="gen">${gen}</span>`;
+
+    if (items.length === 0) {
+      list.innerHTML = '<div class="empty">No feedback matches your filters.</div>';
+      return;
+    }
+
+    const rows = items.map(r => {
+      const date = r.createdAt ? formatDate(r.createdAt.slice(0, 10)) : '';
+      const linkHTML = r.url
+        ? `<a class="feedback-link" href="${escapeHtml(r.url)}" target="_blank">View ↗</a>`
+        : '';
+      return `
+        <div class="feedback-row">
+          <div>
+            <div class="feedback-body">${escapeHtml(r.body || '')}</div>
+            <div class="feedback-meta">
+              ${r.customerName ? `<span class="feedback-customer">${escapeHtml(r.customerName)}</span>` : ''}
+              ${r.projectName ? `<span class="feedback-project">${escapeHtml(r.projectName)}</span>` : ''}
+              ${date ? `<span class="feedback-date">${escapeHtml(date)}</span>` : ''}
+            </div>
+          </div>
+          <div>${linkHTML}</div>
+        </div>
+      `;
+    }).join('');
+    list.innerHTML = `<div class="feedback-card">${rows}</div>`;
   }
 
   // ---------- Entry detail pages ----------
