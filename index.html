@@ -779,6 +779,39 @@
       color: var(--text-secondary);
     }
 
+    /* ---------- Help centre ---------- */
+    .help-btn {
+      font: 13px -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-tertiary);
+      background: none; border: none; cursor: pointer;
+      padding: 2px 4px; border-radius: 4px;
+      transition: color var(--transition);
+      line-height: 1; flex-shrink: 0;
+    }
+    .help-btn:hover { color: var(--accent); }
+    #panel-help .help-content { max-width: 640px; }
+    .help-section { margin-bottom: 36px; }
+    .help-section-title {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--text-tertiary);
+      padding-bottom: 2px;
+    }
+    /* Article body inside a help <details> — mirrors changelog-entry-section-body */
+    .help-article-body {
+      padding: 4px 0 18px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .help-article-body p { margin: 0 0 8px; }
+    .help-article-body p:last-child { margin-bottom: 0; }
+    .help-article-body code {
+      font: 12px ui-monospace, "SF Mono", Menlo, monospace;
+      background: var(--surface-2); padding: 1px 5px; border-radius: 4px;
+      color: var(--text); border: 1px solid var(--border);
+    }
+    .help-article-body strong { color: var(--text); font-weight: 500; }
+
     /* ---------- Roadmap view toggle & board ---------- */
     .roadmap-view-toggle {
       display: flex;
@@ -1885,6 +1918,7 @@
         </button>
       </div>
       <a class="repo-link" id="topbar-github-link" href="https://github.com/hellolexicon/ProductOS" target="_blank">GitHub ↗</a>
+      <button class="help-btn" onclick="switchTab('help')" title="Help">?</button>
     </div>
     <button class="menu-btn" id="menu-btn" onclick="toggleMenu()" aria-label="Open menu" aria-expanded="false">
       <svg viewBox="0 0 24 24" stroke-linecap="round">
@@ -1913,6 +1947,7 @@
           </button>
         </div>
         <a class="repo-link" id="menu-github-link" href="https://github.com/hellolexicon/ProductOS" target="_blank" style="font-size: 13px;">GitHub ↗</a>
+        <button class="help-btn" style="font-size:13px;" onclick="switchTab('help'); closeMenu();">Help</button>
       </div>
     </div>
   </div>
@@ -2057,6 +2092,16 @@
             <div class="skeleton-row"><span class="skeleton" style="width: 240px"></span></div>
             <div class="skeleton-row"><span class="skeleton" style="width: 200px"></span></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-help">
+      <div class="help-content" id="help-content">
+        <div class="group-card">
+          <div class="skeleton-row"><span class="skeleton" style="width: 180px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 320px"></span></div>
+          <div class="skeleton-row"><span class="skeleton" style="width: 260px"></span></div>
         </div>
       </div>
     </section>
@@ -2385,6 +2430,7 @@
     }
     if (_inDetailView) { _inDetailView = false; }
     if (id === 'roadmap') loadRoadmap();
+    if (id === 'help') loadHelp();
     if (id === 'requests') {
       if (!getToken()) { switchTab('settings'); return; }
       loadRequests();
@@ -2470,6 +2516,55 @@
   window.addEventListener('resize', () => {
     if (window.innerWidth > 720) closeMenu();
   });
+
+  // ---------- Help centre ----------
+  // Content is fetched from help.json (mirrored from admin/help.json in ProductOS).
+  // Update help.json whenever new features are added — the panel re-renders on
+  // next load without any code change to index.html.
+  const HELP_URL = `${location.pathname.replace(/index\.html?$/, '')}help.json`;
+  let _helpData = null;
+  let _helpLoading = false;
+
+  async function loadHelp() {
+    if (_helpData) { renderHelp(_helpData); return; }
+    if (_helpLoading) return;
+    _helpLoading = true;
+    const el = document.getElementById('help-content');
+    try {
+      const r = await fetch(`${HELP_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!r.ok) throw new Error(`${r.status}`);
+      _helpData = await r.json();
+      renderHelp(_helpData);
+    } catch (e) {
+      el.innerHTML = `<div class="empty" style="color:var(--text-tertiary);">Could not load help content. <button class="btn ghost" style="margin-left:8px;" onclick="_helpLoading=false;loadHelp()">Retry</button></div>`;
+    } finally {
+      _helpLoading = false;
+    }
+  }
+
+  function renderHelp(data) {
+    const el = document.getElementById('help-content');
+    el.innerHTML = (data.sections || []).map(section => `
+      <div class="help-section">
+        <div class="help-section-title">${escapeHtml(section.title)}</div>
+        ${(section.articles || []).map(a => `
+          <details class="changelog-entry-section">
+            <summary>${escapeHtml(a.q)}</summary>
+            <div class="help-article-body">${renderHelpText(a.a)}</div>
+          </details>`).join('')}
+      </div>`).join('');
+  }
+
+  // Minimal markdown: blank-line → paragraph break, **bold**, `code`.
+  function renderHelpText(text) {
+    return text.split(/\n\n+/).map(block => {
+      const html = escapeHtml(block)
+        .replace(/`([^`\n]+)`/g, '<code>$1</code>')
+        .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+      return `<p>${html}</p>`;
+    }).join('');
+  }
 
   // ---------- Roadmap ----------
   // roadmap.json is published to the same Pages origin by the roadmap.yml

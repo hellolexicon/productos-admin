@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "title": "Getting started",
+      "articles": [
+        {
+          "q": "What is ProductOS Admin?",
+          "a": "ProductOS Admin is the internal portal for managing your changelog, monitoring your roadmap, and viewing customer requests — all sourced from Linear and Notion.\n\nThe Changelog tab is public-facing (no login required). The Roadmap also reads publicly. Requests, Feedback, and Settings require a GitHub token."
+        },
+        {
+          "q": "How do I sign in?",
+          "a": "Go to Settings and paste a GitHub Personal Access Token (PAT) in the token field.\n\nThe token is stored only in your browser's `localStorage` — it is never sent anywhere except the GitHub API."
+        },
+        {
+          "q": "What GitHub token permissions do I need?",
+          "a": "A classic PAT with the `repo` scope works. For a fine-grained PAT, grant **Contents: Read & Write** on the ProductOS repository (the private source repo, not the public admin site).\n\nRead access lets you view flags and run history. Write access is required to publish changelog entries, edit settings, and trigger syncs."
+        }
+      ]
+    },
+    {
+      "title": "Changelog",
+      "articles": [
+        {
+          "q": "How do I create or edit a changelog entry?",
+          "a": "Go to **Settings → Changelog** and click **New entry**. Fill in the title, date, optional tag(s), and body. Click **Publish** to save — this commits the updated `changelog.json` to the repo and triggers the mirror workflow.\n\nTo edit an existing entry, find it in the list and click **Edit**."
+        },
+        {
+          "q": "What are the entry tags?",
+          "a": "Each entry can have one or more tags:\n\n- **New** — a new feature or product\n- **Improved** — an enhancement to something existing\n- **Fixed** — a bug fix\n\nTags are displayed as coloured pills in the changelog list and on individual entry pages."
+        },
+        {
+          "q": "How do collapsible sections work?",
+          "a": "Any top-level `##` heading in an entry body becomes a collapsible section that readers can expand or collapse independently.\n\nFor example, writing `## Fixes` followed by a bullet list creates a "Fixes" accordion. This keeps long entries scannable without hiding information."
+        },
+        {
+          "q": "How do I add a cover image to an entry?",
+          "a": "Click the cover image area at the top of the entry editor and upload a file. The image is committed to the ProductOS repo and mirrored to the public site by a GitHub Actions workflow.\n\nYou can also insert inline images in the body using the `/img` slash command."
+        },
+        {
+          "q": "Why does my image show a broken icon briefly after uploading?",
+          "a": "The image is uploaded to ProductOS and then a workflow mirrors it to the public site. During the ~30–90 second propagation window the editor shows a temporary preview URL (a `blob:` URL) that only exists in your current browser tab.\n\nThe public reader always shows the correct image once the workflow completes. Reloading the editor after ~2 minutes will show the permanent URL."
+        },
+        {
+          "q": "How do I link to a specific entry?",
+          "a": "Each entry has a unique ID-based URL: `https://hellolexicon.github.io/productos-admin/changelog/<entry-id>`.\n\nThe ID is auto-generated from the title when you create an entry. You can share this URL directly — visitors without a token can read all changelog entries."
+        }
+      ]
+    },
+    {
+      "title": "Roadmap",
+      "articles": [
+        {
+          "q": "Where does Roadmap data come from?",
+          "a": "The Roadmap reads `roadmap.json`, which is generated hourly by the `roadmap.yml` GitHub Actions workflow. It fetches projects from your Notion database and filters for active projects whose start or target date falls within the next 92 days.\n\nThe snapshot is updated at 15 minutes past every hour."
+        },
+        {
+          "q": "Why is a project missing from the Roadmap?",
+          "a": "Check the following:\n\n- The project must have a non-terminal status (Done, Shipped, Cancelled, and Impact Assessed are excluded).\n- The project must have a start date or target date within the next 92 days.\n- The project must exist in Notion. If it was just created in Linear, wait for the sync at `:00` and the roadmap refresh at `:15` — up to 75 minutes total.\n- Check that the project is not filtered out by the Team filter in the Roadmap header."
+        },
+        {
+          "q": "What is the difference between list and board views?",
+          "a": "**List view** groups projects by target month in chronological order.\n\n**Board view** groups projects by status in Kanban-style columns, ordered to reflect the typical workflow (Planned → Discovery → Delivery → Done). Switch between views using the icons in the Roadmap header — your preference is remembered."
+        },
+        {
+          "q": "How do I filter by team?",
+          "a": "Use the **Team** dropdown in the Roadmap (and Requests) header. The options are populated from the team tags on your projects — if a team isn't listed, no project has that team assigned.\n\nFiltering applies instantly across both list and board views without refetching data."
+        }
+      ]
+    },
+    {
+      "title": "Linear sync",
+      "articles": [
+        {
+          "q": "How does the Linear → Notion sync work?",
+          "a": "The `sync.yml` workflow runs at the top of every hour. It fetches all Linear projects, matches each to a Notion page (by stored ID, then by name), diffs the field values, and writes any changes.\n\nEach field write is gated by a `WRITE_*` environment secret in the repo — fields can be enabled or disabled independently. Dry-run mode prints the planned changes without writing anything."
+        },
+        {
+          "q": "Which fields are synced?",
+          "a": "Linear → Notion (one-way): Title, Teams, Labels, Effort (derived from effort labels), Customers, Linear URL, Summary.\n\nBidirectional (Notion wins when it has a value): Status, Lead, Initiatives, Priority, Health.\n\nDate fields (Start Date, Target Date) are Linear → Notion only — Linear always wins on dates."
+        },
+        {
+          "q": "Why didn't my new Linear project appear in Notion?",
+          "a": "New projects are created in Notion by the sync at `:00`. The roadmap snapshot then picks it up at `:15`. A brand-new project can take up to 75 minutes to appear.\n\nYou can trigger the sync and roadmap workflows manually from the GitHub Actions tab in the repo, or use Settings → Trigger in this admin to run them immediately."
+        },
+        {
+          "q": "A date I cleared in Linear came back — why?",
+          "a": "Linear wins on dates unconditionally. If a date is present in Notion but absent in Linear, the sync overwrites Notion to match Linear — including clearing it.\n\nIf the date came back, it means the date is still set in Linear (perhaps by another sync cycle that ran before your change was processed). Check the project in Linear directly."
+        },
+        {
+          "q": "An effort label I changed in Linear didn't propagate — why?",
+          "a": "Effort is derived from project labels that contain the word "effort" (e.g. "2 Weeks Effort"). The sync maps the label to a Notion Effort option.\n\nIf the label changed but Notion didn't update, check that `WRITE_EFFORT=true` is set in the repo secrets, and that the label text maps to a recognised option (Half Week, 1 Week, 2 Weeks, 3 Weeks, 4 Weeks, 6 Weeks)."
+        },
+        {
+          "q": "How do I trigger a sync manually?",
+          "a": "Go to **Settings → Trigger** in this admin and click the workflow button, or navigate to the GitHub Actions tab in the repo and click **Run workflow** on `sync.yml`, `roadmap.yml`, or `requests.yml`."
+        },
+        {
+          "q": "What do the WRITE_* flags do?",
+          "a": "Each synced field has a corresponding `WRITE_*` environment secret (e.g. `WRITE_STATUS`, `WRITE_DATES`). Setting a flag to `true` enables writes for that field; omitting it or setting it to anything else leaves the field read-only.\n\nThis lets you roll out field syncing incrementally and disable individual fields if they cause issues, without touching the code."
+        }
+      ]
+    },
+    {
+      "title": "Customer requests & feedback",
+      "articles": [
+        {
+          "q": "What is the Requests tab?",
+          "a": "Requests shows all customer needs attached to Linear projects, grouped by project status and sorted by request volume. Expand any project row to see the individual need bodies, customer names, and dates.\n\nRequests requires a GitHub token to view."
+        },
+        {
+          "q": "What is the Feedback tab?",
+          "a": "Feedback shows the same customer needs as a flat, reverse-chronological list — useful for reviewing recent feedback across all projects at once. You can search and filter by customer or team.\n\nFeedback uses the same `requests.json` snapshot as the Requests tab."
+        },
+        {
+          "q": "How often does requests data update?",
+          "a": "`requests.yml` runs at 30 minutes past every hour. You can also trigger it manually from GitHub Actions or Settings → Trigger."
+        },
+        {
+          "q": "Why is a customer or request missing?",
+          "a": "Customers appear only when they are attached to a Linear project via a Customer Need. Add the need in Linear and wait for the next `requests.yml` run.\n\nIf a customer is attached but still missing, check that their name is non-empty in Linear — blank customer names are filtered out."
+        }
+      ]
+    },
+    {
+      "title": "Customer portal",
+      "articles": [
+        {
+          "q": "What is the Customer Portal?",
+          "a": "The Customer Portal is a public-facing page (`portal.html`) that shows your Changelog, Roadmap, and a Feedback form to customers — no login required.\n\nEnable it in **Settings → Portal** and share the portal URL with customers."
+        },
+        {
+          "q": "How do I control which projects appear on the portal Roadmap?",
+          "a": "In **Settings → Portal**, expand the project visibility list and select which projects customers can see. Unselected projects are hidden from the portal Roadmap tab.\n\nThe portal Requests tab shows customer needs only for visible projects."
+        },
+        {
+          "q": "How does the portal feedback form work?",
+          "a": "Set a **Feedback Endpoint** URL in Settings → Portal. When a customer submits the form, the portal POSTs `{ name, email, message }` as JSON to that URL.\n\nYou can point this at a Zapier webhook, a Formspree endpoint, or any service that accepts a JSON POST."
+        },
+        {
+          "q": "Can I disable the portal temporarily?",
+          "a": "Yes — toggle the **Portal enabled** switch in Settings → Portal. Disabled portals show a \"coming soon\" message to visitors instead of the content tabs."
+        }
+      ]
+    }
+  ]
+}
