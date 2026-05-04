@@ -118,55 +118,106 @@
     }
     .rm-target { font-size: 12px; color: var(--text-3); margin-top: 4px; }
 
-    /* ---- Feedback ---- */
-    .fb-hero { margin-bottom: 28px; }
-    .fb-hero p { font-size: 14px; color: var(--text-2); margin-top: 6px; }
-    .fb-submit-btn {
-      margin-top: 14px;
-      background: var(--accent); color: #fff; border: none;
-      font: 14px -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 600;
-      padding: 9px 18px; border-radius: 8px; cursor: pointer;
-      transition: opacity .15s;
+    /* ---- Requests page ---- */
+    .rq-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 16px; margin-bottom: 10px;
     }
-    .fb-submit-btn:hover { opacity: .88; }
-    .fb-form {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 20px; margin-bottom: 28px; display: none;
+    .rq-header-text h1 {
+      font-size: 34px; font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
+      margin-bottom: 6px;
     }
-    .fb-form.open { display: block; }
-    .fb-form h3 { font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+    .rq-header-text p { font-size: 14px; color: var(--text-2); }
+    .rq-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; padding-top: 6px; }
+    .rq-icon-btn {
+      width: 36px; height: 36px; border: 1px solid var(--border);
+      border-radius: 8px; background: var(--bg); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-2); transition: background .12s, color .12s;
+    }
+    .rq-icon-btn:hover { background: var(--surface); color: var(--text); }
+    .rq-new-btn {
+      display: flex; align-items: center; gap: 7px; height: 36px;
+      padding: 0 14px; border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg); color: var(--text); white-space: nowrap;
+      font: 600 13.5px -apple-system, sans-serif; cursor: pointer;
+      transition: background .12s;
+    }
+    .rq-new-btn:hover { background: var(--surface); }
+    .rq-search-bar { margin: 16px 0 20px; display: none; }
+    .rq-search-bar.open { display: block; }
+    .rq-search-input {
+      width: 100%; font: 14px -apple-system, sans-serif; color: var(--text);
+      padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px;
+      background: var(--bg);
+    }
+    .rq-search-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    /* Status groups */
+    .rq-group { margin-bottom: 6px; }
+    .rq-group-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px; background: var(--surface);
+      font-size: 13px; font-weight: 600; margin-bottom: 2px;
+    }
+    /* Project rows */
+    .rq-project {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px; border-radius: 8px; transition: background .12s;
+    }
+    .rq-project:hover { background: var(--surface); }
+    .rq-proj-icon {
+      width: 30px; height: 30px; border-radius: 7px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+    }
+    .rq-proj-body { flex: 1; min-width: 0; }
+    .rq-proj-name { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rq-proj-sub  { font-size: 12.5px; color: var(--text-2); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rq-vote {
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      min-width: 40px; padding: 5px 8px;
+      border: 1px solid var(--border); border-radius: 8px; flex-shrink: 0;
+      color: var(--text-2); font-family: -apple-system, sans-serif;
+    }
+    .rq-vote-count { font-size: 13px; font-weight: 700; line-height: 1; }
+    .rq-empty { padding: 48px 12px; text-align: center; color: var(--text-3); font-size: 14px; }
+    /* New request modal */
+    .rq-modal-bg {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.35); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .rq-modal-bg.open { display: flex; }
+    .rq-modal {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px; width: 100%; max-width: 440px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.15);
+    }
+    .rq-modal-title { font-size: 17px; font-weight: 700; margin-bottom: 18px; }
     .fb-field { margin-bottom: 12px; }
     .fb-field label { display: block; font-size: 12px; font-weight: 600; color: var(--text-2); margin-bottom: 4px; }
-    .fb-field input, .fb-field textarea, .fb-field select {
-      width: 100%; font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+    .fb-field input, .fb-field textarea {
+      width: 100%; font: 14px -apple-system, sans-serif; color: var(--text);
       padding: 8px 10px; border: 1px solid var(--border); border-radius: 7px;
-      background: var(--bg); color: var(--text); resize: vertical;
+      background: var(--bg); resize: vertical;
     }
     .fb-field textarea { min-height: 80px; }
-    .fb-field input:focus, .fb-field textarea:focus, .fb-field select:focus {
-      outline: 2px solid var(--accent); outline-offset: 1px;
-    }
-    .fb-form-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
-    .fb-cancel-btn {
+    .fb-field input:focus, .fb-field textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+    .rq-modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+    .rq-cancel-btn {
       background: none; border: 1px solid var(--border);
-      font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+      font: 500 14px -apple-system, sans-serif;
       padding: 7px 14px; border-radius: 7px; cursor: pointer; color: var(--text-2);
+      transition: background .12s;
     }
-    .fb-projects-label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: .07em; color: var(--text-3); margin-bottom: 10px;
+    .rq-cancel-btn:hover { background: var(--surface); }
+    .rq-submit-btn {
+      background: var(--accent); color: #fff; border: none;
+      font: 600 14px -apple-system, sans-serif;
+      padding: 7px 16px; border-radius: 7px; cursor: pointer; transition: opacity .12s;
     }
-    .fb-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-    }
-    .fb-project-row { padding: 14px 18px; position: relative; }
-    .fb-project-row + .fb-project-row { border-top: 1px solid var(--border); }
-    .fb-project-row-head { display: flex; align-items: flex-start; gap: 12px; }
-    .fb-project-name { font-weight: 500; font-size: 14.5px; }
-    .fb-project-status { margin-left: auto; flex-shrink: 0; }
-    .fb-project-desc { font-size: 13px; color: var(--text-3); margin-top: 4px; line-height: 1.5; }
-    .fb-req-count { font-size: 12px; color: var(--text-3); margin-top: 6px; }
+    .rq-submit-btn:hover { opacity: .88; }
+    .rq-submit-btn:disabled { opacity: .5; cursor: default; }
 
     /* ---- Status pills (shared) ---- */
     .status-pill {
@@ -225,7 +276,7 @@
     <nav class="portal-nav">
       <button class="active" data-tab="changelog" onclick="switchTab('changelog')">Changelog</button>
       <button data-tab="roadmap" onclick="switchTab('roadmap')">Roadmap</button>
-      <button data-tab="feedback" onclick="switchTab('feedback')">Feedback</button>
+      <button data-tab="feedback" onclick="switchTab('feedback')">Requests</button>
     </nav>
   </div>
 </header>
@@ -242,34 +293,58 @@
     <div id="rm-list"><div class="empty"><span class="skeleton" style="width:240px"></span></div></div>
   </div>
 
-  <!-- Feedback -->
+  <!-- Requests -->
   <div class="panel" id="panel-feedback">
-    <div class="fb-hero">
-      <h2 id="fb-headline" style="font-size:22px;font-weight:700;letter-spacing:-.02em"></h2>
-      <p id="fb-sub">See what we're working on and share your ideas.</p>
-      <button class="fb-submit-btn" onclick="toggleFeedbackForm(true)">Share feedback</button>
-    </div>
-    <div class="fb-form" id="fb-form">
-      <h3>Share your feedback</h3>
-      <div class="fb-field">
-        <label>Your feedback <span style="color:#c00">*</span></label>
-        <textarea id="fb-body" placeholder="Describe what you'd like to see…"></textarea>
+    <div class="rq-header">
+      <div class="rq-header-text">
+        <h1>Requests</h1>
+        <p id="fb-headline"></p>
       </div>
-      <div class="fb-field">
-        <label>Name <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
-        <input id="fb-name" type="text" placeholder="Your name">
-      </div>
-      <div class="fb-field">
-        <label>Email <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
-        <input id="fb-email" type="email" placeholder="you@company.com">
-      </div>
-      <div class="fb-form-actions">
-        <button class="fb-cancel-btn" onclick="toggleFeedbackForm(false)">Cancel</button>
-        <button class="fb-submit-btn" id="fb-send-btn" onclick="submitFeedback()">Submit</button>
+      <div class="rq-actions">
+        <button class="rq-icon-btn" onclick="toggleRqSearch()" title="Search">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10.5 10.5L13.5 13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="rq-new-btn" onclick="openRqModal()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M6.5 2.5H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M9 1.5l3 3-4.5 4.5H5V6.5L9 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+          </svg>
+          New request
+        </button>
       </div>
     </div>
-    <p class="fb-projects-label" id="fb-projects-label" style="display:none">Feature requests</p>
-    <div class="fb-card" id="fb-projects" style="display:none"></div>
+    <div class="rq-search-bar" id="rq-search-bar">
+      <input class="rq-search-input" id="rq-search" type="text" placeholder="Search requests…" oninput="renderRqProjects()">
+    </div>
+    <div id="rq-list">
+      <div class="empty"><span class="skeleton" style="width:220px"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- New request modal -->
+<div class="rq-modal-bg" id="rq-modal-bg" onclick="if(event.target===this)closeRqModal()">
+  <div class="rq-modal">
+    <div class="rq-modal-title">New request</div>
+    <div class="fb-field">
+      <label>Your feedback <span style="color:#c00">*</span></label>
+      <textarea id="fb-body" placeholder="Describe what you'd like to see…"></textarea>
+    </div>
+    <div class="fb-field">
+      <label>Name <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
+      <input id="fb-name" type="text" placeholder="Your name">
+    </div>
+    <div class="fb-field">
+      <label>Email <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
+      <input id="fb-email" type="email" placeholder="you@company.com">
+    </div>
+    <div class="rq-modal-actions">
+      <button class="rq-cancel-btn" onclick="closeRqModal()">Cancel</button>
+      <button class="rq-submit-btn" id="fb-send-btn" onclick="submitFeedback()">Submit</button>
+    </div>
   </div>
 </div>
 
@@ -431,7 +506,7 @@
     </div>`;
   }
 
-  // ---------- Feedback ----------
+  // ---------- Requests ----------
   let _req; let _reqLoading = false;
   async function loadFeedback() {
     if (_req || _reqLoading) return;
@@ -440,62 +515,113 @@
       const r = await fetch(`${BASE}/requests.json?t=${Date.now()}`, { cache: 'no-store' });
       if (!r.ok) throw new Error(r.status);
       _req = await r.json();
-      renderFeedbackProjects();
-    } catch { /* no visible projects — form still shows */ }
+      renderRqProjects();
+    } catch { document.getElementById('rq-list').innerHTML = '<div class="rq-empty">Could not load requests.</div>'; }
     finally { _reqLoading = false; }
   }
 
-  function renderFeedbackProjects() {
-    const visible = PORTAL.visibleProjectIds || [];
-    if (!_req || !visible.length) return;
-    const projects = (_req.projects || []).filter(p => visible.includes(p.id));
-    if (!projects.length) return;
-    const label = document.getElementById('fb-projects-label');
-    const card  = document.getElementById('fb-projects');
-    label.style.display = '';
-    card.style.display  = '';
-    card.innerHTML = projects.map(p => {
-      const status = p.statusName || p.status || '';
-      const desc = p.requests?.[0]?.body ? truncate(p.requests[0].body, 120) : '';
-      const cnt = p.requests?.length || 0;
-      return `<div class="fb-project-row">
-        <div class="fb-project-row-head">
-          <span class="fb-project-name">${esc(p.name)}</span>
-          ${status ? `<span class="fb-project-status"><span class="status-pill" data-status="${esc(status)}">${esc(status)}</span></span>` : ''}
-        </div>
-        ${desc ? `<div class="fb-project-desc">${esc(desc)}…</div>` : ''}
-        <div class="fb-req-count">${cnt} customer request${cnt === 1 ? '' : 's'}</div>
-      </div>`;
-    }).join('');
+  const RQ_META = {
+    'solution delivery':     { order:0, color:'#6366f1', bg:'rgba(99,102,241,.12)',  icon:'delivery'  },
+    'in progress':           { order:0, color:'#6366f1', bg:'rgba(99,102,241,.12)',  icon:'delivery'  },
+    'started':               { order:0, color:'#6366f1', bg:'rgba(99,102,241,.12)',  icon:'delivery'  },
+    'opportunity discovery': { order:1, color:'#8b5cf6', bg:'rgba(139,92,246,.12)', icon:'discovery' },
+    'discovery':             { order:1, color:'#8b5cf6', bg:'rgba(139,92,246,.12)', icon:'discovery' },
+    'planned':               { order:2, color:'#0ea5e9', bg:'rgba(14,165,233,.12)',  icon:'planned'   },
+    'backlog':               { order:3, color:'#94a3b8', bg:'rgba(148,163,184,.12)','icon':'backlog'  },
+    'done':                  { order:4, color:'#6b7280', bg:'rgba(107,114,128,.10)', icon:'done'      },
+    'shipped':               { order:4, color:'#6b7280', bg:'rgba(107,114,128,.10)', icon:'done'      },
+    'impact assessed':       { order:4, color:'#6b7280', bg:'rgba(107,114,128,.10)', icon:'done'      },
+    'cancelled':             { order:5, color:'#ef4444', bg:'rgba(239,68,68,.10)',   icon:'cancelled' },
+  };
+  const RQ_ICONS = {
+    delivery:  '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L13 4.5V9.5C13 12.5 8 14 8 14S3 12.5 3 9.5V4.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+    discovery: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2.5 2"/></svg>',
+    planned:   '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg>',
+    backlog:   '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4" stroke-dasharray="1.5 2.5"/></svg>',
+    done:      '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 8L7 9.5L10.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    cancelled: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M6 6L10 10M10 6L6 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
+  };
+  const VOTE_SVG = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 9.5V2.5M6 2.5L3 5.5M6 2.5L9 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function rqMeta(status) {
+    return RQ_META[(status || '').toLowerCase()] ||
+      { order:9, color:'#6366f1', bg:'rgba(99,102,241,.12)', icon:'delivery' };
   }
 
-  // ---------- Feedback form ----------
-  function toggleFeedbackForm(open) {
-    document.getElementById('fb-form').classList.toggle('open', open);
-    if (open) document.getElementById('fb-body').focus();
+  function renderRqProjects() {
+    const list = document.getElementById('rq-list');
+    if (!_req) return;
+    const visible = PORTAL.visibleProjectIds || [];
+    let projects = visible.length
+      ? (_req.projects || []).filter(p => visible.includes(p.id))
+      : (_req.projects || []);
+    const q = (document.getElementById('rq-search')?.value || '').toLowerCase().trim();
+    if (q) projects = projects.filter(p => (p.name || '').toLowerCase().includes(q));
+    if (!projects.length) {
+      list.innerHTML = `<div class="rq-empty">${q ? 'No results.' : 'No requests yet.'}</div>`;
+      return;
+    }
+    // Group by status
+    const groups = new Map();
+    for (const p of projects) {
+      const meta = rqMeta(p.statusName || p.status);
+      const label = (p.statusName || p.status || 'Other');
+      if (!groups.has(label)) groups.set(label, { meta, label, projects: [] });
+      groups.get(label).projects.push(p);
+    }
+    const sorted = [...groups.values()].sort((a, b) => a.meta.order - b.meta.order);
+    for (const g of sorted) g.projects.sort((a, b) => (b.requestCount||0) - (a.requestCount||0));
+
+    list.innerHTML = sorted.map(({ meta, label, projects: ps }) => `
+      <div class="rq-group">
+        <div class="rq-group-header" style="color:${meta.color}">
+          ${RQ_ICONS[meta.icon] || RQ_ICONS.delivery}
+          ${esc(label)}
+        </div>
+        ${ps.map(p => {
+          const initial = (p.name || '?')[0].toUpperCase();
+          const sub = p.requests?.[0]?.body ? truncate(p.requests[0].body, 90) : '';
+          const cnt = p.requestCount || 0;
+          return `<div class="rq-project">
+            <div class="rq-proj-icon" style="background:${meta.bg};color:${meta.color}">${initial}</div>
+            <div class="rq-proj-body">
+              <div class="rq-proj-name">${esc(p.name)}</div>
+              ${sub ? `<div class="rq-proj-sub">${esc(sub)}</div>` : ''}
+            </div>
+            <div class="rq-vote">
+              ${VOTE_SVG}
+              <span class="rq-vote-count">${cnt}</span>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`).join('');
   }
+
+  // ---------- Search & modal ----------
+  function toggleRqSearch() {
+    const bar = document.getElementById('rq-search-bar');
+    bar.classList.toggle('open');
+    if (bar.classList.contains('open')) document.getElementById('rq-search').focus();
+    else { document.getElementById('rq-search').value = ''; renderRqProjects(); }
+  }
+  function openRqModal()  { document.getElementById('rq-modal-bg').classList.add('open'); setTimeout(() => document.getElementById('fb-body').focus(), 50); }
+  function closeRqModal() { document.getElementById('rq-modal-bg').classList.remove('open'); }
 
   async function submitFeedback() {
     const body  = document.getElementById('fb-body').value.trim();
     const name  = document.getElementById('fb-name').value.trim();
     const email = document.getElementById('fb-email').value.trim();
     if (!body) { toast('Please enter your feedback.', true); return; }
-
-    if (!PORTAL.feedbackEndpoint) {
-      toast('Feedback submission is not yet configured.', true);
-      return;
-    }
-
+    if (!PORTAL.feedbackEndpoint) { toast('Feedback submission is not yet configured.', true); return; }
     const btn = document.getElementById('fb-send-btn');
     btn.disabled = true; btn.textContent = 'Sending…';
     try {
       const r = await fetch(PORTAL.feedbackEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ body, name, email, product: TENANT.productName, source: location.href }),
       });
       if (!r.ok) throw new Error(r.status);
-      toggleFeedbackForm(false);
+      closeRqModal();
       document.getElementById('fb-body').value = '';
       document.getElementById('fb-name').value = '';
       document.getElementById('fb-email').value = '';
