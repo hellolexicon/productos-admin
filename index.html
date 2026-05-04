@@ -779,6 +779,103 @@
       color: var(--text-secondary);
     }
 
+    /* ---------- Roadmap view toggle & board ---------- */
+    .roadmap-view-toggle {
+      display: flex;
+      gap: 4px;
+    }
+    .roadmap-view-toggle button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .roadmap-view-toggle button:hover { background: var(--surface-hover); }
+    .roadmap-view-toggle button.active {
+      background: var(--surface-2);
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .roadmap-board {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      align-items: flex-start;
+      /* allow the board to scroll without clipping the outer panel */
+      margin: 0 -4px;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+    .board-column {
+      flex: 0 0 270px;
+      min-width: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .board-column-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border);
+    }
+    .board-column-header .col-count {
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+    .board-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: default;
+      transition: box-shadow var(--transition);
+    }
+    .board-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.10); }
+    .board-card-title a {
+      font-size: 13.5px;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      color: var(--text);
+      text-decoration: none;
+      line-height: 1.35;
+      display: block;
+    }
+    .board-card-title a:hover { color: var(--accent); }
+    .board-card-chips {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .board-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+
     /* ---------- Toast ---------- */
     .toast {
       position: fixed;
@@ -1870,7 +1967,17 @@
     <section class="panel" id="panel-roadmap">
       <div class="roadmap-meta" id="roadmap-meta">
         <div class="roadmap-meta-text">Coming next 3 months — mirrored from Notion</div>
-        <button class="btn ghost" onclick="loadRoadmap()">Refresh</button>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div class="roadmap-view-toggle">
+            <button id="roadmap-view-list" title="List view" onclick="switchRoadmapView('list')">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="1.75" rx=".875" fill="currentColor"/><rect x="1" y="6.125" width="12" height="1.75" rx=".875" fill="currentColor"/><rect x="1" y="10.25" width="12" height="1.75" rx=".875" fill="currentColor"/></svg>
+            </button>
+            <button id="roadmap-view-board" title="Board view" onclick="switchRoadmapView('board')">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="5.25" y="1" width="3.5" height="9" rx="1" fill="currentColor"/><rect x="9.5" y="1" width="3.5" height="10.5" rx="1" fill="currentColor"/></svg>
+            </button>
+          </div>
+          <button class="btn ghost" onclick="loadRoadmap()">Refresh</button>
+        </div>
       </div>
       <div id="roadmap-list">
         <div class="group-card">
@@ -2351,6 +2458,9 @@
   // a hard reload.
   const ROADMAP_URL = `${location.pathname.replace(/index\.html?$/, '')}roadmap.json`;
   let _roadmapLoading = false;
+  let _roadmapData = null;
+  let _roadmapView = localStorage.getItem('roadmap_view') || 'list';
+
   async function loadRoadmap() {
     if (_roadmapLoading) return;
     _roadmapLoading = true;
@@ -2361,7 +2471,8 @@
       if (!r.ok) throw new Error(`${r.status} loading roadmap.json`);
       const data = await r.json();
       meta.innerHTML = `<strong>Coming next ${data.windowDays || 92} days</strong> — ${data.totalCount} project${data.totalCount === 1 ? '' : 's'}, mirrored from Notion <span class="gen">${formatGenerated(data.generatedAt)}</span>`;
-      renderRoadmap(data.projects || []);
+      _roadmapData = data.projects || [];
+      renderCurrentRoadmapView(_roadmapData);
     } catch (e) {
       list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No roadmap snapshot yet. The hourly workflow publishes one at the top of every hour, or you can trigger <a href="https://github.com/${getRepo()}/actions/workflows/roadmap.yml" target="_blank">roadmap.yml</a> manually. (${escapeHtml(e.message)})</div>`;
     } finally {
@@ -2404,6 +2515,98 @@
       `;
     }).join('');
   }
+
+  // ---- View toggle helpers ----
+  function syncRoadmapViewButtons() {
+    document.getElementById('roadmap-view-list')?.classList.toggle('active', _roadmapView === 'list');
+    document.getElementById('roadmap-view-board')?.classList.toggle('active', _roadmapView === 'board');
+  }
+  function switchRoadmapView(view) {
+    _roadmapView = view;
+    localStorage.setItem('roadmap_view', view);
+    syncRoadmapViewButtons();
+    if (_roadmapData) renderCurrentRoadmapView(_roadmapData);
+  }
+  function renderCurrentRoadmapView(projects) {
+    if (_roadmapView === 'board') renderRoadmapBoard(projects);
+    else renderRoadmap(projects);
+  }
+
+  // ---- Board (Kanban) view ----
+  // Columns ordered to reflect a typical Linear project workflow.
+  // Unknown statuses are appended after; "No status" always goes last.
+  const BOARD_STATUS_ORDER = [
+    'Backlog', 'Planned', 'Pending',
+    'Problem Discovery', 'Ready for Solution Disco', 'Solution Discovery',
+    'Ready for Delivery', 'Solution Delivery', 'In Progress',
+    'Completed', 'Cancelled',
+  ];
+  function renderRoadmapBoard(projects) {
+    const list = document.getElementById('roadmap-list');
+    if (projects.length === 0) {
+      list.innerHTML = '<div class="empty">Nothing landing in the next 3 months yet.</div>';
+      return;
+    }
+    // Group by status
+    const groups = new Map();
+    for (const p of projects) {
+      const key = p.status || 'No status';
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(p);
+    }
+    // Sort columns by defined order, then alphabetical unknown, then "No status"
+    const cols = [...groups.keys()].sort((a, b) => {
+      if (a === 'No status') return 1;
+      if (b === 'No status') return -1;
+      const ai = BOARD_STATUS_ORDER.indexOf(a);
+      const bi = BOARD_STATUS_ORDER.indexOf(b);
+      if (ai === -1 && bi === -1) return a < b ? -1 : 1;
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+    list.innerHTML = `<div class="roadmap-board">${cols.map(col => {
+      const items = groups.get(col);
+      // Sort cards within column: overdue first, then by target date asc, then no date
+      items.sort((a, b) => {
+        if (!a.targetDate && !b.targetDate) return 0;
+        if (!a.targetDate) return 1;
+        if (!b.targetDate) return -1;
+        return a.targetDate < b.targetDate ? -1 : 1;
+      });
+      return `
+        <div class="board-column">
+          <div class="board-column-header">
+            <span>${escapeHtml(col)}</span>
+            <span class="col-count">${items.length}</span>
+          </div>
+          ${items.map(p => boardCardHTML(p)).join('')}
+        </div>`;
+    }).join('')}</div>`;
+  }
+  function boardCardHTML(p) {
+    const linkUrl = p.notionUrl || p.linearUrl || '#';
+    const overdue = p.targetDate && Date.parse(p.targetDate) < Date.now();
+    const targetTxt = p.targetDate ? formatDate(p.targetDate) : null;
+    const chips = [];
+    if (p.health) chips.push(`<span class="meta-chip health-${escapeHtml(p.health)}">${escapeHtml(p.health)}</span>`);
+    if (p.leadName) chips.push(`<span class="meta-chip lead">${escapeHtml(p.leadName)}</span>`);
+    if (p.effort) chips.push(`<span class="meta-chip">${escapeHtml(p.effort)}</span>`);
+    return `
+      <div class="board-card">
+        <div class="board-card-title">
+          <a href="${escapeHtml(linkUrl)}" target="_blank">${escapeHtml(p.title || '(untitled)')}</a>
+        </div>
+        ${chips.length ? `<div class="board-card-chips">${chips.join('')}</div>` : ''}
+        <div class="board-card-footer">
+          ${targetTxt
+            ? `<span class="target-date${overdue ? ' overdue' : ''}" style="font-size:12px;">${escapeHtml(targetTxt)}</span>`
+            : '<span></span>'}
+          ${p.linearUrl ? `<a class="repo-link" style="font-size:11px;" href="${escapeHtml(p.linearUrl)}" target="_blank">Linear ↗</a>` : ''}
+        </div>
+      </div>`;
+  }
+
   function projectRowHTML(p) {
     const overdue = p.targetDate && Date.parse(p.targetDate) < Date.now();
     const targetTxt = p.targetDate ? formatDate(p.targetDate) : '—';
@@ -3977,6 +4180,7 @@
       _pendingDetailId = redirectId;
     }
 
+    syncRoadmapViewButtons();
     const initialTab = localStorage.getItem(TAB_KEY) || 'changelog';
     switchTab(initialTab);
   }
