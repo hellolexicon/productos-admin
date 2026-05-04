@@ -2,7 +2,8 @@
   "enabled": true,
   "headline": "Follow along as we build",
   "visibleProjectIds": [
-    "e3118032-b8e6-4841-953e-35b767018342"
+    "e3118032-b8e6-4841-953e-35b767018342",
+    "540235eb-bb08-4afe-878f-489e927ec721"
   ],
   "feedbackEndpoint": ""
 }
