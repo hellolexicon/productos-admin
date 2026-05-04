@@ -7,5 +7,8 @@
     "a8f97860-09e9-40ac-acf2-c3ce44d02860",
     "540235eb-bb08-4afe-878f-489e927ec721"
   ],
-  "feedbackEndpoint": ""
+  "feedbackEndpoint": "",
+  "linearFeedback": true,
+  "portalTriggerToken": "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",
+  "feedbackProjectId": ""
 }
