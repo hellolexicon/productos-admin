@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-04T04:06:26.356Z",
+  "generatedAt": "2026-05-04T06:53:05.629Z",
   "windowDays": 92,
-  "totalCount": 12,
+  "totalCount": 13,
   "projects": [
     {
       "pageId": "350685fb-1e17-81ca-91b7-dab808e827e5",
@@ -163,6 +163,29 @@
       "effort": null,
       "linearUrl": "https://linear.app/zipline/project/self-service-people-importer-d40d931ad33f",
       "notionUrl": "https://www.notion.so/346685fb1e178102ac06e8a2704a5a38"
+    },
+    {
+      "pageId": "350685fb-1e17-81a3-9d10-d86e7589be80",
+      "linearId": "1d61f77e-dc58-4dc1-a730-c135627ac163",
+      "title": "Browser Automations v1",
+      "status": "Pending",
+      "startDate": "2026-05-01",
+      "targetDate": "2026-05-31",
+      "leadName": "lukelobianco@zipline.io",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [],
+      "labels": [
+        "2 Week Effort",
+        "Bet",
+        "Betting Q2 2026 – Will Do"
+      ],
+      "priority": "None",
+      "health": null,
+      "effort": "2 Weeks",
+      "linearUrl": "https://linear.app/zipline/project/browser-automations-v1-2c395f2fc6b7",
+      "notionUrl": "https://www.notion.so/350685fb1e1781a39d10d86e7589be80"
     },
     {
       "pageId": "348685fb-1e17-8168-a3cb-c4b785eee7ff",
