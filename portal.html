@@ -334,9 +334,9 @@
       <textarea id="fb-body" placeholder="Describe what you'd like to see…"></textarea>
     </div>
     <div class="fb-field" id="fb-project-field" style="display:none">
-      <label>Related project <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
+      <label>Project <span style="color:#c00">*</span></label>
       <select id="fb-project" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font:14px -apple-system,sans-serif;background:var(--bg);color:var(--text)">
-        <option value="">— General feedback —</option>
+        <option value="">— Select a project —</option>
       </select>
     </div>
     <div class="fb-field">
@@ -387,10 +387,8 @@
 
     document.getElementById('fb-headline').textContent = PORTAL.headline;
 
-    // Show project selector when feedback is configured
-    if (PORTAL.feedbackEndpoint) {
-      document.getElementById('fb-project-field').style.display = '';
-    }
+    // Always show project selector (project_id is required by the Worker)
+    document.getElementById('fb-project-field').style.display = '';
 
     const tab = new URLSearchParams(location.search).get('tab') || 'changelog';
     switchTab(tab);
@@ -649,7 +647,8 @@
     const name      = document.getElementById('fb-name').value.trim();
     const email     = document.getElementById('fb-email').value.trim();
     const projectId = document.getElementById('fb-project')?.value || PORTAL.feedbackProjectId || '';
-    if (!body) { toast('Please enter your feedback.', true); return; }
+    if (!body)      { toast('Please enter your feedback.', true); return; }
+    if (!projectId) { toast('Please select a project.', true); return; }
     if (!PORTAL.feedbackEndpoint) { toast('Feedback submission is not configured.', true); return; }
 
     const btn = document.getElementById('fb-send-btn');
