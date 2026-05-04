@@ -31,7 +31,7 @@
         },
         {
           "q": "How do collapsible sections work?",
-          "a": "Any top-level `##` heading in an entry body becomes a collapsible section that readers can expand or collapse independently.\n\nFor example, writing `## Fixes` followed by a bullet list creates a "Fixes" accordion. This keeps long entries scannable without hiding information."
+          "a": "Any top-level `##` heading in an entry body becomes a collapsible section that readers can expand or collapse independently.\n\nFor example, writing `## Fixes` followed by a bullet list creates a \"Fixes\" accordion. This keeps long entries scannable without hiding information."
         },
         {
           "q": "How do I add a cover image to an entry?",
@@ -89,7 +89,7 @@
         },
         {
           "q": "An effort label I changed in Linear didn't propagate — why?",
-          "a": "Effort is derived from project labels that contain the word "effort" (e.g. "2 Weeks Effort"). The sync maps the label to a Notion Effort option.\n\nIf the label changed but Notion didn't update, check that `WRITE_EFFORT=true` is set in the repo secrets, and that the label text maps to a recognised option (Half Week, 1 Week, 2 Weeks, 3 Weeks, 4 Weeks, 6 Weeks)."
+          "a": "Effort is derived from project labels that contain the word \"effort\" (e.g. \"2 Weeks Effort\"). The sync maps the label to a Notion Effort option.\n\nIf the label changed but Notion didn't update, check that `WRITE_EFFORT=true` is set in the repo secrets, and that the label text maps to a recognised option (Half Week, 1 Week, 2 Weeks, 3 Weeks, 4 Weeks, 6 Weeks)."
         },
         {
           "q": "How do I trigger a sync manually?",
