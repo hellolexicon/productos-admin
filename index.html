@@ -1967,7 +1967,13 @@
     <section class="panel" id="panel-roadmap">
       <div class="roadmap-meta" id="roadmap-meta">
         <div class="roadmap-meta-text">Coming next 3 months — mirrored from Notion</div>
-        <div style="display:flex;gap:8px;align-items:center;">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <div class="requests-filter">
+            <label for="roadmap-team-filter">Team</label>
+            <select class="filter-select" id="roadmap-team-filter" onchange="filterRoadmap()">
+              <option value="">All teams</option>
+            </select>
+          </div>
           <div class="roadmap-view-toggle">
             <button id="roadmap-view-list" title="List view" onclick="switchRoadmapView('list')">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="1.75" rx=".875" fill="currentColor"/><rect x="1" y="6.125" width="12" height="1.75" rx=".875" fill="currentColor"/><rect x="1" y="10.25" width="12" height="1.75" rx=".875" fill="currentColor"/></svg>
@@ -1996,6 +2002,12 @@
       <div id="requests-main" hidden>
         <div class="requests-toolbar" id="requests-toolbar">
           <div class="requests-meta-text" id="requests-meta-text">Customer requests — mirrored from Linear</div>
+          <div class="requests-filter">
+            <label for="requests-team-filter">Team</label>
+            <select class="filter-select" id="requests-team-filter" onchange="filterRequests()">
+              <option value="">All teams</option>
+            </select>
+          </div>
           <div class="requests-filter">
             <label for="requests-customer-filter">Customer</label>
             <select class="filter-select" id="requests-customer-filter" onchange="filterRequests()">
@@ -2472,13 +2484,48 @@
       const data = await r.json();
       meta.innerHTML = `<strong>Coming next ${data.windowDays || 92} days</strong> — ${data.totalCount} project${data.totalCount === 1 ? '' : 's'}, mirrored from Notion <span class="gen">${formatGenerated(data.generatedAt)}</span>`;
       _roadmapData = data.projects || [];
-      renderCurrentRoadmapView(_roadmapData);
+      populateRoadmapTeamFilter(_roadmapData);
+      renderCurrentRoadmapView(applyRoadmapTeamFilter(_roadmapData));
     } catch (e) {
       list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No roadmap snapshot yet. The hourly workflow publishes one at the top of every hour, or you can trigger <a href="https://github.com/${getRepo()}/actions/workflows/roadmap.yml" target="_blank">roadmap.yml</a> manually. (${escapeHtml(e.message)})</div>`;
     } finally {
       _roadmapLoading = false;
     }
   }
+  // Collect unique team names from an array of projects (each p.teams is string[]).
+  function extractTeams(projects) {
+    const names = new Set();
+    for (const p of projects) {
+      for (const t of (p.teams || [])) names.add(t);
+    }
+    return [...names].sort((a, b) => a.localeCompare(b));
+  }
+
+  function populateRoadmapTeamFilter(projects) {
+    const sel = document.getElementById('roadmap-team-filter');
+    if (!sel) return;
+    const prev = sel.value;
+    while (sel.options.length > 1) sel.remove(1);
+    for (const name of extractTeams(projects)) {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      sel.appendChild(opt);
+    }
+    if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
+  }
+
+  function applyRoadmapTeamFilter(projects) {
+    const team = document.getElementById('roadmap-team-filter')?.value || '';
+    if (!team) return projects;
+    return projects.filter(p => (p.teams || []).includes(team));
+  }
+
+  function filterRoadmap() {
+    if (!_roadmapData) return;
+    renderCurrentRoadmapView(applyRoadmapTeamFilter(_roadmapData));
+  }
+
   function renderRoadmap(projects) {
     const list = document.getElementById('roadmap-list');
     if (projects.length === 0) {
@@ -2525,7 +2572,7 @@
     _roadmapView = view;
     localStorage.setItem('roadmap_view', view);
     syncRoadmapViewButtons();
-    if (_roadmapData) renderCurrentRoadmapView(_roadmapData);
+    if (_roadmapData) renderCurrentRoadmapView(applyRoadmapTeamFilter(_roadmapData));
   }
   function renderCurrentRoadmapView(projects) {
     if (_roadmapView === 'board') renderRoadmapBoard(projects);
@@ -2763,9 +2810,10 @@
       if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
       // Also seed the Feedback customer filter since we share the same data
       populateFeedbackFilter(_requestsData);
+      populateRequestsTeamFilter(_requestsData.projects || []);
       const gen = formatGenerated(_requestsData.generatedAt);
       meta.innerHTML = `<strong>${_requestsData.totalCount} request${_requestsData.totalCount === 1 ? '' : 's'}</strong> across ${_requestsData.projectCount} project${_requestsData.projectCount === 1 ? '' : 's'} — mirrored from Linear <span class="gen">${gen}</span>`;
-      renderRequests(_requestsData, sel.value);
+      renderRequests(_requestsData, sel.value, document.getElementById('requests-team-filter')?.value || '');
     } catch (e) {
       list.innerHTML = `<div class="empty" style="color: var(--text-tertiary);">No requests snapshot yet. Trigger <a href="https://github.com/${getRepo()}/actions/workflows/requests.yml" target="_blank">requests.yml</a> to generate one. (${escapeHtml(e.message)})</div>`;
     } finally {
@@ -2773,15 +2821,34 @@
     }
   }
 
-  function filterRequests() {
-    if (!_requestsData) return;
-    const sel = document.getElementById('requests-customer-filter');
-    renderRequests(_requestsData, sel.value);
+  function populateRequestsTeamFilter(projects) {
+    const sel = document.getElementById('requests-team-filter');
+    if (!sel) return;
+    const prev = sel.value;
+    while (sel.options.length > 1) sel.remove(1);
+    for (const name of extractTeams(projects)) {
+      const opt = document.createElement('option');
+      opt.value = name;
+      opt.textContent = name;
+      sel.appendChild(opt);
+    }
+    if (prev && [...sel.options].some(o => o.value === prev)) sel.value = prev;
   }
 
-  function renderRequests(data, customerId) {
+  function filterRequests() {
+    if (!_requestsData) return;
+    const customerId = document.getElementById('requests-customer-filter')?.value || '';
+    const team = document.getElementById('requests-team-filter')?.value || '';
+    renderRequests(_requestsData, customerId, team);
+  }
+
+  function renderRequests(data, customerId, team) {
     const list = document.getElementById('requests-list');
     let projects = data.projects || [];
+    // Filter by team
+    if (team) {
+      projects = projects.filter(p => (p.teams || []).includes(team));
+    }
     // Filter by customer if selected
     if (customerId) {
       projects = projects
