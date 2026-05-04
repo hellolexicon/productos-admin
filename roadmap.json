@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-04T12:11:58.589Z",
+  "generatedAt": "2026-05-04T14:28:59.726Z",
   "windowDays": 92,
-  "totalCount": 13,
+  "totalCount": 14,
   "projects": [
     {
       "pageId": "350685fb-1e17-81ca-91b7-dab808e827e5",
@@ -252,6 +252,29 @@
       "effort": null,
       "linearUrl": "https://linear.app/zipline/project/platform-skus-and-usage-v1-d2ef72bd4313",
       "notionUrl": "https://www.notion.so/340685fb1e1781009424f98383096ea4"
+    },
+    {
+      "pageId": "356685fb-1e17-81d1-b2cd-d8e551bd78f2",
+      "linearId": "e8e686d1-e390-4125-acc9-fb23acfbaabc",
+      "title": "Securing (breaking) the worker app",
+      "status": "Solution Delivery",
+      "startDate": "2026-05-03",
+      "targetDate": "2026-05-31",
+      "leadName": "Ryan How",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "labels": [
+        "Bet"
+      ],
+      "priority": "High",
+      "health": null,
+      "effort": null,
+      "linearUrl": "https://linear.app/zipline/project/securing-breaking-the-worker-app-7d074fc31da7",
+      "notionUrl": "https://www.notion.so/356685fb1e1781d1b2cdd8e551bd78f2"
     },
     {
       "pageId": "348685fb-1e17-8177-868e-cbf08e73ccb7",
