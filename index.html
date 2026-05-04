@@ -1106,10 +1106,17 @@
       font-feature-settings: "tnum";
     }
     .req-expand-icon {
-      color: var(--text-tertiary); transition: transform 0.2s ease; font-size: 11px;
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-right: 1.5px solid var(--text-tertiary);
+      border-bottom: 1.5px solid var(--text-tertiary);
+      transform: rotate(-45deg);
+      transition: transform var(--transition), border-color var(--transition);
       flex-shrink: 0;
     }
-    .req-project-row[aria-expanded="true"] .req-expand-icon { transform: rotate(180deg); }
+    .req-project-row[aria-expanded="true"] .req-expand-icon { transform: rotate(45deg); }
+    .req-project-row:hover .req-project-name { color: var(--accent); }
+    .req-project-row:hover .req-expand-icon { border-color: var(--accent); }
     .req-requests-list { display: none; border-top: 1px solid var(--border); }
     .req-requests-list.open { display: block; }
     .req-request-row {
@@ -2921,7 +2928,7 @@
         <div class="req-side">
           <div class="req-bar"><div class="req-bar-fill" style="width:${pct}%"></div></div>
           <span class="req-count">${p.requests.length}</span>
-          <span class="req-expand-icon">▾</span>
+          <span class="req-expand-icon"></span>
         </div>
       </div>
       <div class="req-requests-list" id="${requestsId}">${rowsHTML}</div>
