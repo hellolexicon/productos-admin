@@ -7,6 +7,6 @@
     "a8f97860-09e9-40ac-acf2-c3ce44d02860",
     "540235eb-bb08-4afe-878f-489e927ec721"
   ],
-  "feedbackEndpoint": "productos-feedback.alexisituarte.workers.dev",
+  "feedbackEndpoint": "https://productos-feedback.alexisituarte.workers.dev",
   "feedbackProjectId": ""
 }
