@@ -655,9 +655,8 @@
     btn.disabled = true; btn.textContent = 'Sending…';
 
     try {
-      if (PORTAL.linearFeedback) {
+      if (PORTAL.linearFeedback && PORTAL.portalTriggerToken && TENANT.repo) {
         // Direct-to-Linear mode via GitHub Actions workflow_dispatch
-        if (!PORTAL.portalTriggerToken) throw new Error('Portal trigger token is not configured. Add it in Settings → Portal.');
         await submitToLinear({ body, name, email, projectId });
       } else if (PORTAL.feedbackEndpoint) {
         // Fallback: POST to webhook endpoint
@@ -667,7 +666,8 @@
         });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
       } else {
-        throw new Error('Feedback submission is not configured.');
+        toast('Feedback submission is not yet configured.', true);
+        return;
       }
       closeRqModal();
       document.getElementById('fb-body').value  = '';
@@ -677,7 +677,7 @@
       toast('Thank you for your feedback!');
     } catch (e) {
       console.error('submitFeedback error:', e);
-      toast(e.message || 'Submission failed. Please try again.', true);
+      toast('Submission failed. Please try again.', true);
     } finally {
       btn.disabled = false; btn.textContent = 'Submit';
     }
