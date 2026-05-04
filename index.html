@@ -2168,16 +2168,63 @@
                 <input id="portal-headline" type="text" placeholder="Follow along as we build"
                   style="width:100%;max-width:400px" oninput="portalSettingsDirty()">
               </div>
-              <div class="trigger-row" style="flex-direction:column;align-items:flex-start;gap:6px;margin-top:12px">
-                <label for="portal-feedback-endpoint" style="font-size:13px;font-weight:600">Feedback submission endpoint</label>
-                <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:2px">
-                  A URL to POST feedback JSON to (Formspree, Zapier, etc.). Leave blank to disable submissions.
-                </div>
-                <input id="portal-feedback-endpoint" type="url" placeholder="https://formspree.io/f/…"
-                  style="width:100%;max-width:400px" oninput="portalSettingsDirty()">
-              </div>
               <div class="trigger-row" style="justify-content:flex-end;margin-top:12px">
                 <button class="btn" id="portal-save-btn" onclick="savePortalSettings()" disabled>Save</button>
+              </div>
+            </div>
+
+            <div class="trigger-card" style="margin-bottom:16px">
+              <div class="trigger-row" style="align-items:flex-start">
+                <div style="flex:1;min-width:0">
+                  <strong>Send feedback directly to Linear</strong>
+                  <div style="font-size:13px;color:var(--text-tertiary);margin-top:3px">
+                    Portal submissions create Linear Customer Needs — no external webhook needed.
+                  </div>
+                </div>
+                <label class="flag-toggle" style="margin-left:16px;flex-shrink:0">
+                  <input type="checkbox" id="portal-linear-toggle" onchange="portalLinearToggled(this.checked)">
+                  <span class="flag-toggle-track"></span>
+                </label>
+              </div>
+              <div id="portal-linear-fields" style="display:none;margin-top:12px">
+                <div class="trigger-row" style="flex-direction:column;align-items:flex-start;gap:6px">
+                  <label for="portal-trigger-token" style="font-size:13px;font-weight:600">Portal trigger token</label>
+                  <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:2px">
+                    A GitHub fine-grained PAT with <strong>Actions: Write</strong> on this repo only.
+                    This token lives in portal-config.json (public mirror) — keep it minimal-scope.
+                  </div>
+                  <input id="portal-trigger-token" type="password" placeholder="github_pat_…"
+                    autocomplete="off" style="width:100%;max-width:400px;font-family:monospace;font-size:13px"
+                    oninput="document.getElementById('portal-linear-save-btn').disabled=false">
+                </div>
+                <div class="trigger-row" style="flex-direction:column;align-items:flex-start;gap:6px;margin-top:10px">
+                  <label for="portal-feedback-project" style="font-size:13px;font-weight:600">Default project ID <span style="font-weight:400;color:var(--text-tertiary)">(optional)</span></label>
+                  <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:2px">
+                    Linear project ID to pre-select in the submission form. Leave blank to let visitors choose.
+                  </div>
+                  <input id="portal-feedback-project" type="text" placeholder="abc12345-…"
+                    style="width:100%;max-width:400px;font-family:monospace;font-size:12px"
+                    oninput="document.getElementById('portal-linear-save-btn').disabled=false">
+                </div>
+              </div>
+              <div id="portal-linear-fields-save" style="display:none">
+                <div class="trigger-row" style="justify-content:flex-end;margin-top:12px">
+                  <button class="btn" id="portal-linear-save-btn" onclick="savePortalLinear()" disabled>Save</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="trigger-card" style="margin-bottom:16px" id="portal-webhook-card">
+              <div class="trigger-row" style="flex-direction:column;align-items:flex-start;gap:6px">
+                <label for="portal-feedback-endpoint" style="font-size:13px;font-weight:600">Webhook fallback endpoint</label>
+                <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:2px">
+                  A URL to POST feedback JSON to (Formspree, Zapier, etc.). Used when Linear direct mode is off.
+                </div>
+                <input id="portal-feedback-endpoint" type="url" placeholder="https://formspree.io/f/…"
+                  style="width:100%;max-width:400px" oninput="document.getElementById('portal-webhook-save-btn').disabled=false">
+              </div>
+              <div class="trigger-row" style="justify-content:flex-end;margin-top:12px">
+                <button class="btn" id="portal-webhook-save-btn" onclick="savePortalWebhook()" disabled>Save</button>
               </div>
             </div>
 
@@ -4224,12 +4271,20 @@
       const data = await gh(`/repos/${getRepo()}/contents/${PORTAL_CONFIG_PATH}`);
       _portalConfig = JSON.parse(atob(data.content.replace(/\n/g, '')));
     } catch {
-      _portalConfig = { enabled: false, headline: 'Follow along as we build', visibleProjectIds: [], feedbackEndpoint: '' };
+      _portalConfig = { enabled: false, headline: 'Follow along as we build', visibleProjectIds: [],
+                        feedbackEndpoint: '', linearFeedback: false, portalTriggerToken: '', feedbackProjectId: '' };
     }
     // Populate form fields
     document.getElementById('portal-enabled-toggle').checked = !!_portalConfig.enabled;
-    document.getElementById('portal-headline').value         = _portalConfig.headline || '';
+    document.getElementById('portal-headline').value          = _portalConfig.headline || '';
     document.getElementById('portal-feedback-endpoint').value = _portalConfig.feedbackEndpoint || '';
+    // Linear direct mode fields
+    const linearOn = !!_portalConfig.linearFeedback;
+    document.getElementById('portal-linear-toggle').checked = linearOn;
+    document.getElementById('portal-trigger-token').value   = _portalConfig.portalTriggerToken || '';
+    document.getElementById('portal-feedback-project').value= _portalConfig.feedbackProjectId  || '';
+    document.getElementById('portal-linear-fields').style.display      = linearOn ? '' : 'none';
+    document.getElementById('portal-linear-fields-save').style.display = linearOn ? '' : 'none';
     // Build portal URL
     const portalUrl = `${location.origin}${siteBase()}/portal.html`;
     const link = document.getElementById('portal-link');
@@ -4282,11 +4337,32 @@
 
   async function savePortalSettings() {
     if (!_portalConfig) return;
-    _portalConfig.headline         = document.getElementById('portal-headline').value.trim();
-    _portalConfig.feedbackEndpoint = document.getElementById('portal-feedback-endpoint').value.trim();
+    _portalConfig.headline = document.getElementById('portal-headline').value.trim();
     await writePortalConfig();
     document.getElementById('portal-save-btn').disabled = true;
     _portalDirty = false;
+  }
+
+  function portalLinearToggled(on) {
+    document.getElementById('portal-linear-fields').style.display      = on ? '' : 'none';
+    document.getElementById('portal-linear-fields-save').style.display = on ? '' : 'none';
+    document.getElementById('portal-linear-save-btn').disabled = false;
+  }
+
+  async function savePortalLinear() {
+    if (!_portalConfig) return;
+    _portalConfig.linearFeedback    = document.getElementById('portal-linear-toggle').checked;
+    _portalConfig.portalTriggerToken= document.getElementById('portal-trigger-token').value.trim();
+    _portalConfig.feedbackProjectId = document.getElementById('portal-feedback-project').value.trim();
+    await writePortalConfig();
+    document.getElementById('portal-linear-save-btn').disabled = true;
+  }
+
+  async function savePortalWebhook() {
+    if (!_portalConfig) return;
+    _portalConfig.feedbackEndpoint = document.getElementById('portal-feedback-endpoint').value.trim();
+    await writePortalConfig();
+    document.getElementById('portal-webhook-save-btn').disabled = true;
   }
 
   async function savePortalVisibility() {

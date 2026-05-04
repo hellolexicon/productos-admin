@@ -135,7 +135,15 @@
         },
         {
           "q": "How does the portal feedback form work?",
-          "a": "Set a **Feedback Endpoint** URL in Settings → Portal. When a customer submits the form, the portal POSTs `{ name, email, message }` as JSON to that URL.\n\nYou can point this at a Zapier webhook, a Formspree endpoint, or any service that accepts a JSON POST."
+          "a": "Portal submissions can go directly into Linear as Customer Needs (recommended), or to a webhook URL.\n\n**Direct to Linear:** Enable **Send feedback directly to Linear** in Settings → Portal. Paste a GitHub fine-grained PAT with **Actions: Write** permission on this repo. When a visitor submits the form, the portal triggers the `feedback.yml` workflow, which looks up or creates the customer in Linear and attaches a Customer Need to the selected project.\n\n**Webhook fallback:** Set a **Webhook fallback endpoint** URL. The portal POSTs `{ body, name, email }` as JSON to that URL (Formspree, Zapier, etc.)."
+        },
+        {
+          "q": "How do I set up the Linear direct mode token?",
+          "a": "Create a GitHub **fine-grained PAT** scoped to this repo only with the **Actions: Write** permission. No other permissions are needed.\n\nThis token is stored in `portal-config.json`, which is mirrored to the public `productos-admin` repo. Use a minimal-scope token — the worst a bad actor can do with it is trigger workflow runs.\n\nPaste the token into **Settings → Portal → Portal trigger token** and click Save."
+        },
+        {
+          "q": "What is the default project ID setting?",
+          "a": "In **Settings → Portal → Default project ID**, paste the Linear project ID you want all portal feedback pre-attached to.\n\nLeave it blank to let visitors choose from the visible projects list. When a default is set, the project dropdown in the portal form pre-selects that project — visitors can still change it."
         },
         {
           "q": "Can I disable the portal temporarily?",

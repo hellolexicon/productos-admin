@@ -333,6 +333,12 @@
       <label>Your feedback <span style="color:#c00">*</span></label>
       <textarea id="fb-body" placeholder="Describe what you'd like to see…"></textarea>
     </div>
+    <div class="fb-field" id="fb-project-field" style="display:none">
+      <label>Related project <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
+      <select id="fb-project" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font:14px -apple-system,sans-serif;background:var(--bg);color:var(--text)">
+        <option value="">— General feedback —</option>
+      </select>
+    </div>
     <div class="fb-field">
       <label>Name <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
       <input id="fb-name" type="text" placeholder="Your name">
@@ -359,7 +365,8 @@
   })();
 
   let TENANT = { productName: 'Portal', tagline: '', repo: '' };
-  let PORTAL  = { enabled: false, headline: 'Follow along as we build', visibleProjectIds: [], feedbackEndpoint: '' };
+  let PORTAL  = { enabled: false, headline: 'Follow along as we build', visibleProjectIds: [],
+                  feedbackEndpoint: '', linearFeedback: false, portalTriggerToken: '', feedbackProjectId: '' };
 
   async function boot() {
     await Promise.all([
@@ -379,6 +386,11 @@
     }
 
     document.getElementById('fb-headline').textContent = PORTAL.headline;
+
+    // Show project selector in modal when Linear direct mode is on
+    if (PORTAL.linearFeedback) {
+      document.getElementById('fb-project-field').style.display = '';
+    }
 
     const tab = new URLSearchParams(location.search).get('tab') || 'changelog';
     switchTab(tab);
@@ -516,8 +528,28 @@
       if (!r.ok) throw new Error(r.status);
       _req = await r.json();
       renderRqProjects();
+      populateProjectSelector();
     } catch { document.getElementById('rq-list').innerHTML = '<div class="rq-empty">Could not load requests.</div>'; }
     finally { _reqLoading = false; }
+  }
+
+  function populateProjectSelector() {
+    if (!PORTAL.linearFeedback || !_req) return;
+    const sel = document.getElementById('fb-project');
+    const visible = PORTAL.visibleProjectIds || [];
+    const projects = visible.length
+      ? (_req.projects || []).filter(p => visible.includes(p.id))
+      : (_req.projects || []);
+    // Rebuild options (keep the "General feedback" placeholder)
+    sel.innerHTML = '<option value="">— General feedback —</option>';
+    for (const p of projects) {
+      const opt = document.createElement('option');
+      opt.value = p.id;
+      opt.textContent = p.name;
+      sel.appendChild(opt);
+    }
+    // Pre-select configured default
+    if (PORTAL.feedbackProjectId) sel.value = PORTAL.feedbackProjectId;
   }
 
   const RQ_META = {
@@ -604,30 +636,75 @@
     if (bar.classList.contains('open')) document.getElementById('rq-search').focus();
     else { document.getElementById('rq-search').value = ''; renderRqProjects(); }
   }
-  function openRqModal()  { document.getElementById('rq-modal-bg').classList.add('open'); setTimeout(() => document.getElementById('fb-body').focus(), 50); }
+  async function openRqModal() {
+    document.getElementById('rq-modal-bg').classList.add('open');
+    setTimeout(() => document.getElementById('fb-body').focus(), 50);
+    // Ensure the project selector is populated even if Requests tab wasn't visited yet
+    if (PORTAL.linearFeedback && !_req) await loadFeedback();
+  }
   function closeRqModal() { document.getElementById('rq-modal-bg').classList.remove('open'); }
 
   async function submitFeedback() {
-    const body  = document.getElementById('fb-body').value.trim();
-    const name  = document.getElementById('fb-name').value.trim();
-    const email = document.getElementById('fb-email').value.trim();
+    const body      = document.getElementById('fb-body').value.trim();
+    const name      = document.getElementById('fb-name').value.trim();
+    const email     = document.getElementById('fb-email').value.trim();
+    const projectId = document.getElementById('fb-project')?.value || PORTAL.feedbackProjectId || '';
     if (!body) { toast('Please enter your feedback.', true); return; }
-    if (!PORTAL.feedbackEndpoint) { toast('Feedback submission is not yet configured.', true); return; }
+
     const btn = document.getElementById('fb-send-btn');
     btn.disabled = true; btn.textContent = 'Sending…';
+
     try {
-      const r = await fetch(PORTAL.feedbackEndpoint, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ body, name, email, product: TENANT.productName, source: location.href }),
-      });
-      if (!r.ok) throw new Error(r.status);
+      if (PORTAL.linearFeedback && PORTAL.portalTriggerToken && TENANT.repo) {
+        // Direct-to-Linear mode via GitHub Actions workflow_dispatch
+        await submitToLinear({ body, name, email, projectId });
+      } else if (PORTAL.feedbackEndpoint) {
+        // Fallback: POST to webhook endpoint
+        const r = await fetch(PORTAL.feedbackEndpoint, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ body, name, email, product: TENANT.productName, source: location.href }),
+        });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      } else {
+        toast('Feedback submission is not yet configured.', true);
+        return;
+      }
       closeRqModal();
-      document.getElementById('fb-body').value = '';
-      document.getElementById('fb-name').value = '';
+      document.getElementById('fb-body').value  = '';
+      document.getElementById('fb-name').value  = '';
       document.getElementById('fb-email').value = '';
+      if (document.getElementById('fb-project')) document.getElementById('fb-project').value = PORTAL.feedbackProjectId || '';
       toast('Thank you for your feedback!');
-    } catch { toast('Submission failed. Please try again.', true); }
-    finally { btn.disabled = false; btn.textContent = 'Submit'; }
+    } catch (e) {
+      console.error('submitFeedback error:', e);
+      toast('Submission failed. Please try again.', true);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Submit';
+    }
+  }
+
+  async function submitToLinear({ body, name, email, projectId }) {
+    const [owner, repoName] = TENANT.repo.split('/');
+    if (!owner || !repoName) throw new Error('TENANT.repo not configured');
+    const url = `https://api.github.com/repos/${owner}/${repoName}/actions/workflows/feedback.yml/dispatches`;
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${PORTAL.portalTriggerToken}`,
+        'Accept':        'application/vnd.github+json',
+        'Content-Type':  'application/json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
+      body: JSON.stringify({
+        ref: 'main',
+        inputs: { body, name: name || '', email: email || '', project_id: projectId || '' },
+      }),
+    });
+    // 204 No Content = accepted; anything else is an error
+    if (r.status !== 204) {
+      const text = await r.text().catch(() => '');
+      throw new Error(`GitHub API ${r.status}: ${text.slice(0, 120)}`);
+    }
   }
 
   // ---------- Helpers ----------
