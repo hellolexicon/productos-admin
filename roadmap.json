@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-04T00:01:13.490Z",
+  "generatedAt": "2026-05-04T04:06:26.356Z",
   "windowDays": 92,
-  "totalCount": 13,
+  "totalCount": 12,
   "projects": [
     {
       "pageId": "350685fb-1e17-81ca-91b7-dab808e827e5",
@@ -229,30 +229,6 @@
       "effort": null,
       "linearUrl": "https://linear.app/zipline/project/platform-skus-and-usage-v1-d2ef72bd4313",
       "notionUrl": "https://www.notion.so/340685fb1e1781009424f98383096ea4"
-    },
-    {
-      "pageId": "348685fb-1e17-8102-98bf-def044834e32",
-      "linearId": "565a3d70-1a05-4fdd-9284-3dd38f37a02a",
-      "title": "Consent Module (For Checks)",
-      "status": "Ready for Solution Disco",
-      "startDate": null,
-      "targetDate": "2026-06-30",
-      "leadName": "Lex Ituarte",
-      "teams": [
-        "SuperStream"
-      ],
-      "initiatives": [
-        "Worker Compliance"
-      ],
-      "labels": [
-        "1 Week Effort",
-        "Hard Commit"
-      ],
-      "priority": "Medium",
-      "health": null,
-      "effort": "1 Week",
-      "linearUrl": "https://linear.app/zipline/project/consent-module-for-checks-574560d55fc4",
-      "notionUrl": "https://www.notion.so/348685fb1e17810298bfdef044834e32"
     },
     {
       "pageId": "348685fb-1e17-8177-868e-cbf08e73ccb7",
