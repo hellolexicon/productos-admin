@@ -130,8 +130,8 @@
           "a": "The Customer Portal is a public-facing page (`portal.html`) that shows your Changelog, Roadmap, and a Feedback form to customers — no login required.\n\nEnable it in **Settings → Portal** and share the portal URL with customers."
         },
         {
-          "q": "How do I control which projects appear on the portal Roadmap?",
-          "a": "In **Settings → Portal**, expand the project visibility list and select which projects customers can see. Unselected projects are hidden from the portal Roadmap tab.\n\nThe portal Requests tab shows customer needs only for visible projects."
+          "q": "How do I control which projects appear on the portal?",
+          "a": "In **Settings → Portal**, use the **Visible projects** list to select which projects customers can see. Checking a project makes it appear on both the portal Roadmap tab and the Feedback tab's feature request list.\n\nIf no projects are checked, all roadmap items are shown (nothing is hidden by default)."
         },
         {
           "q": "How does the portal feedback form work?",

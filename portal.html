@@ -385,7 +385,11 @@
       const r = await fetch(`${BASE}/roadmap.json?t=${Date.now()}`, { cache: 'no-store' });
       if (!r.ok) throw new Error(r.status);
       _rm = await r.json();
-      renderRoadmap(_rm.projects || []);
+      const visible = PORTAL.visibleProjectIds || [];
+      const rmProjects = visible.length
+        ? (_rm.projects || []).filter(p => visible.includes(p.linearId))
+        : (_rm.projects || []);
+      renderRoadmap(rmProjects);
     } catch { list.innerHTML = '<div class="empty">Roadmap unavailable.</div>'; }
     finally { _rmLoading = false; }
   }
