@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-05T07:32:53.685Z",
-  "totalCount": 138,
-  "projectCount": 40,
+  "generatedAt": "2026-05-05T10:21:42.831Z",
+  "totalCount": 140,
+  "projectCount": 41,
   "customers": [
     {
       "id": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
       "name": "Zipline",
-      "count": 53
+      "count": 55
     },
     {
       "id": "fb92e977-5e98-45a6-8ed8-a4713f0c056e",
@@ -1126,6 +1126,40 @@
         }
       ],
       "requestCount": 3
+    },
+    {
+      "id": "e8e686d1-e390-4125-acc9-fb23acfbaabc",
+      "name": "Securing (breaking) the worker app",
+      "status": "started",
+      "statusName": "Solution Delivery",
+      "priority": 2,
+      "health": null,
+      "linearUrl": "https://linear.app/zipline/project/securing-breaking-the-worker-app-7d074fc31da7",
+      "teams": [
+        "SuperStream"
+      ],
+      "initiatives": [
+        "Worker Compliance"
+      ],
+      "requests": [
+        {
+          "id": "6865b161-852f-48f5-bdbe-8e4002e1a063",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215474178625576#part_id=?view=List",
+          "createdAt": "2026-05-05T09:05:06.763Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        },
+        {
+          "id": "cea2c63a-b29c-44fc-85a7-27348984b9aa",
+          "body": "",
+          "url": "https://app.intercom.com/a/apps/vwjczc0x/conversations/215474177779616#part_id=?view=List",
+          "createdAt": "2026-05-05T09:05:06.641Z",
+          "customerId": "1f27463f-f639-4b9c-b1d0-f91bb394927b",
+          "customerName": "Zipline"
+        }
+      ],
+      "requestCount": 2
     },
     {
       "id": "b9591c65-6e79-48ed-89f4-d5e17fc2cdbe",
