@@ -83,6 +83,27 @@
     .cl-excerpt { font-size: 14px; color: var(--text-2); line-height: 1.6; }
     .cl-excerpt p { margin-bottom: 8px; }
     .cl-excerpt p:last-child { margin-bottom: 0; }
+    .cl-read-more { display: inline-block; margin-top: 12px; font-size: 13.5px; font-weight: 500; color: var(--accent); text-decoration: none; }
+    .cl-read-more:hover { text-decoration: underline; }
+    .cl-title-link { text-decoration: none; color: inherit; display: block; }
+    .cl-title-link:hover .cl-title { color: var(--accent); }
+    .cl-back { display: inline-flex; align-items: center; gap: 5px; font-size: 13.5px; font-weight: 500; color: var(--text-2); text-decoration: none; margin-bottom: 32px; }
+    .cl-back:hover { color: var(--accent); }
+    /* Full entry body */
+    .cl-body { font-size: 15px; line-height: 1.75; color: var(--text); margin-top: 4px; }
+    .cl-body h1 { font-size: 22px; font-weight: 700; letter-spacing: -.02em; margin: 28px 0 10px; line-height: 1.25; }
+    .cl-body h2 { font-size: 18px; font-weight: 700; letter-spacing: -.01em; margin: 24px 0 8px; line-height: 1.3; }
+    .cl-body h3 { font-size: 15px; font-weight: 700; margin: 20px 0 6px; }
+    .cl-body p { margin: 10px 0; }
+    .cl-body ul, .cl-body ol { padding-left: 22px; margin: 10px 0; }
+    .cl-body li { margin: 5px 0; }
+    .cl-body a { color: var(--accent); }
+    .cl-body img { max-width: 100%; border-radius: 8px; display: block; margin: 16px 0; }
+    .cl-body code { font-family: ui-monospace, monospace; font-size: 0.88em; background: var(--surface); padding: 1px 6px; border-radius: 4px; }
+    .cl-body pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 14px 0; }
+    .cl-body pre code { background: none; padding: 0; font-size: 13px; }
+    .cl-body blockquote { border-left: 3px solid var(--border); padding-left: 16px; color: var(--text-2); margin: 14px 0; }
+    .cl-body hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
 
     /* ---- Roadmap ---- */
     .rm-section { margin-bottom: 36px; }
@@ -390,18 +411,21 @@
     // Always show project selector (project_id is required by the Worker)
     document.getElementById('fb-project-field').style.display = '';
 
-    const tab = new URLSearchParams(location.search).get('tab') || 'changelog';
-    switchTab(tab);
+    const params = new URLSearchParams(location.search);
+    const tab     = params.get('tab')   || 'changelog';
+    const entryId = params.get('entry') || null;
+    switchTab(tab, entryId);
   }
 
   // ---------- Tabs ----------
-  function switchTab(id) {
+  function switchTab(id, entryId = null) {
     document.querySelectorAll('[data-tab]').forEach(b =>
       b.classList.toggle('active', b.dataset.tab === id));
     document.querySelectorAll('.panel').forEach(p =>
       p.classList.toggle('active', p.id === `panel-${id}`));
-    history.replaceState(null, '', `${BASE}/portal.html?tab=${id}`);
-    if (id === 'changelog') loadChangelog();
+    const entryParam = (id === 'changelog' && entryId) ? `&entry=${encodeURIComponent(entryId)}` : '';
+    history.replaceState(null, '', `${BASE}/portal.html?tab=${id}${entryParam}`);
+    if (id === 'changelog') { if (entryId) loadChangelogEntry(entryId); else loadChangelog(); }
     if (id === 'roadmap')   loadRoadmap();
     if (id === 'feedback')  loadFeedback();
   }
@@ -421,6 +445,7 @@
       meta.textContent = `${published.length} update${published.length === 1 ? '' : 's'}`;
       if (!published.length) { list.innerHTML = '<div class="empty">No updates yet.</div>'; return; }
       list.innerHTML = published.map(e => {
+        const url  = `${BASE}/portal.html?tab=changelog&entry=${encodeURIComponent(e.id)}`;
         const date = e.date ? new Date(e.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
         const tags = (e.tags || []).map(t =>
           `<span class="cl-tag ${t.toLowerCase()}">${esc(t)}</span>`).join('');
@@ -430,14 +455,90 @@
         const excerpt = plainText(e.body || '').slice(0, 280).trimEnd();
         return `<div class="cl-entry">
           ${tags ? `<div class="cl-tags">${tags}</div>` : ''}
-          <div class="cl-title">${esc(e.title || '(untitled)')}</div>
+          <a class="cl-title-link" href="${url}"><div class="cl-title">${esc(e.title || '(untitled)')}</div></a>
           ${date ? `<div class="cl-date">${date}</div>` : ''}
-          ${cover}
+          ${cover ? `<a href="${url}" tabindex="-1">${cover}</a>` : ''}
           ${excerpt ? `<div class="cl-excerpt"><p>${esc(excerpt)}${e.body && e.body.length > 280 ? '…' : ''}</p></div>` : ''}
+          <a class="cl-read-more" href="${url}">Read more →</a>
         </div>`;
       }).join('');
     } catch { list.innerHTML = '<div class="empty">Changelog unavailable.</div>'; }
     finally { _clLoading = false; }
+  }
+
+  async function loadChangelogEntry(entryId) {
+    const list = document.getElementById('cl-list');
+    const meta = document.getElementById('cl-meta');
+    const backUrl = `${BASE}/portal.html?tab=changelog`;
+    meta.innerHTML = `<a class="cl-back" href="${backUrl}"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>All updates</a>`;
+    list.innerHTML = '<div class="empty"><span class="skeleton" style="width:200px"></span></div>';
+    try {
+      if (!_cl) {
+        const r = await fetch(`${BASE}/changelog.json?t=${Date.now()}`, { cache: 'no-store' });
+        if (!r.ok) throw new Error(r.status);
+        _cl = await r.json();
+      }
+      const entry = (_cl.entries || []).find(e => e.id === entryId && e.status === 'published');
+      if (!entry) { list.innerHTML = '<div class="empty">Entry not found.</div>'; return; }
+      document.title = (entry.title || 'Update') + ' — ' + TENANT.productName;
+      const date = entry.date ? new Date(entry.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+      const tags = (entry.tags || []).map(t => `<span class="cl-tag ${t.toLowerCase()}">${esc(t)}</span>`).join('');
+      const cover = entry.coverImage
+        ? `<img src="${esc(resolveImg(entry.coverImage))}" style="width:100%;border-radius:10px;margin-bottom:28px;display:block" alt="">`
+        : '';
+      list.innerHTML = `<div style="padding-bottom:60px">
+        ${tags ? `<div class="cl-tags" style="margin-bottom:12px">${tags}</div>` : ''}
+        <div class="cl-title" style="font-size:28px;line-height:1.2;margin-bottom:10px">${esc(entry.title || '(untitled)')}</div>
+        ${date ? `<div class="cl-date" style="margin-bottom:28px">${date}</div>` : ''}
+        ${cover}
+        <div class="cl-body">${mdToHtml(entry.body || '')}</div>
+      </div>`;
+    } catch { list.innerHTML = '<div class="empty">Could not load entry.</div>'; }
+  }
+
+  function mdToHtml(md) {
+    const lines = md.split('\n');
+    let html = '', inList = false, inOl = false, inPre = false, preBuf = '';
+    for (const raw of lines) {
+      if (raw.trimStart().startsWith('```')) {
+        if (!inPre) { inPre = true; preBuf = ''; }
+        else { html += `<pre><code>${raw_esc(preBuf.replace(/\n$/, ''))}</code></pre>`; inPre = false; }
+        continue;
+      }
+      if (inPre) { preBuf += raw + '\n'; continue; }
+      const li  = raw.match(/^[-*+]\s+(.*)/);
+      const oli = raw.match(/^\d+\.\s+(.*)/);
+      if (inList && !li)  { html += '</ul>'; inList = false; }
+      if (inOl   && !oli) { html += '</ol>'; inOl   = false; }
+      const h3 = raw.match(/^###\s+(.*)/), h2 = raw.match(/^##\s+(.*)/), h1 = raw.match(/^#\s+(.*)/);
+      const hr = /^---+$/.test(raw.trim()), bq = raw.match(/^>\s*(.*)/);
+      if      (h1) html += `<h1>${mdInline(h1[1])}</h1>`;
+      else if (h2) html += `<h2>${mdInline(h2[1])}</h2>`;
+      else if (h3) html += `<h3>${mdInline(h3[1])}</h3>`;
+      else if (hr) html += '<hr>';
+      else if (bq) html += `<blockquote><p>${mdInline(bq[1])}</p></blockquote>`;
+      else if (li)  { if (!inList) { html += '<ul>';  inList = true; } html += `<li>${mdInline(li[1])}</li>`; }
+      else if (oli) { if (!inOl)   { html += '<ol>';  inOl   = true; } html += `<li>${mdInline(oli[1])}</li>`; }
+      else if (raw.trim() === '') { /* paragraph gap */ }
+      else html += `<p>${mdInline(raw)}</p>`;
+    }
+    if (inList) html += '</ul>';
+    if (inOl)   html += '</ol>';
+    if (inPre)  html += `<pre><code>${raw_esc(preBuf)}</code></pre>`;
+    return html;
+  }
+
+  function raw_esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function mdInline(s) {
+    return s
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_,a,src) => `<img src="${src}" alt="${a}">`)
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g,  (_,t,href) => `<a href="${href}">${t}</a>`)
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/__([^_]+)__/g,     '<strong>$1</strong>')
+      .replace(/\*([^*\s][^*]*)\*/g, '<em>$1</em>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>');
   }
 
   function resolveImg(src) {
